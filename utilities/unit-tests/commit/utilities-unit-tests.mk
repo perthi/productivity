@@ -6,7 +6,7 @@ PROGRAM:=utilities-unit-tests
      TestGFileIOHandler.cpp
 		
 
-SRCCPP += utilities-dll-test.cpp \
+# SRCCPP += utilities-dll-test.cpp \
 	TestGMath.cpp \
 	TestGRandom.cpp \
 	TestGString.cpp \
@@ -25,10 +25,14 @@ SRCCPP += utilities-dll-test.cpp \
 	GVersion.cpp
 
 
+SRCCPP += utilities-dll-test.cpp \
+	TestDataTypesT.cpp \
+
+
 #TestGEnum.cpp 
 
 include ../../../../common.mk
 include ../../../../unittest-common.mk
 
-LIBS+= -llogmaster -lexception -lcmdline -lutilities -lreadline
+LIBS+=  -lutilities -lreadline
 INCLUDES+=$(GTEST_INCLUDES)

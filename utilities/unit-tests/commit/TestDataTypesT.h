@@ -13,15 +13,18 @@
 *** General Public License(LGPL) V3 or later.See.cpp file for details     ***
 *****************************************************************************/
 
-#include <testlib/TestBase.h>
 #include <utilities/GRandom.h>
 #include <typeinfo>
 #include <utilities/GDataTypes.h>
+#include <testlib/TestBase.h>
 
+#include <vector>
+
+using std::vector;
 
 /** Type paremetrized test for the the data type class. Ie all Data types that inherits form Val_t */
 template <typename T>
-class TestDataTypesT : public TestBase
+class TestDataTypesT : public  TestBase
 {
  public:
  TestDataTypesT() :  fPar1(0), fPar2(0), fPar3(0), fMin1(0), fMax1(0) {};
@@ -50,7 +53,10 @@ void operatorSanityCheck();
 template<typename T>
 void TestDataTypesT<T>::SetUp()
 {
+    #ifdef HAS_LOGGING
 	SET_LOGTARGET("--target-off --target-file");
+    #endif
+
     fMin1 = fPar1.GetMin();
     fMax1 = fPar1.GetMax();
 }
@@ -286,7 +292,7 @@ void operatorSanityCheck()
 {
   //  SET_LOGLEVEL("--all-off");
    // SET_LOGTARGET( eMSGTARGET::TARGET_FILE);
-     SET_LOGTARGET( "--target-file");
+  //   SET_LOGTARGET( "--target-file");
 
     vector<T1> t1(4);
     vector<T2> t2(3);

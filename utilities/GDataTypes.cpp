@@ -30,8 +30,9 @@
 
 #include "GNumbers.h"
 #include "GDataTypes.h"
-
-#include <exception/GException.h>
+#include "GCommon.h"
+#include "GText.h"
+#include "GLocation.h"
 
 ostream& operator<<(ostream& os, const Val  &o)
 {
@@ -45,7 +46,8 @@ Val::CheckIsInteger(double t)
 {
     if( g_numbers()->IsInteger((long double )t) == false )
     {
-	 EXCEPTION("Number (%f) is NOT an integer, the sensor ID must be an integer between ZERO and %d", t, 16);
+        g_common()->HandleError( GText( "Number (%f) is NOT an integer, the sensor ID must be an integer between ZERO and %d", t, 16).str(), 
+                                         GLOCATION, THROW_EXCEPTION  );
     }
     else
     {
@@ -57,7 +59,6 @@ Val::CheckIsInteger(double t)
 void 
 Val::GeneratStackFrames()
 {
-    /*
 
 #ifndef _WIN32
 	void *array[10];
@@ -74,18 +75,20 @@ Val::GeneratStackFrames()
     strings = backtrace_symbols (array, size);
 #endif
 	
-    printf ("Obtained %d stack frames.\n", size);
+    printf ("Obtained %d stack frames.\n", (int)size);
     
     for (i = 0; i < size; i++)
     {
 	printf ("%s\n", strings[i]);
     }
-   */
 
-        std::stringstream buffer;
+
+    std::stringstream buffer;
     buffer <<"The allowed range for parameter: "<< fName <<"\tis  [min, max] = "<< "["<< fMinValue <<", "<< fMaxValue <<"]  " << fSubscript;	
     buffer << ":\tYou attempted to set the value to " << fVal;  
-    EXCEPTION ("%s", buffer.str().c_str() ) ;
+    
+    g_common()->HandleError( buffer.str(), GLOCATION, THROW_EXCEPTION );
+    
 
 	//delete[] strings;
 

@@ -27,7 +27,9 @@
 
 #include "TestDataTypesT.h"
 
-#include <exception/GException.h>
+
+
+///#include <exception/GException.h>
 
 /** @defgroup datatype_test Structs for testing of the datatype library. 
 *   Here we decalere a couple of tests classes (structs actually) in order to test basic operatiosn such as 
@@ -155,7 +157,7 @@ INSTANTIATE_TYPED_TEST_CASE_P(Operators, TestDataTypesT, impl);
 * For those tests we cannot use typed unit tests which only applies to a single class type. */
 TEST(Datatypes, OperatorSanityCheck1)
 {
-	SET_LOGTARGET("--target-off --target-file");
+//	SET_LOGTARGET("--target-off --target-file");
 	operatorSanityCheck<Time_t, Distance_t, Mass_t, Dummy_t>();
 }
 
@@ -166,7 +168,7 @@ TEST(Datatypes, OperatorSanityCheck1)
  * 3) Multiplying or dividng different SI units are ok */
 TEST(Operator, NSR796)
 {
-	SET_LOGTARGET("--target-off --target-file");
+//	SET_LOGTARGET("--target-off --target-file");
     Distance_t d1, d2, d3;
     Mass_t m1, m2, m3;
     Time_t t1, t2, t3;

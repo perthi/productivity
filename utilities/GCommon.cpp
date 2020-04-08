@@ -30,45 +30,17 @@
 
 #include "GDefinitions.h"
 #include "GLocation.h"
-#include <logging/LLogApi.h>
 
+#ifdef HAS_LOGGING
+#include <logging/LLogApi.h>
 using namespace LOGMASTER;
+#endif
 
 #include <iostream>
 using std::cout;
 using std::endl;
 using std::cerr;
 
-void
-#ifdef G_STANDALONE
-GCommon::HandleError(const string message, const GLocation ,     const bool   disable_exception  )
-#else
-#include <exception/GException.h>
-GCommon::HandleError(const string message, const GLocation  l,   const bool   disable_exception  )
-#endif
-{
-    if ( disable_exception == false)
-    {
-#ifndef HAS_LOGGING
-		
-	#ifdef _WIN32
-		throw( std::exception(message.c_str() ) );
-	#else
-		throw(std::invalid_argument( message.c_str() ));
-	#endif
-#else
-        throw_exception(   GException(l.fFileName, l.fFunctName, l.fLineNo, SYS_EX, "%s", message.c_str( ))  )  ;
-#endif
-    }
-    else
-    {
-#ifdef HAS_LOGGING
-        G_WARNING(message.c_str());
-#else
-        COUT << message << std::endl;
-#endif
-    }
-}
 
 
 GCommon * g_common()
@@ -76,4 +48,43 @@ GCommon * g_common()
 	static GCommon *instance = new GCommon();
 	return instance;
 }
+
+
+
+#ifdef HAS_LOGGING
+void
+GCommon::HandleError(const string message, const GLocation  l,   const bool   disable_exception  )
+{
+    if ( disable_exception == false)
+    {
+        throw_exception(   GException(l.fFileName, l.fFunctName, l.fLineNo, SYS_EX, "%s", message.c_str( ))  )  ;
+    }
+    else
+    {
+        G_WARNING(message.c_str());
+    }
+}
+
+#else
+
+void
+GCommon::HandleError(const string message, const GLocation, const bool   disable_exception  )
+{
+    if ( disable_exception == false)
+    {
+    #ifdef _WIN32
+		throw( std::exception(message.c_str() ) );
+	#else
+		throw(std::invalid_argument( message.c_str() ));
+	#endif
+    }
+    else
+    {
+        COUT << message << std::endl;
+    }
+}
+
+#endif
+
+
 

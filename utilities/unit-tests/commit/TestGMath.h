@@ -15,6 +15,7 @@
 
 #include <testlib/TestBase.h>
 
+
 /** @brief unit tests for the GMath class */
 class TestGMath : public TestBase
 {

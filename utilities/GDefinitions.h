@@ -87,33 +87,8 @@ typedef  unsigned char    DBCHAR;
 #define  SECONDS_MAX 60
 
 
-#define ARG_OK true
-#define ARG_ERROR false
 
-
-#define CHECK_ARGS(type, cmd, parameter, lower, upper, status, msg)    \
-    status = ARG_OK;                                                    \
-    try                                                                 \
-    {                                                                   \
-        msg = g_utilities()->CheckLimits<type>((type)parameter.size(), lower, upper, #parameter, __FILE__, __LINE__, __FUNCTION__, &status); \
-    }                                                                   \
-    catch (...)                                                         \
-    {                                                                   \
-        if (status == ARG_ERROR)                                        \
-        {    \
-                if (lower == upper)                                         \
-            {                                                           \
-                RANGE_EXCEPTION("%s:\t%s invalid number of parameters(%d): %s takes exactly %d parameter", cmd.c_str(),msg.c_str(),  parameter.size(),   cmd.c_str(), upper); \
-            }                                                           \
-            else                                                        \
-            {   \
-                RANGE_EXCEPTION("%s:\t%s invalid number of parameters(%d): %s takes between %d and %d parameters", cmd.c_str(), msg.c_str(),  parameter.size(),  cmd.c_str(), lower, upper); \
-            }                                                           \
-                                                                        \
-        } \
-    }
-
-
+#ifdef _HAS_LOGGING
 #define MAIN_UNITTEST() \
 int argc_ = 0; \
 char** argv_ = nullptr; \
@@ -132,5 +107,20 @@ int  main(int argc, char** argv) \
 	return  RUN_ALL_TESTS(); \
 } 
 
+#else
+#define MAIN_UNITTEST() \
+int  main(int argc, char** argv) \
+{ \
+\
+	/* The method is initializes the Google framework and must be called before RUN_ALL_TESTS */ \
+	::testing::InitGoogleTest(&argc, argv); \
+\
+        /* RUN_ALL_TESTS automatically detects and runs all the tests defined using the TEST macro.*/\
+/* It's must be called only once in the code because multiple calls lead to conflicts and, */ \
+/*therefore, are not supported. */ \
+	return  RUN_ALL_TESTS(); \
+}
+
+#endif
 
 

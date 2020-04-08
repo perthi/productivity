@@ -35,8 +35,10 @@
 #else
 #include <gtest-linux/gtest.h>
 #endif
-#include  <cmdline/GLogApplication.h>
 
+#ifdef HAS_LOGGING
+#include  <cmdline/GLogApplication.h>
+#endif
 
 
 MAIN_UNITTEST()

@@ -2,13 +2,13 @@
 
 
 #include "TestException.h"
-#include <exception/GException.h>
+///#include <exception/GException.h>
 #include <testlib/TestBase.h>
 #include <utilities/GText.h>
 #include <utilities/GRandom.h>
 #include <utilities/GFileIOHandler.h>
 #include <utilities/GString.h>
-#include <logging/LMessageGenerator.h>
+//#include <logging/LMessageGenerator.h>
 
 
 
@@ -148,19 +148,13 @@ TEST_F(TestException, disable_execptionNSR1769)
 	EXPECT_ANY_THROW(FILE_NOT_FOUND_EXCEPTION("an exception"));
 	EXPECT_ANY_THROW(INVALID_ARGUMENT_EXCEPTION("an exception"));
 	EXPECT_ANY_THROW(MISSING_ARGUMENT_EXCEPTION("an exception"));
-//	EXPECT_ANY_THROW(DRIVER_EXCEPTION("an exception"));
-//	EXPECT_ANY_THROW(DATABASE_EXCEPTION("an exception"));
 	EXPECT_ANY_THROW(FSM_EXCEPTION("an exception"));	
 
 	EXPECT_ANY_THROW(G_ASSERT_EXCEPTION( false, "an exception"));
 	EXPECT_ANY_THROW(FSM_ASSERT_EXCEPTION(false, "an exception"));
-//	EXPECT_ANY_THROW(DRIVER_ASSERT(false, "an exception"));
-//	EXPECT_ANY_THROW(DB_ASSERT(false, "an exception"));
 	
 	EXPECT_NO_THROW(G_ASSERT_EXCEPTION(true, "an exception"));
 	EXPECT_NO_THROW(FSM_ASSERT_EXCEPTION(true, "an exception"));
-//	EXPECT_NO_THROW(DRIVER_ASSERT(true, "an exception"));
-//	EXPECT_NO_THROW(DB_ASSERT(true, "an exception"));
 
 	EXPECT_TRUE(GException::IsEnabledException());
 
@@ -175,13 +169,9 @@ TEST_F(TestException, disable_execptionNSR1769)
 	EXPECT_NO_THROW(FILE_NOT_FOUND_EXCEPTION("an exception"));
 	EXPECT_NO_THROW(INVALID_ARGUMENT_EXCEPTION("an exception"));
 	EXPECT_NO_THROW(MISSING_ARGUMENT_EXCEPTION("an exception"));
-//	EXPECT_NO_THROW(DRIVER_EXCEPTION("an exception"));
-//	EXPECT_NO_THROW(DATABASE_EXCEPTION("an exception"));
 	EXPECT_NO_THROW(FSM_EXCEPTION("an exception"));
 	EXPECT_NO_THROW(G_ASSERT_EXCEPTION(false, "an exception"));
 	EXPECT_NO_THROW(FSM_ASSERT_EXCEPTION(false, "an exception"));
-//	EXPECT_NO_THROW(DRIVER_ASSERT(false, "an exception"));
-//	EXPECT_NO_THROW(DB_ASSERT(false, "an exception"));
 }
 
 

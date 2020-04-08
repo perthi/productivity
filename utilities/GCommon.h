@@ -15,8 +15,6 @@
 /* @class GCommon  Helper class for the other utilities classes */
 
 
-
-
 #include <string>
 using std::string;
 

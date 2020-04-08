@@ -52,15 +52,16 @@ LIBS= -L $(CURDIR)/build/$(TARGET)/lib  -lm
 
 
 export SUPPORT_LIBS:= -lutilities   -lreadline
-export UNIT_TEST_LIBS:=  $(SUPPORT_LIBS) -lgtest -lpthread 
+export UNIT_TEST_LIBS:=  $(SUPPORT_LIBS) -ltestlib -lgtest -lpthread 
 
 gtest-linux:=         gtest-linux/$(TARGET)
 utilities:=  	  	  utilities/$(TARGET)
+testlib:=  	  	  testlib/$(TARGET)
 utilities-unittest:=  utilities/unit-tests/commit/$(TARGET)
 
 unittests:= 	$(utilities-unittest)
 support-modules:= 	$(utilities)
-src-lib:= $(support-modules)
+src-lib:= $(support-modules) $(testlib)
 src-exe:= $(unittests)
 
 arm-src:=$(src-lib) $(src-exe)
