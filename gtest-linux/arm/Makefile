@@ -1,0 +1,4 @@
+
+include ../gtest-ucw.mk
+
+
