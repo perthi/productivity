@@ -88,7 +88,8 @@ typedef  unsigned char    DBCHAR;
 
 
 
-#ifdef _HAS_LOGGING
+#ifdef HAS_LOGGING
+#include <cmdline/GLogApplication.h>
 #define MAIN_UNITTEST() \
 int argc_ = 0; \
 char** argv_ = nullptr; \
