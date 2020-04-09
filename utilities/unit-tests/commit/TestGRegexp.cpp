@@ -28,7 +28,7 @@
 
 #include "TestGRegexp.h"
 #include <utilities/GRegexp.h>
-#include <exception/GException.h>
+
 
 
 
@@ -52,10 +52,6 @@ TEST_F(TestGRegexp, ScanNumber )
         EXPECT_EQ(numbers.at(4), "12345");
     }
 
-//	EXPECT_NO_THROW(numbers =  g_regexp()->ScanNumber("lorem ipsum123456789", "3,4"));
- //   EXPECT_EQ(0, numbers.size());
-
-    
     try
     {
          g_regexp()->ScanNumber("lorem ipsum123456789");
@@ -71,10 +67,12 @@ TEST_F(TestGRegexp, ScanNumber )
     {
         cerr << e.what() << endl;
     }
+    #ifdef HAS_LOGGING
     catch (GException &e)
     {
         cerr << e.what() << endl;
     }
+    #endif
     catch (...)
     {
         CERR << "UNKNOWN EXCEPTION !!!!" << endl;

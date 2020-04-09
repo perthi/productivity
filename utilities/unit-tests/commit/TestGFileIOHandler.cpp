@@ -83,6 +83,9 @@ TEST_F(TestGFileIOHandler, CheckFileNSR305)
     EXPECT_EQ(true,  f->CheckFile(rand_fname2, "r"));
     EXPECT_EQ(true,  f->CheckFile(rand_fname2, "r+"));
     // Checking that the file is intact after all the testing
+    
+    
+    #ifdef HAS_LOGGING
     EXPECT_EQ("Hello Dolly", FileIOTest(rand_fname2));
     remove(rand_fname2.c_str() );
     vector<string> invalidoptions = { "b", "c", "d", "e", "f", "g", "h", "i", "j",
@@ -93,6 +96,8 @@ TEST_F(TestGFileIOHandler, CheckFileNSR305)
     {
         EXPECT_EQ(false, f->CheckFile("doesntmatter.txt", invalidoptions[i].c_str()));
     }
+    #endif
+
 }
 
 
@@ -101,7 +106,11 @@ TEST_F(TestGFileIOHandler, AppendCreate)
 {
     string fname = g_random()->Name("append_test", ".txt");
     EXPECT_EQ(true, f->Append(fname, "testwrite to file with parameters: a=%d, b=%d\n", 42, 43));
+    
+    #ifdef HAS_LOGGING
     EXPECT_EQ(FileIOTest(fname), "testwrite to file with parameters: a=42, b=43");
+    #endif
+
     EXPECT_EQ (true,   f->Delete(fname));
     EXPECT_EQ( false,  f->Delete(fname));
     EXPECT_EQ( false,  f->Delete(fname));

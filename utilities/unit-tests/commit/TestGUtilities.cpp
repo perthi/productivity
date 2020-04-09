@@ -30,7 +30,6 @@
 #include <utilities/GUtilities.h>
 #include <map>
 #include <vector>
-#include <logging/LMessageGenerator.h>
 #include <utilities/GTokenizer.h>
 
 using std::vector;

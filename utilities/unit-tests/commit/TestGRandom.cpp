@@ -28,8 +28,9 @@
 
 #include "TestGRandom.h"
 #include <utilities/GRandom.h>
-
-
+#include <utilities/GText.h>
+#include <utilities/GLocation.h>
+#include <utilities/GCommon.h>
 
 TestGRandom::TestGRandom()
 {
@@ -43,10 +44,11 @@ TestGRandom::~TestGRandom()
 
 TEST_F(TestGRandom, numberGenerationNSR331)
 {
+    #ifdef HAS_LOGGING
     eMSGTARGET previous = l->GetLogTarget();
-   // CERR << "The logtarfget is " << previous << endl;
     l->Push( );
     SET_LOGTARGET("0000 --target-file");
+    #endif
 
     int num1 = g_random()->Uniform<int>(50,2000);
     EXPECT_GE(num1, 50);
@@ -92,7 +94,11 @@ TEST_F(TestGRandom, numberGenerationNSR331)
     EXPECT_LE(g2,  mean + 6*sigma);
 
     /*Check that we get an exception if sigma is negative*/
-    EXPECT_THROW(g_random()->Gauss<double>(1, -1), GRangeException);
+    #ifdef HAS_LOGGING
+    EXPECT_THROW(  g_random()->Gauss<double>(1, -1), GRangeException);
+    #else
+    EXPECT_ANY_THROW(  g_random()->Gauss<double>(1, -1) ); 
+    #endif
 
     int n = 10;
     double p = 0.5;
@@ -109,9 +115,12 @@ TEST_F(TestGRandom, numberGenerationNSR331)
     float n3 = 30;
     EXPECT_ANY_THROW( g_random()->Binominal<double>( n2, p));
     EXPECT_ANY_THROW( g_random()->Binominal<float>(  n3, p));
-  //  SET_LOGTARGET(previous);
+
+    #ifdef HAS_LOGGING
 	SET_LOGTARGET("0000 --target-file");
 	l->Pop( );
+    #endif
+
 }
 
 

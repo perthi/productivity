@@ -2,11 +2,9 @@
 
 PROGRAM:=utilities-unit-tests
 
-#SRCCPP += utilities-dll-test.cpp \
-     TestGFileIOHandler.cpp
 		
 
-# SRCCPP += utilities-dll-test.cpp \
+SRCCPP += utilities-dll-test.cpp \
 	TestGMath.cpp \
 	TestGRandom.cpp \
 	TestGString.cpp \
@@ -18,15 +16,9 @@ PROGRAM:=utilities-unit-tests
 	TestGTime.cpp \
 	TestGUtilities.cpp \
 	TestGNumbers.cpp \
-	TestException.cpp \
 	TestDataTypesT.cpp \
 	TestGEnum.cpp \
-	TestGCrc.cpp \
-	GVersion.cpp
-
-
-SRCCPP += utilities-dll-test.cpp \
-	TestDataTypesT.cpp \
+	TestGCrc.cpp
 
 
 #TestGEnum.cpp 

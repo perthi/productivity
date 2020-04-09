@@ -26,15 +26,16 @@
 ******************************************************************************
 ******************************************************************************/
 
+
 #include "TestGTokenizer.h"
+
 #include <utilities/GTokenizer.h>
-#include <exception/GException.h>
 #include <utilities/GText.h>
+#include <utilities/GCommon.h>
+#include <utilities/GDefinitions.h>
+#include <utilities/GLocation.h>
 
 #include <ctime>
-
-//#include <bits/stdc++.h> 
-//#include <boost/algorithm/string.hpp> 
 
 
 TestGTokenizer::TestGTokenizer() : TestBase()
@@ -209,15 +210,19 @@ TEST_F(TestGTokenizer, GTokenizerNSR246)
     }
     catch (std::exception &e)
     {
-        G_ERROR("STD Exception caught:\t %s", e.what());
+        g_common()->HandleError( GText( "STD Exception caught:\t %s", e.what() ).str(),GLOCATION, DISABLE_EXCEPTION  );
     }
+    #ifdef HAS_LOGGING
     catch (GException &e)
     {
+
         G_ERROR("STD Exception caught:\t %s", e.what());
     }
+    #endif
+
     catch (...)
     {
-        G_ERROR("Unknown Exception caught");
+        g_common()->HandleError(  "Unknown Exception caught" ,GLOCATION, DISABLE_EXCEPTION  );
     }
 }
 

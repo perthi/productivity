@@ -11,6 +11,11 @@
 #include "TestGCrc.h"
 #include <utilities/GCrc.h>
 #include <utilities/GRandom.h>
+#include <memory>
+
+#include <vector>
+
+using std::vector;
 
 TestGCrc::TestGCrc()
 {

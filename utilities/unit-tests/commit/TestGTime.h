@@ -13,6 +13,10 @@
 *** General Public License(LGPL) V3 or later.See.cpp file for details     ***
 *****************************************************************************/
 
+
+#include <vector>
+using std::vector;
+
 #include <testlib/TestBase.h>
 
 /** @brief unit tests for the GTime class */
@@ -22,10 +26,8 @@ public:
     TestGTime();
     virtual ~TestGTime();
 protected:
-//#ifndef _WIN32
     void  Validate(bool(*funct)(const int val), bool(*funct2)(const string), const int min, const int max, const vector<string> valid, const 
         vector<string> invalid);
-///#endif  
 };
 
 

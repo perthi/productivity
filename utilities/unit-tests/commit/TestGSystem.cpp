@@ -31,7 +31,10 @@
 #include <utilities/GSystem.h>
 #include <utilities/GRandom.h>
 #include <utilities/GFileIOHandler.h>
-#include <exception/GException.h>
+#include <utilities/GCommon.h>
+#include <utilities/GLocation.h>
+#include <utilities/GText.h>
+
 
 
 TestGSystem::TestGSystem()
@@ -52,11 +55,23 @@ TEST_F(TestGSystem, mkfile)
         EXPECT_EQ(0, g_system()->rm( "testdir/testfile.txt") ) ;
 
     }
+    catch( std::exception &e  )
+    {
+        g_common()->HandleError( e.what(), GLOCATION, DISABLE_EXCEPTION );
+
+    }
+    #ifdef HAS_LOGGING
     catch (GException &e)
     {
         cerr << e.what() << endl;
     }
+    #endif
+    catch(...)
+    {
+        g_common()->HandleError( "Unknown exception caucht", GLOCATION, DISABLE_EXCEPTION );
+    }
 }
+
 
 
 TEST_F(TestGSystem,  cp)

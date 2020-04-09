@@ -32,6 +32,8 @@
 #include <utilities/GRegexp.h>
 
 
+
+
 TestGTime::TestGTime() : TestBase()
 {
 
@@ -151,11 +153,13 @@ TEST_F(TestGTime, TimeStamp)
 		// Format specifier "J" is invalid 
 	    EXPECT_ANY_THROW(g_time()->TimeStamp(0, "%a%b%J%H"));
 	}
+    #ifdef HAS_LOGGING
 	catch (GException& e)
 	{
 		CERR << e.what() << endl;
-		throw(e);
+		throw(e);      
 	}
+    #endif
 	catch (std::exception& e)
 	{
 		CERR << e.what() << endl;

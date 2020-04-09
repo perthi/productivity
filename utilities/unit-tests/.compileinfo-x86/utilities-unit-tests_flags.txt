@@ -1,2 +1,2 @@
 -L /home/perthi/github/productivity/build/x86/lib -lm -lutilities -lreadline -ltestlib -lgtest -lpthread -lX11 -lutilities -lreadline
-c++ -std=c++17 -fPIC -std=c++17 -g -o utilities-unit-tests utilities-dll-test.o TestDataTypesT.o -L /home/perthi/github/productivity/build/x86/lib -lm -lutilities -lreadline -ltestlib -lgtest -lpthread -lX11 -lutilities -lreadline
+c++ -std=c++17 -fPIC -std=c++17 -g -o utilities-unit-tests utilities-dll-test.o TestGMath.o TestGRandom.o TestGString.o TestGText.o TestGFileIOHandler.o TestGTokenizer.o TestGRegexp.o TestGSystem.o TestGTime.o TestGUtilities.o TestGNumbers.o TestDataTypesT.o TestGEnum.o TestGCrc.o -L /home/perthi/github/productivity/build/x86/lib -lm -lutilities -lreadline -ltestlib -lgtest -lpthread -lX11 -lutilities -lreadline

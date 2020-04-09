@@ -29,8 +29,6 @@
 #include "TestGNumbers.h"
 #include <utilities/GNumbers.h>
 #include <utilities/GRandom.h>
-#include <logging/LMessageGenerator.h>
-
 
 
 TEST_F(TestGNumbers, count_ones)
@@ -426,10 +424,12 @@ TEST_F(TestGNumbers, ToFloat)
 	{
 		g_numbers()->ToFloat("   3,14159265359   ");
 	}
+    #ifdef HAS_LOGGING
 	catch (GException &e)
 	{
 		CERR << e.what() << endl;
 	}
+    #endif
 	catch(std::exception &e)
 	{
 		CERR << e.what() << endl;
@@ -629,6 +629,7 @@ TEST_F(TestGNumbers, PadOnes)
 
 
 
+#ifdef HAS_LOGGING
 TEST_F(TestGNumbers, NSR1988DisableError)
 {	
     
@@ -648,27 +649,6 @@ TEST_F(TestGNumbers, NSR1988DisableError)
 	g_numbers()->EnableError();
 	GException::EnableException();
 }
+#endif
 
-
-/*
-TEST_F(TestGNumbers, NSR1988DisableError)
-{	
-    
-	#undef G_STANDALONE
-	EXPECT_ANY_THROW( g_numbers()->ToNumber<float>("blahhhh") );
-	GException::DisableException();
-	g_numbers()->DisableError();
-	EXPECT_NO_THROW(  g_numbers()->ToNumber<float>("blahhhh") );
-	LMessage *m = LMessageGenerator::Instance()->GetLastMsg();
-	g_numbers()->DisableError();
-	EXPECT_NO_THROW(g_numbers()->ToNumber<float>("blahhhh"));
-	m = LMessageGenerator::Instance()-> GetLastMsg();
-	EXPECT_NO_THROW(g_numbers()->ToHex("blahhhh"));
-	m = LMessageGenerator::Instance()->GetLastMsg();
-	EXPECT_NO_THROW(g_numbers()->ToBinary("blahhhh"));
-	m = LMessageGenerator::Instance()->GetLastMsg();
-	g_numbers()->EnableError();
-	GException::EnableException();
-}
-*/
 
