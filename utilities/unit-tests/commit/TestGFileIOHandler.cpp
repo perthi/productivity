@@ -51,8 +51,7 @@ TEST_F(TestGFileIOHandler, CheckFileNSR305)
     string rand_fname1 = g_random()->Name("testfile", ".txt");
     string rand_fname2 = g_random()->Name("testfile", ".txt");
 
-//	FORCE_DEBUG("rand fname 1 = %s", rand_fname1.c_str() );
-//	FORCE_DEBUG("rand fname 2 = %s", rand_fname2.c_str());
+    ASSERT_NE(rand_fname1, rand_fname2 );
 
     // For a non existing file we expect the return value to be true if we try to create it for writing, and false othervise 
      EXPECT_EQ(true,  f->CheckFile(rand_fname1, "w"));
@@ -69,7 +68,7 @@ TEST_F(TestGFileIOHandler, CheckFileNSR305)
 #else
     fp = fopen( rand_fname2.c_str(), "w");
 #endif
-    
+
     // We write an arbritray string to the file in order to check at the end that the UtilitesCheckFile function is non destructive
     fprintf(fp, "Hello Dolly\n");
     fclose(fp);
@@ -83,11 +82,11 @@ TEST_F(TestGFileIOHandler, CheckFileNSR305)
     EXPECT_EQ(true,  f->CheckFile(rand_fname2, "r"));
     EXPECT_EQ(true,  f->CheckFile(rand_fname2, "r+"));
     // Checking that the file is intact after all the testing
-    
+
+    remove(rand_fname2.c_str() );
     
     #ifdef HAS_LOGGING
     EXPECT_EQ("Hello Dolly", FileIOTest(rand_fname2));
-    remove(rand_fname2.c_str() );
     vector<string> invalidoptions = { "b", "c", "d", "e", "f", "g", "h", "i", "j",
         "k", "l", "m", "n", "o", "p", "q", "s", "t",
         "u", "v", "x", "y", "z" };
@@ -102,6 +101,7 @@ TEST_F(TestGFileIOHandler, CheckFileNSR305)
 
 
 
+/*
 TEST_F(TestGFileIOHandler, AppendCreate)
 {
     string fname = g_random()->Name("append_test", ".txt");
@@ -175,7 +175,7 @@ cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est la
 
     f->Delete(fname);
 }
-
+*/
 
 
 #ifdef _WIN32

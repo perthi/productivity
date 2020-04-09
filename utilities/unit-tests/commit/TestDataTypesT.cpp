@@ -28,10 +28,6 @@
 #include "TestDataTypesT.h"
 
 
-
-
-///#include <exception/GException.h>
-
 /** @defgroup datatype_test Structs for testing of the datatype library. 
 *   Here we decalere a couple of tests classes (structs actually) in order to test basic operatiosn such as 
 *   addition, subtrartion, multiplication and division. In particluar we want to cross check that addiation and subtraction of different types is disallowed, and that

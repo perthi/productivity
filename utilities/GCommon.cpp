@@ -68,7 +68,7 @@ GCommon::HandleError(const string message, const GLocation  l,   const bool   di
 #else
 
 void
-GCommon::HandleError(const string message, const GLocation, const bool   disable_exception  )
+GCommon::HandleError(const string message, const GLocation l, const bool   disable_exception  )
 {
     if ( disable_exception == false)
     {
@@ -80,7 +80,7 @@ GCommon::HandleError(const string message, const GLocation, const bool   disable
     }
     else
     {
-        COUT << message << std::endl;
+        cout << l.fFileName << "::" << l.fFunctName << ", line " << l.fLineNo << ";" << message << std::endl;
     }
 }
 
