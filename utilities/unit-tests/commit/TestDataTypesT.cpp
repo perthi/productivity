@@ -29,6 +29,7 @@
 
 
 
+
 ///#include <exception/GException.h>
 
 /** @defgroup datatype_test Structs for testing of the datatype library. 

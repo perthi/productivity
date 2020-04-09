@@ -12,16 +12,16 @@ SRCCPP += utilities-dll-test.cpp \
 	TestGFileIOHandler.cpp  \
 	TestGTokenizer.cpp \
 	TestGRegexp.cpp \
-	TestGSystem.cpp \
 	TestGTime.cpp \
 	TestGUtilities.cpp \
 	TestGNumbers.cpp \
-	TestDataTypesT.cpp \
 	TestGEnum.cpp \
-	TestGCrc.cpp
+	TestDataTypesT.cpp 
 
+#   TestDataTypesT.cpp 
+#	TestGCrc.cpp
+#	TestGSystem.cpp
 
-#TestGEnum.cpp 
 
 include ../../../../common.mk
 include ../../../../unittest-common.mk
