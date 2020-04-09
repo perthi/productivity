@@ -32,7 +32,8 @@ TestGCrc::~TestGCrc()
 TEST_F( TestGCrc, crc_calc )
 {
     vector<uint16_t> chk = { 12169, 21843, 45699, 48681, 22604, 18036, 30350, 62481 };
-        
+
+
     for(int i=0; i < 8; i++ )
     {
         std::shared_ptr<GCrc> c =  std::make_shared<GCrc>(i);
@@ -63,6 +64,7 @@ TEST_F( TestGCrc, crc_calc )
         EXPECT_TRUE( c->CheckCrc(r1) );
         EXPECT_TRUE( c->CheckCrc(r2) );
     }
+    
 }
 
 
