@@ -38,7 +38,6 @@ using std::string;
 
 
 
-
 /** @brief Base class for all unit tests */
 #ifndef  HAS_LOGGING
 class TestBase : public testing::Test
@@ -73,11 +72,10 @@ inline
 TestBase::TestBase() 
 {
 	SET_LOGTARGET("--target-off --target-file");
-	
-	g = new GLogApplication((const int)argc_, (const char**)argv_, nullptr, true);
-	
+	g = new GLogApplication( argc_, (const char**)argv_, nullptr, true);
 	Init();
-};
+}
+
 
 inline
 TestBase::~TestBase()
@@ -89,10 +87,8 @@ TestBase::~TestBase()
 inline void
 TestBase::Init()
 {
-	//   l->Push(  );
 	fOldLogFileName = LLogging::Instance()->GetLogFileName(eMSGTARGET::TARGET_FILE);
 	SET_LOGFILENAME(fTestLogFileName);
-	//SET_LOGTARGET("0000 --target-file");
 	g_cmdscan()->SetIgnoreStrayArgument(false);
 	GException::DisableStackTrace();
 }
