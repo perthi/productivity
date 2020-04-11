@@ -31,6 +31,10 @@
 #include "GDefinitions.h"
 #include "GLocation.h"
 
+
+
+
+
 #ifdef HAS_LOGGING
 #include <logging/LLogApi.h>
 using namespace LOGMASTER;
@@ -52,19 +56,19 @@ GCommon * g_common()
 
 
 #ifdef HAS_LOGGING
+#include <exception/GException.h>
 void
 GCommon::HandleError(const string message, const GLocation  l,   const bool   disable_exception  )
 {
     if ( disable_exception == false)
     {
-        throw_exception(   GException(l.fFileName, l.fFunctName, l.fLineNo, SYS_EX, "%s", message.c_str( ))  )  ;
+        throw_exception(   GException(l.fFileName, l.fFunctName, l.fLineNo, eMSGSYSTEM::SYS_EX, "%s", message.c_str( ))  )  ;
     }
     else
     {
         G_WARNING(message.c_str());
     }
 }
-
 #else
 
 void
