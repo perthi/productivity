@@ -45,7 +45,7 @@ TestGRandom::~TestGRandom()
 TEST_F(TestGRandom, numberGenerationNSR331)
 {
     #ifdef HAS_LOGGING
-    eMSGTARGET previous = l->GetLogTarget();
+    //eMSGTARGET previous = l->GetLogTarget();
     l->Push( );
     SET_LOGTARGET("0000 --target-file");
     #endif

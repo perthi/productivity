@@ -48,9 +48,10 @@
 * - That we can open an existing file for reading */
 TEST_F(TestGFileIOHandler, CheckFileNSR305)
 {
+    GFileIOHandler *f = g_file();
+    
     string rand_fname1 = g_random()->Name("testfile", ".txt");
     string rand_fname2 = g_random()->Name("testfile", ".txt");
-
     ASSERT_NE(rand_fname1, rand_fname2 );
 
     // For a non existing file we expect the return value to be true if we try to create it for writing, and false othervise 
@@ -181,6 +182,7 @@ cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est la
 #ifdef _WIN32
 TEST_F(TestGFileIOHandler, GetAbsolutePath)
 {
+    GFileIOHandler *f = g_file();
     string cwd1 = f->GetAbsolutePath(".");
     char cwd2[PATH_MAXLENGTH];
     GetCurrentDirectoryA( PATH_MAXLENGTH, cwd2);
@@ -191,6 +193,7 @@ TEST_F(TestGFileIOHandler, GetAbsolutePath)
 
 TEST_F(TestGFileIOHandler, GetExtention)
 {
+   GFileIOHandler *f = g_file();
     string exeExt = f->GetExtention(g_system()->GetExeName());
 #ifdef _WIN32
     EXPECT_EQ(exeExt, "exe");

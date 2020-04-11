@@ -14,16 +14,13 @@
 *****************************************************************************/
 
 #include "GDefinitions.h"
-///#include  "GException.h"
 #include "GCommon.h"
 #include "GText.h"
-
 #include "GLocation.h"
 
 #include <string>
 #include <random>
 #include <typeinfo>
-
 #include <limits.h>
 
 using std::random_device;
@@ -54,7 +51,7 @@ public:
 
 
     template<typename T>  T
-    inline  Binominal(T n, double p, typename std::enable_if<std::is_floating_point<T>::value>::type* = 0)
+    inline  Binominal(T n, double /*p*/, typename std::enable_if<std::is_floating_point<T>::value>::type* = 0)
     {
         g_common()->HandleError(  GText( "The parameter n mus be an integral value, n is of type %s", typeid(n).name()).str(), GLOCATION, THROW_EXCEPTION  );
         return 0;

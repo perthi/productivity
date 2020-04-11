@@ -87,7 +87,7 @@ TEST_F(TestGString, Trim)
     EXPECT_EQ("�",       g_string()->Rtrim(tmp) );
     tmp = "-0x7FFFFFFFFFFFFFFF";
     const char token = '-'; 
-	EXPECT_EQ("0x7FFFFFFFFFFFFFFF", g_string()->Trim(tmp, (const char)'-' ));
+	EXPECT_EQ("0x7FFFFFFFFFFFFFFF", g_string()->Trim(tmp, '-' ));
     tmp = "-0xadef123"; 
     EXPECT_EQ("0xadef123", g_string()->Trim( tmp, token ));
 }

@@ -1,12 +1,13 @@
 #include "TestGEnum.h"
 
-G_ENUM(eTEST, { EN, TO , TRE = 3, FIRE,FEM = 055 , SEKS=0x66 });
+G_ENUM(eTEST, { EN, TO , TRE = 3, FIRE,FEM = 055 , SEKS=0x66 })
 
 G_ENUM(eTest2,
 	{
 		EN=101,
 		TO = 102
-	});
+	})
+	
 
 TEST_F(TestGEnum, get_char_ptr)
 {

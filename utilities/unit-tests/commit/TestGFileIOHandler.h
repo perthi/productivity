@@ -14,15 +14,15 @@
 *****************************************************************************/
 
 #include <testlib/TestBase.h>
-#include <utilities/GFileIOHandler.h>
+
 
 /** @brief unit tests for the GFileIOHandler class */
-class TestGFileIOHandler :
-    public TestBase
+class TestGFileIOHandler : public TestBase
 {
 public:
     TestGFileIOHandler() {};
     virtual ~TestGFileIOHandler() {};
-	GFileIOHandler *f = g_file();
+//	GFileIOHandler *f = g_file();
+
 };
 
