@@ -97,7 +97,7 @@ int  main(int argc, char** argv) \
 { \
  	argc_ = argc; \
     argv_ = argv; \
-	GLogApplication((const int)argc, (const char **)argv); \
+	new GLogApplication((const int)argc, (const char **)argv); \
 \
 	/* The method is initializes the Google framework and must be called before RUN_ALL_TESTS */ \
 	::testing::InitGoogleTest(&argc, argv); \

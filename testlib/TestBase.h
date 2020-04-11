@@ -48,7 +48,7 @@ class TestBase : public testing::Test
 
 };
 #else
-class TestBase : public GLogApplication, public testing::Test
+class TestBase : public testing::Test
 {
 
 public:
@@ -60,6 +60,7 @@ protected:
     LLogging             *l = LLogging::Instance();
     string	       fOldLogFileName = "not_set.log";
     string	       fTestLogFileName= "googletest.log";
+	GLogApplication *g = nullptr; 
 
  private: 
      inline void API Init();
@@ -69,10 +70,12 @@ protected:
 
 
 inline 
-TestBase::TestBase() : GLogApplication()
+TestBase::TestBase() 
 {
 	SET_LOGTARGET("--target-off --target-file");
-	GLogApplication((const int)argc_, (const char**)argv_, nullptr, true);
+	
+	g = new GLogApplication((const int)argc_, (const char**)argv_, nullptr, true);
+	
 	Init();
 };
 
