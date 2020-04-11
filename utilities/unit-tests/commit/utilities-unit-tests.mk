@@ -16,7 +16,7 @@ SRCCPP += utilities-dll-test.cpp \
 	TestGNumbers.cpp \
 	TestGEnum.cpp \
 	TestDataTypesT.cpp  \
-    TestGCrc.cpp \
+        TestGCrc.cpp \
 	TestGSystem.cpp
 
 
