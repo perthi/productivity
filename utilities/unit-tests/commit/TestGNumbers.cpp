@@ -30,6 +30,10 @@
 #include <utilities/GNumbers.h>
 #include <utilities/GRandom.h>
 
+#ifdef HAS_LOGGING
+#include <logging/LMessageGenerator.h>
+#endif
+
 
 TEST_F(TestGNumbers, count_ones)
 {
