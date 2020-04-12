@@ -95,7 +95,7 @@ TEST_F(TestGRandom, numberGenerationNSR331)
 
     /*Check that we get an exception if sigma is negative*/
     #ifdef HAS_LOGGING
-    EXPECT_THROW(  g_random()->Gauss<double>(1, -1), GRangeException);
+    EXPECT_ANY_THROW(  g_random()->Gauss<double>(1, -1)  );
     #else
     EXPECT_ANY_THROW(  g_random()->Gauss<double>(1, -1) ); 
     #endif

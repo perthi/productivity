@@ -47,6 +47,7 @@ TestGSystem::~TestGSystem()
 }
 
  
+/* 
 TEST_F(TestGSystem, mkfile)
 {
     try
@@ -71,7 +72,7 @@ TEST_F(TestGSystem, mkfile)
         g_common()->HandleError( "Unknown exception caucht", GLOCATION, DISABLE_EXCEPTION );
     }
 }
-
+*/
 
 
 TEST_F(TestGSystem,  cp)
