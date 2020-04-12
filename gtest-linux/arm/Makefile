@@ -1,4 +1,4 @@
 
-include ../gtest-ucw.mk
+include ../gtest-embc.mk
 
 

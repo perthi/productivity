@@ -5,7 +5,9 @@ LIBNAME_SO=libgtest.so
 
 SRCCPP:=  gtest-all.cpp
 
-export CPPFLAGS:=$(CPPFLAGS_RELAXED)
+#export CPPFLAGS:=$(CPPFLAGS_RELAXED)
+
+export CPPFLAGS:=  -fPIC -std=c++17  -g 
 
 include ../../common.mk
 

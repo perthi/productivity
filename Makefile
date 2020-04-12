@@ -42,7 +42,7 @@ export COMMON_FLAGS:= -fPIC -ggdb -std=c++17  -g
 export PEDANTIC_FLAGS:= -Weffc++ -Wshadow -Wall -Wextra -Wpedantic -Wno-unknown-pragmas -Wswitch-enum -Wimplicit-fallthrough -Wignored-qualifiers -Werror
 
 export CPPFLAGS:=           $(COMMON_FLAGS) $(PEDANTIC_FLAGS)
-export CPPFLAGS_RELAXED:=   $(COMMON_FLAGS)
+export CPPFLAGS_RELAXED:=   $(COMMON_FLAGS) $(PEDANTIC_FLAGS)
 
 export LIBFLAGS:= -shared
 
