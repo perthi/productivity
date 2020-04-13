@@ -27,7 +27,7 @@
 ******************************************************************************/
 
 #include <utilities/GString.h>
-
+#include <algorithm>
 
 GString  * g_string()
 {
@@ -613,3 +613,37 @@ GString::ReplaceBadChar(char* inputstring, const char delimeter, const char* sus
 	return out;
 }
 /**@}*/
+
+
+ string    
+ GString::ToPascalCase(const string in) const
+ {
+    if(in.size( ) >  1 )
+    {
+      string copy = in;
+      std::transform( copy.begin() +1, copy.end(),  copy.begin() +1, ::towlower );           
+      std::transform( copy.begin(),    copy.begin() + 1,  copy.begin(), ::toupper );        
+      return copy;    
+    }
+    else
+    {
+        return in;
+    }
+ }
+
+
+string    
+GString::ToUpperCase(const string in) const
+{
+   string copy = in;  
+   std::transform( copy.begin(), copy.end(),  copy.begin(), ::toupper );    
+   return copy;
+}
+
+string    
+GString::ToLowerCase(const string in) const
+{
+     string copy = in;  
+     std::transform( copy.begin(), copy.end(),  copy.begin(), ::towlower );    
+     return copy;   
+}

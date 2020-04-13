@@ -46,6 +46,10 @@ class GString
      string    ReplaceBadChar(string &inputstring, const char delimeter = '_', const char *suspicious = 0);
      string    Replace(const string original, const string toreplace, const string replacement);
      
+     string    ToPascalCase( const string  in ) const;
+     string    ToUpperCase(  const string  in ) const;  
+     string    ToLowerCase(  const string  in ) const;
+
      template <typename T>
      string    ToString(const vector<T> in, const string sep = "\n");
      
