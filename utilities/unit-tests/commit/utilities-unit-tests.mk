@@ -24,5 +24,5 @@ SRCCPP += utilities-dll-test.cpp \
 include ../../../../common.mk
 include ../../../../unittest-common.mk
 
-LIBS+=  -lexception  -lutilities -lreadline
+LIBS+=   -lutilities -lexception -lreadline
 INCLUDES+=$(GTEST_INCLUDES)
