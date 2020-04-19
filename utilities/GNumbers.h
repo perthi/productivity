@@ -26,7 +26,7 @@
 #include "GUtilities.h"
 #include <utilities/GString.h>
 
-#include <boost/lexical_cast.hpp>
+//#include <boost/lexical_cast.hpp>
 
 #include <stdlib.h>     /* strtod */
 #include <stdint.h>

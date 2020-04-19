@@ -554,8 +554,19 @@ string
 GString::Replace(const string original, const string substring, const string replacement)
 {
 	string tmp = original;
-	boost::replace_all(tmp, substring, replacement);
-	return tmp;
+//	boost::replace_all(tmp, substring, replacement);
+   // std::replace ( tmp.begin(), tmp.end(), substring,  replacement); // replace all 'x' to 'y'
+
+    size_t start_pos = 0;
+    
+    while ((start_pos = tmp.find(substring, start_pos)) != std::string::npos) {
+        tmp.replace(start_pos, substring.length(), replacement  );
+        start_pos += replacement.length(); // Handles case where 'to' is a substring of 'from'
+    }
+    
+    
+    return  tmp;
+
 }
 
 

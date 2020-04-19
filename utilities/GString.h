@@ -28,7 +28,7 @@ using std::vector;
 #include <iomanip>
 #include <locale>
 
-#include <boost/algorithm/string/replace.hpp>
+///#include <boost/algorithm/string/replace.hpp>
 
 #define __STDC_WANT_LIB_EXT1__ 1
 class GString;
