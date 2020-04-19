@@ -36,11 +36,8 @@
 #endif
 
 #include "GStackTrace.h"
-#include <unistd.h>
-#include <execinfo.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
 
 #include <iostream>
 #include <sstream>
@@ -48,6 +45,11 @@
 using std::cerr;
 using std::endl;
 using std::ostringstream;
+
+#ifndef _WIN32
+#include <unistd.h>
+#include <execinfo.h>
+#endif
 
 
 GStackTrace::GStackTrace( )

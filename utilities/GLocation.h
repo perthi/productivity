@@ -21,9 +21,9 @@ using std::string;
 
 
 /** @brief Helper class to stor information about source code location */
-struct GLocation
+class GLocation
 {
-  
+public:
     inline GLocation(const string fname, const int lineno, const string funct ) : fFileName(fname), fLineNo(lineno), fFunctName(funct) {}
     string fFileName;
     int   fLineNo;
