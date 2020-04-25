@@ -25,7 +25,7 @@ using std::string;
 
 class GSystem;
 
-GSystem * g_system();
+GSystem API * g_system();
 
 
 /** @brief Simplified interface for various system call for Linux and Windows */
@@ -46,14 +46,14 @@ public:
     string         API      getenv(const string var);
 
 #ifdef _WIN32
-    string GetCommandLineAll();
-    string GetCommandLineArguments();
+    string    API   GetCommandLineAll();
+    string    API   GetCommandLineArguments();
 #endif
 
-    char *GetExePath();
-    char *GetExeDir();
-    char *GetExeName();
-    string GetHostName();
+    char  API *  GetExePath();
+    char  API * GetExeDir();
+    char  API * GetExeName();
+    string API  GetHostName();
 
     bool API Exists(const string filepath);
     string API GetDirectory(const string filepath);

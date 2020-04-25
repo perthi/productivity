@@ -50,7 +50,7 @@ class TestGNumbers_PrivateFunctions_Test; // forward declaration for google test
 
 class GNumbers;
 
-GNumbers * g_numbers();
+GNumbers API * g_numbers();
 
 
 /** @brief various function for number to string and string to number manipulations  */
@@ -63,28 +63,28 @@ public:
     void   API  DisableError();
     void   API  EnableError();
     bool   API  IsDisabledError() { return fIsDisabledError; };
-    string                  Dec2Hex(const string s);
-    string                  Hex2Dec(const string s);
-    bool                    IsAlphaNumber(string num);
-    bool                    IsBinary(const char *num)                      { return IsBinary(string(num)); };
-    bool                    IsBinary(string num);
+    string   API               Dec2Hex(const string s);
+    string   API               Hex2Dec(const string s);
+    bool     API               IsAlphaNumber(string num);
+    bool     API               IsBinary(const char *num)                      { return IsBinary(string(num)); };
+    bool     API               IsBinary(string num);
 	
     template<typename T>   bool     IsBinary(T num);
 	
-    bool                    IsDecNumber(const string num);
-    bool                    IsDigit(const char *num, const int base = 10) { return IsDigit(string(num), base); };
-    bool                    IsDigit(const string num, const int base = 10);
+    bool            API        IsDecNumber(const string num);
+    bool            API        IsDigit(const char *num, const int base = 10) { return IsDigit(string(num), base); };
+    bool            API        IsDigit(const string num, const int base = 10);
     template<typename T>   bool    IsDigit(T num, const int base = 10);
     template<typename T>   bool    IsFloat(T num);
     bool          API              IsFloat(const char *num);
     bool          API             IsFloat(const string num);
-    bool                    IsHex(const string num);
+    bool           API         IsHex(const string num);
     template<typename T>   bool    IsHex(const T num);
-    bool                    IsHex(const char *num) { return IsHex(string(num)); };
-    bool                    IsInteger(const string num);
+    bool           API         IsHex(const char *num) { return IsHex(string(num)); };
+    bool           API         IsInteger(const string num);
     template<typename T>   bool    IsInteger(T num);
-    bool                    IsNumber(const string num);
-    bool                    IsNumber(const double num);
+    bool           API         IsNumber(const string num);
+    bool          API          IsNumber(const double num);
     
     
     template<typename T>  bool IsIntegerVType(T) { return IsIntegerVTypeS(typeid(T).name() );  }
@@ -113,13 +113,13 @@ public:
     template<typename T>   int64_t     API  BitWidth(const T in);
     template<typename T>   int64_t       PadOnes(const T in);
     
-    int64_t                     BitWidth(const char *in);
-    int64_t                     BitWidth(const string in);
-    int64_t		              ToBinary(const string num);
+    int64_t             API        BitWidth(const char *in);
+    int64_t             API        BitWidth(const string in);
+    int64_t		        API      ToBinary(const string num);
     
     template<typename T = long double>     vector<T> ToFloat(const vector<string> num);
     template<typename T = long double>    T          ToFloat(const string num);
-    long long int                            ToHex(const string num);
+    long long int                API            ToHex(const string num);
     template<typename T = long long int>  T          ToInteger(const string num);
     template<typename T>    vector<T>                ToInteger(const vector<string> num);
     
@@ -134,11 +134,8 @@ public:
     {
         return ToFloat<T>(num);
     }
-
-    
     template <typename T> 
     int CountBits(const T in);
-    
     
 private:
     GNumbers() : fIsDisabledError(false) {};
@@ -147,8 +144,6 @@ private:
     template<typename T>   void    CheckUnsigned(const vector<string> num);
 	bool fIsDisabledError = false;
 };
-
-
 
 
 /**@{
@@ -182,7 +177,6 @@ void GNumbers::CheckUnsigned(const string num)
 }
 
 
-
 template<typename T>
 void GNumbers::CheckUnsigned(const vector<string> num)
 {
@@ -194,17 +188,12 @@ void GNumbers::CheckUnsigned(const vector<string> num)
 /**@}*/
 
 
-
-
-
 template<typename T>
 bool
 GNumbers::IsBinary(T num)
 {
     return IsBinary(g_string()->ToString(num));
 }
-
-
 
 
 template<typename T>
@@ -225,9 +214,6 @@ GNumbers::IsFloat(T num)
 }
 
 
-
-
-
 template<typename T>
 bool
 GNumbers::IsHex(const T num)
@@ -238,14 +224,12 @@ GNumbers::IsHex(const T num)
 }
 
 
-
 template<typename T >
 bool
 GNumbers::IsInteger(T num)
 {
     return IsInteger(g_string()->ToString(num));
 }
-
 
 
 template<typename T> T
@@ -310,8 +294,6 @@ GNumbers::PadOnes(const T in)
 }
 
 
-
-
 template<typename T>
 int64_t
 GNumbers::BitWidth(const T in)
@@ -329,7 +311,6 @@ GNumbers::BitWidth(const T in)
     }
     return pos;
 }
-
 
 
 template<typename T>
@@ -368,8 +349,6 @@ GNumbers::ToFloat(const vector<string> num)
 }
 
 
-
-
 template <typename T> int 
 GNumbers::CountBits( const T in )
 {
@@ -385,11 +364,8 @@ GNumbers::CountBits( const T in )
         {
             cnt++;
         }
-        
     }
-    
     return cnt;
-    
 }
 
 
