@@ -631,8 +631,9 @@ GString::ReplaceBadChar(char* inputstring, const char delimeter, const char* sus
  {
     if(in.size( ) >  1 )
     {
+      
       string copy = in;
-      std::transform( copy.begin() +1, copy.end(),  copy.begin() +1, ::towlower );           
+      std::transform( copy.begin() +1, copy.end(),  copy.begin() +1, ::tolower );           
       std::transform( copy.begin(),    copy.begin() + 1,  copy.begin(), ::toupper );        
       return copy;    
     }
@@ -654,7 +655,8 @@ GString::ToUpperCase(const string in) const
 string    
 GString::ToLowerCase(const string in) const
 {
+    
      string copy = in;  
-     std::transform( copy.begin(), copy.end(),  copy.begin(), ::towlower );    
+     std::transform( copy.begin(), copy.end(),  copy.begin(), ::tolower );    
      return copy;   
 }

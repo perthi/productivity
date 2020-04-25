@@ -64,7 +64,7 @@ GCrc::Crc(const string &bufptr)
 
 
 uint16_t
-GCrc::Crc(const uint8_t *in, const uint16_t len )
+GCrc::Crc(const uint8_t *in, const size_t len )
 {
     fJcrc = (fJfill | (fJfill << 8));
     return Concat( in, len );
@@ -76,7 +76,7 @@ GCrc::Crc(const uint8_t *in, const uint16_t len )
 void
 GCrc::AddCrc16( string &  in  )
 {
-    uint16_t size_out = 0;
+    size_t size_out = 0;
 
     // CRAP PTH, magic number
     if( in.size() > 1024)
@@ -94,7 +94,7 @@ GCrc::AddCrc16( string &  in  )
     AddCrc16( buf, in.size(), &size_out);
     in.erase(in.begin(), in.end() );
 
-    for(uint16_t  i= 0; i < size_out; i++ )
+    for(size_t  i= 0; i < size_out; i++ )
     {
         in.push_back( buf[i] );
     }
@@ -105,7 +105,7 @@ GCrc::AddCrc16( string &  in  )
 
 
 void
-GCrc::AddCrc16( uint8_t * in, const uint16_t input_size, uint16_t *output_size )
+GCrc::AddCrc16( uint8_t * in, const size_t input_size, size_t *output_size )
 {
     const unsigned short crc_i =   Crc(in, input_size);
     char lo = LoByte(crc_i);
@@ -128,7 +128,7 @@ GCrc::CheckCrc( string &in )
 
 
 bool
-GCrc::CheckCrc(  const uint8_t *in, const uint16_t total_size  )
+GCrc::CheckCrc(  const uint8_t *in, const size_t total_size  )
 {
     int val = Crc( in, total_size );
     return val == 0 ? true : false;
@@ -137,7 +137,7 @@ GCrc::CheckCrc(  const uint8_t *in, const uint16_t total_size  )
 
 
 uint16_t
-GCrc::Concat(const  uint8_t *bufptr, const uint16_t len )
+GCrc::Concat(const  uint8_t *bufptr, const size_t len )
 {
     uint32_t j, cword = fJcrc;
 

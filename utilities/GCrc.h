@@ -26,16 +26,16 @@ public:
 	bool 		 CheckCrc( string &in );
 	#endif
 
-	uint16_t     Crc(const uint8_t *in, const uint16_t len );
-	void         AddCrc16(  uint8_t * in, const uint16_t input_size, uint16_t *output_size );
-	bool 		 CheckCrc(  const uint8_t *in, const uint16_t total_size  );
+	uint16_t     Crc(const uint8_t *in, const size_t len );
+	void         AddCrc16(  uint8_t * in, const size_t input_size, size_t *output_size );
+	bool 		 CheckCrc(  const uint8_t *in, const size_t total_size  );
 
 	uint8_t      LoByte( const uint16_t x ); 
     uint8_t      HiByte( const uint16_t x );
 
 private:
 	//uint16_t     Concat(const string &bufptr);
-	uint16_t     Concat( const uint8_t *bufptr, const uint16_t len );
+	uint16_t     Concat( const uint8_t *bufptr, const size_t len );
 	uint16_t     Icrc1(  const uint16_t jcrc, const uint8_t onech ); 
 	
 	uint32_t fJfill, fJcrc,fPoly;

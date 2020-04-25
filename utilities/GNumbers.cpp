@@ -532,8 +532,8 @@ bool
 GNumbers::IsFloat(string num)
 {
     num = g_string()->Trim(num, { ' ', '\t', '\n' });
-    using boost::lexical_cast;
-    using boost::bad_lexical_cast;
+   // using boost::lexical_cast;
+   // using boost::bad_lexical_cast;
 
 	// Exceptions is a pain, so lets remove some common causes.
     if (num == ",")
@@ -563,10 +563,12 @@ GNumbers::IsFloat(string num)
     
     try
     {
-        boost::lexical_cast<long double>(num);
+        std::stold(num);
+     //   stold
+     //   boost::lexical_cast<long double>(num);
     
     }
-    catch (bad_lexical_cast &)
+    catch ( ... )
     {
         return false;
     }

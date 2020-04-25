@@ -50,6 +50,7 @@
 using std::ifstream;
 #include <cstdarg>
 
+#include <algorithm>
 
 GFileIOHandler * g_file()
 {
@@ -106,7 +107,13 @@ GFileIOHandler::Append(const string fname, const char * fmt, ...)
 
 bool GFileIOHandler::Delete(const string fname)
 {
-    FILE *fp = fopen(fname.c_str(), "r");
+    FILE* fp = nullptr;
+
+#ifdef _WIN32
+     fopen_s( &fp,  fname.c_str(), "r");
+#else
+     fp = fopen( fname.c_str(), "r");
+#endif
 
     if (fp == nullptr)
     {
@@ -341,7 +348,16 @@ GFileIOHandler::CheckFile(const string fname, const char *opt)
     }
     else
     {
-        FILE *fp2 = fopen( fname.c_str(), "r" );
+        FILE* fp2 = nullptr;
+#ifdef _WIN32
+        fopen_s( &fp2,  fname.c_str(), "r");
+#else
+        FILE* fp2 = fopen(fname.c_str(), "r");
+#endif // _WIN32
+
+      
+
+
          if ( fp2 != nullptr )
         {
             if (tmp == "w" || tmp == "w+")

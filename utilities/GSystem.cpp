@@ -54,6 +54,7 @@
 #include <stdio.h>
 #include <memory>
 #include <sys/stat.h>
+#include <cstdlib>
 
 GSystem * g_system()
 {
@@ -65,18 +66,29 @@ GSystem * g_system()
 string
 GSystem::getenv(const string  var  )
 {
-    char *tmp  = std::getenv( (char *)var.c_str()  );
-    
+#ifdef _WIN32
+    size_t sz = 0;
+    char  *tmp = nullptr;
+    _dupenv_s(&tmp, &sz,  (char*)var.c_str());
+#else
+    chat *tmp = std::getenv((char*)var.c_str());
+#endif // _WIN32
+    string ret = "";
+
     if( tmp != nullptr )
     {
-         return string(tmp);
+        ret = string(tmp);
+#ifdef _WIN32
+        free(tmp);
+        return ret;
+#endif
     }
     else
     {
-        return var + ": no such env variable found";
+        return var + ": no such environment variable found";
     }
-
 }
+
 
 
 /** mkdir =   Make Directory (that is a folder in Windows terms), Unix/bash style
@@ -91,7 +103,13 @@ GSystem::mkdir(const string dirname)
 {
 //    FORCE_DEBUG("creating directory %s", dirname.c_str()  );
 
-    int status = ::mkdir(dirname.c_str(), 0755 );
+#ifdef _WIN32
+    int status = ::_mkdir(dirname.c_str() );
+#else
+    int status = ::mkdir(dirname.c_str(), 0755)
+#endif // _WIN32
+
+ 
 
     if(status == 0)
     {
