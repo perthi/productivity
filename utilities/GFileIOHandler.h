@@ -14,9 +14,9 @@
 *****************************************************************************/
 
 
-
+#include "GLocation.h"
 #include "GDefinitions.h"
-
+#include <stdio.h>
 #include <string>
 #include <vector>
 
@@ -32,6 +32,7 @@ using std::string;
 
 
 class GFileIOHandler;
+class TestGFileIOHandler_CheckFileNSR305_Test;
 
 GFileIOHandler * g_file();
 
@@ -39,7 +40,8 @@ GFileIOHandler * g_file();
 /** @brief Utility class for basic file IO operations such as creating, reading, and deleting files*/
 class GFileIOHandler 
 {
-friend GFileIOHandler * g_file();
+friend  GFileIOHandler * g_file();
+friend  TestGFileIOHandler_CheckFileNSR305_Test;
 
 public:
 
@@ -61,13 +63,16 @@ public:
 
 	bool             API  DeleteAll(const string fname);
 	void             API  CreateDirIfNeeded(const std::string& filename);
+  
 
 #ifdef _WIN32
     void	     SetAttribute(const string fname, unsigned long attr);
     void	     ClearAttribute(const string fname, unsigned long attr);
 #endif
 private:
-	GFileIOHandler() {};
+    FILE* OpenFile(const string fname, const string opt, const GLocation loc);
+    string Errno2String( const  errno_t code, const string fname, const string  opt );
+    GFileIOHandler() {};
     
 };
 

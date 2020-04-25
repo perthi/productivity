@@ -73,13 +73,7 @@ GFileIOHandler::Append(const string fname, const char * fmt, ...)
     {
         if (CheckFile(fname, "a"))
         {
-            FILE *fp = 0;
-
-#ifdef _WIN32
-            fopen_s(&fp, fname.c_str(), "a");
-#else
-            fp =   fopen( fname.c_str(), "a");
-#endif
+            FILE* fp = OpenFile( fname, "a", GLOCATION );
             /// @todo fp: Check on return value
             va_list ap;
             va_start(ap, fmt);
@@ -107,13 +101,7 @@ GFileIOHandler::Append(const string fname, const char * fmt, ...)
 
 bool GFileIOHandler::Delete(const string fname)
 {
-    FILE* fp = nullptr;
-
-#ifdef _WIN32
-     fopen_s( &fp,  fname.c_str(), "r");
-#else
-     fp = fopen( fname.c_str(), "r");
-#endif
+    FILE* fp = OpenFile(fname, "r", GLOCATION );
 
     if (fp == nullptr)
     {
@@ -122,11 +110,13 @@ bool GFileIOHandler::Delete(const string fname)
     }
     else
     {
+        fclose(fp);
         int ret = std::remove(fname.c_str());
         
-        if( ret == 1 )
+        if( ret != 0 )
         {
-            g_common()->HandleError(  GText(  "could not remove file: \"%s\"", fname.c_str()   ) .str(), GLOCATION, true  );
+            string errmsg = Errno2String(errno, fname, "r" );
+            g_common()->HandleError(  GText(  "could not remove file: \"%s\"", errmsg.c_str()  ) .str(), GLOCATION, true  );
             return false;
         }
         
@@ -171,10 +161,8 @@ GFileIOHandler::ReadLastLine(const string fname, const unsigned int offset)
         g_common()->HandleError(  GText( "Cannot open file: %s", fname.c_str() ) .str(), GLOCATION, DISABLE_EXCEPTION  );
         return "";
     }
-    
+  
     vector<string> content = ReadAll(fname);
-      
-
 
     if (CheckFile(fname) == false)
     {
@@ -330,6 +318,35 @@ GFileIOHandler::DoExists(const string fname, const char* opt)
 }
 
 
+string 
+GFileIOHandler::Errno2String(const  errno_t code, const string fname, const string  opt)
+{
+    static const size_t sz = 2048;
+    char errmsg[sz];
+    strerror_s(errmsg, sz, code);
+    return string( errmsg );
+
+}
+
+
+
+FILE*
+GFileIOHandler::OpenFile(const string fname, const string opt, const GLocation l )
+{
+	FILE* fp = nullptr;
+	fopen_s(&fp, fname.c_str(), opt.c_str());
+
+    if (fp == nullptr)
+    {
+        string errmsg = Errno2String(  errno, fname, opt );
+        g_common()->HandleError(GText("fopen(%s, %c) failed: %s",
+            fname.c_str(), opt[0], errmsg.c_str() ).str(), l, DISABLE_EXCEPTION);
+    }
+
+	return fp;
+}
+
+
 /**  Checks if a file can be safely written, read, or appended to
  *   @param fname The full path + filename to the file to be written
  *   @param opt The access option which must be either w, w+, r, r+, a, a+
@@ -340,76 +357,60 @@ GFileIOHandler::DoExists(const string fname, const char* opt)
 bool
 GFileIOHandler::CheckFile(const string fname, const char *opt)
 {
-    string tmp = string(opt);
-    if (!(tmp == "w" || tmp == "w+" || tmp == "a" || tmp == "a+" || tmp == "r" || tmp == "r+"))
-    {
-        g_common()->HandleError(  GText( "Invalid option %c", opt[0]  ) .str(), GLOCATION, DISABLE_EXCEPTION  ); 
-        return false;
-    }
-    else
-    {
-        FILE* fp2 = nullptr;
-#ifdef _WIN32
-        fopen_s( &fp2,  fname.c_str(), "r");
-#else
-        FILE* fp2 = fopen(fname.c_str(), "r");
-#endif // _WIN32
+	string tmp = string(opt);
+	if (!(tmp == "w" || tmp == "w+" || tmp == "a" || tmp == "a+" || tmp == "r" || tmp == "r+"))
+	{
+		g_common()->HandleError(GText("Invalid option %c", opt[0]).str(), GLOCATION, DISABLE_EXCEPTION);
+		return false;
+	}
+	else
+	{
+		FILE* fp = OpenFile(fname, "r", GLOCATION);
 
-      
-
-
-         if ( fp2 != nullptr )
-        {
-            if (tmp == "w" || tmp == "w+")
-            {
-                g_common()->HandleError(  GText(  "The file %s exists, opening it with the %c option will discard existing content", 
-                fname.c_str(), opt[0]      ) .str(), GLOCATION, DISABLE_EXCEPTION  ); 
-
-
-                return false;
-            }
-            else if (tmp == "a" || tmp == "a+" || tmp == "r" || tmp == "r+")  
-            {
-                FILE *fp = 0;
-#ifdef _WIN32
-                fopen_s(&fp, fname.c_str(), opt);
-#else
-                fp = fopen(fname.c_str(), opt);
-#endif
-                
-                if (fp == 0)
-                {
-                    g_common()->HandleError(  GText(  "fopen(%s, %c) failed !!!", fname.c_str(), opt[0]      ) .str(), GLOCATION, DISABLE_EXCEPTION  ); 
+		if (fp != nullptr)
+		{
+       //     bool ret = false;
+			if (tmp == "w" || tmp == "w+")
+			{
+				g_common()->HandleError(GText("The file %s exists, opening it with the %c option will discard existing content",
+					fname.c_str(), opt[0]).str(), GLOCATION, DISABLE_EXCEPTION);
+		        fclose(fp);
+				return  false;
+			}
+			else if (tmp == "a" || tmp == "a+" || tmp == "r" || tmp == "r+")
+			{
+                fclose(fp);
+                fp = OpenFile(fname, tmp, GLOCATION);
+	
+                if (fp == nullptr) 
+                { 
+                    
                     return false;
                 }
-                else
-                {
-                    fclose(fp);
+				else
+                { 
+                    fclose(fp); 
                     return true;
                 }
+			}
+            
+            fclose(fp);
+		}
+		else
+		{
+			fp = OpenFile(fname, opt, GLOCATION);
+			if (fp == nullptr) 
+            { 
+                return false; 
             }
-        }
-        else
-        {
-            FILE *fp = 0;
-
-#ifdef _WIN32
-            fopen_s(&fp, fname.c_str(), opt);
-#else
-            fp =  fopen(fname.c_str(), opt);
-#endif
-            if (fp == 0)
-            {
-                return false;
-            }
-            else
-            {
-                fclose(fp);
-                remove(fname.c_str() );
-                return true;
-            }
-        }
-    }
+			else
+			{
+				fclose(fp);
+				remove(fname.c_str());
+				return true;
+			}
+		}
+	}
     return false;
 }
 
