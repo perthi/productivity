@@ -3,7 +3,7 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros">
     <kns-ts-3rd-party-include>$(SolutionDir)..\3rd-party\;$(ProjectDir)3rd-party\;</kns-ts-3rd-party-include>
-    <gtest-include>$(SolutionDir)\gtest\include\</gtest-include>
+    <gtest-include>$(SolutionDir)gtest\include\;$(SolutionDir)\submodules\productivity\gtest\include</gtest-include>
     <qt-libs-debug>Qt5Widgetsd.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Chartsd.lib;Qt5Quickd.lib;Qt5QuickWidgetsd.lib;qtmaind.lib</qt-libs-debug>
     <qt-libs-release>Qt5Widgets.lib;Qt5Core.lib;Qt5Gui.lib;Qt5Charts.lib;Qt5Quick.lib;Qt5QuickWidgets.lib;qtmain.lib</qt-libs-release>
     <PthCopyright>"-copyright"  "Per Thomas Hille, 2020"</PthCopyright>
@@ -14,7 +14,7 @@
     <qt-include32>$(qt-base32)\include</qt-include32>
     <qt-include64>$(qt-base64)\include</qt-include64>
     <qt-libdir64>$(qt-base64)\lib\</qt-libdir64>
-    <include>$(SolutionDir);;$(SolutionDir)\gtest\include</include>
+    <include>$(SolutionDir);$(SolutionDir)\submodules\productivity;$(SolutionDir)\gtest\include</include>
     <bindir>$(SolutionDir)bin\$(PlatformTarget)_$(Configuration)\</bindir>
   </PropertyGroup>
   <PropertyGroup>

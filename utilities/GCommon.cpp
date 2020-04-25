@@ -32,7 +32,6 @@
 #include "GLocation.h"
 
 
-
 #ifdef HAS_LOGGING
 #include <logging/LLogApi.h>
 using namespace LOGMASTER;
