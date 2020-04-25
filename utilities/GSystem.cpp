@@ -115,9 +115,10 @@ GSystem::mkdir(const string dirname)
     }
     else
     {
-       g_common()->HandleError(  GText(  "The directory \"%s\" could not be created,.. please check that \
-                    you have write + exce permissions to the directory ....aborting (message from boost %s\")", \
-                    dirname.c_str( )).str(), GLOCATION, THROW_EXCEPTION  );  
+        string errmsg = g_file()->Errno2String(errno, dirname, "");
+       g_common()->HandleError(  GText(  "The directory \"%s\" could not be created (%s),.. please check that \
+                    you have write + exce permissions to the directory", \
+                    dirname.c_str( ), errmsg.c_str() ).str(), GLOCATION, THROW_EXCEPTION  );  
         return false;
     }
 }
@@ -426,21 +427,14 @@ bool
 GSystem::mkfile(const string filepath)
 {
     string dir, file;
-    g_tokenizer()->StripPath(filepath, dir, file);
+    g_tokenizer()->StripPath(filepath, dir, file, false);
 
     if (dir != "")
     {
         mkdir(dir);
     }
-
+    
     FILE *fp = g_file()->OpenFile( filepath, "r", GLOCATION );
-
-//#ifdef _WIN32
-//    fopen_s(&fp, filepath.c_str(), "r");
-//#else
-//    fp = fopen(filepath.c_str(), "r");
-//#endif
-
     if (fp !=  nullptr)
     {
         g_common()->HandleError( GText("File \"%s\" allready exists, will not be recreated", filepath.c_str()  ).str(), GLOCATION, DISABLE_EXCEPTION ) ;
@@ -449,16 +443,7 @@ GSystem::mkfile(const string filepath)
     }
     else
     {
-        FILE* fp = g_file()->OpenFile(filepath, "w", GLOCATION);
-
- /*       FILE *fp2 = 0;
-
-#ifdef _WIN32
-        fopen_s(&fp2, filepath.c_str(), "w");
-#else
-        fp2 = fopen(filepath.c_str(), "w");
-#endif*/
-
+        fp = g_file()->OpenFile(filepath, "w", GLOCATION);
         if (fp !=  nullptr)
         {
             fclose(fp);
@@ -470,6 +455,8 @@ GSystem::mkfile(const string filepath)
                                                filepath.c_str()   ).str(), GLOCATION, THROW_EXCEPTION  );      
         }
     }
+   
+
     return true;
 }
 

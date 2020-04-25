@@ -116,10 +116,13 @@ GTokenizer::TokenizeCommandline(string line)
 void
 GTokenizer::StripPath(const string fin, string& dir, string& fout, const bool keep_trailing_slahs)
 {
+
 	vector<string> separators = { "\\", "/" };
 	auto tokens = Tokenize(fin, separators, DISCARD_EMPTY, KEEP_SEPARATOR);
 	dir.clear();
 	fout.clear();
+
+	dir =  g_string()->Rtrim( dir, '/' );
 
 	size_t n = fin.size();
 
@@ -156,6 +159,7 @@ GTokenizer::StripPath(const string fin, string& dir, string& fout, const bool ke
 		if (tokens.size() == 1)
 		{
 			dir = tokens[0];
+			dir = g_string()->Rtrim(dir, '/');
 		}
 	}
 

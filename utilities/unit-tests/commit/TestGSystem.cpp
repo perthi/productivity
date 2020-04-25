@@ -50,14 +50,14 @@ TestGSystem::~TestGSystem()
 void
 TestGSystem::SetUpTestCase()
 {
-   // g_common()->DisableOutput();
+    g_common()->DisableOutput();
 }
 
 
 void
 TestGSystem::TearDownTestCase()
 {
-   // g_common()->EnableOutput();
+    g_common()->EnableOutput();
 }
 
  
@@ -65,7 +65,7 @@ TEST_F(TestGSystem, mkfile)
 {
     try
     {
-      //  g_system()->mkfile("testdir/testfile.txt");
+       g_system()->mkfile("testdir/testfile.txt");
        // EXPECT_EQ(0, g_system()->rm( "testdir/testfile.txt") ) ;
 
     }
@@ -88,7 +88,6 @@ TEST_F(TestGSystem, mkfile)
 
 
 
-/*
 TEST_F(TestGSystem,  cp)
 {
     string s = "source.txt";
@@ -146,4 +145,4 @@ TEST_F(TestGSystem, mv)
     EXPECT_TRUE(g_file()->CheckFile(d));
     g_system()->rm(d);
 }
-*/
+

@@ -63,7 +63,8 @@ public:
 
 	bool             API  DeleteAll(const string fname);
 	void             API  CreateDirIfNeeded(const std::string& filename);
-    FILE          API  * OpenFile(const string fname, const string opt, const GLocation loc);
+    FILE             API  * OpenFile(const string fname, const string opt, const GLocation loc);
+    string           API  Errno2String(const  errno_t code, const string fname, const string  opt);
 
 #ifdef _WIN32
     void	     SetAttribute(const string fname, unsigned long attr);
@@ -71,7 +72,7 @@ public:
 #endif
 private:
   
-    string Errno2String( const  errno_t code, const string fname, const string  opt );
+  
     GFileIOHandler() {};
     
 };
