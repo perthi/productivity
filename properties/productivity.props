@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros">
+    <kns-ts-3rd-party-include>$(SolutionDir)..\3rd-party\;$(ProjectDir)3rd-party\;</kns-ts-3rd-party-include>
+    <gtest-include>$(SolutionDir)\gtest\include\</gtest-include>
+    <qt-libs-debug>Qt5Widgetsd.lib;Qt5Cored.lib;Qt5Guid.lib;Qt5Chartsd.lib;Qt5Quickd.lib;Qt5QuickWidgetsd.lib;qtmaind.lib</qt-libs-debug>
+    <qt-libs-release>Qt5Widgets.lib;Qt5Core.lib;Qt5Gui.lib;Qt5Charts.lib;Qt5Quick.lib;Qt5QuickWidgets.lib;qtmain.lib</qt-libs-release>
+    <PthCopyright>"-copyright"  "Per Thomas Hille, 2020"</PthCopyright>
+    <ScriptDir>$(SolutionDir)..\scripts</ScriptDir>
+    <qt-base32>C:\Qt\5.12.2\msvc2017</qt-base32>
+    <qt-base64>C:\Qt\5.12.2\msvc2017_64</qt-base64>
+    <qt-libdir32>$(qt-base32)\lib\</qt-libdir32>
+    <qt-include32>$(qt-base32)\include</qt-include32>
+    <qt-include64>$(qt-base64)\include</qt-include64>
+    <qt-libdir64>$(qt-base64)\lib\</qt-libdir64>
+    <include>$(SolutionDir);;$(SolutionDir)\gtest\include</include>
+    <bindir>$(SolutionDir)bin\$(PlatformTarget)_$(Configuration)\</bindir>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OutDir>$(bindir)</OutDir>
+    <TargetName>$(ProjectName)</TargetName>
+    <IntDir>$(ProjectDir)\build\$(PlatformTarget)_$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <Link>
+      <AdditionalLibraryDirectories>$(bindir)</AdditionalLibraryDirectories>
+      <TreatLinkerWarningAsErrors>true</TreatLinkerWarningAsErrors>
+      <AdditionalDependencies />
+    </Link>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(include)</AdditionalIncludeDirectories>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <WarningLevel>Level3</WarningLevel>
+    </ClCompile>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+      <Message>
+      </Message>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <BuildMacro Include="gtest-include">
+      <Value>$(gtest-include)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="qt-libs-debug">
+      <Value>$(qt-libs-debug)</Value>
+    </BuildMacro>
+    <BuildMacro Include="qt-libs-release">
+      <Value>$(qt-libs-release)</Value>
+    </BuildMacro>
+    <BuildMacro Include="PthCopyright">
+      <Value>$(PthCopyright)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="ScriptDir">
+      <Value>$(ScriptDir)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="qt-base32">
+      <Value>$(qt-base32)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="qt-base64">
+      <Value>$(qt-base64)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="qt-libdir32">
+      <Value>$(qt-libdir32)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="qt-include32">
+      <Value>$(qt-include32)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="qt-include64">
+      <Value>$(qt-include64)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="qt-libdir64">
+      <Value>$(qt-libdir64)</Value>
+      <EnvironmentVariable>true</EnvironmentVariable>
+    </BuildMacro>
+    <BuildMacro Include="include">
+      <Value>$(include)</Value>
+    </BuildMacro>
+    <BuildMacro Include="bindir">
+      <Value>$(bindir)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>

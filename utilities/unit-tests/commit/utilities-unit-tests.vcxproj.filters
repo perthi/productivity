@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="TestDataTypesT.cpp" />
+    <ClCompile Include="TestGCrc.cpp" />
+    <ClCompile Include="TestGEnum.cpp" />
+    <ClCompile Include="TestGFileIOHandler.cpp" />
+    <ClCompile Include="TestGMath.cpp" />
+    <ClCompile Include="TestGNumbers.cpp" />
+    <ClCompile Include="TestGRandom.cpp" />
+    <ClCompile Include="TestGRegexp.cpp" />
+    <ClCompile Include="TestGString.cpp" />
+    <ClCompile Include="TestGSystem.cpp" />
+    <ClCompile Include="TestGText.cpp" />
+    <ClCompile Include="TestGTime.cpp" />
+    <ClCompile Include="TestGTokenizer.cpp" />
+    <ClCompile Include="TestGUtilities.cpp" />
+    <ClCompile Include="utilities-unit-tests.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="TestDataTypesT.h" />
+    <ClInclude Include="TestGCrc.h" />
+    <ClInclude Include="TestGEnum.h" />
+    <ClInclude Include="TestGFileIOHandler.h" />
+    <ClInclude Include="TestGMath.h" />
+    <ClInclude Include="TestGNumbers.h" />
+    <ClInclude Include="TestGRandom.h" />
+    <ClInclude Include="TestGRegexp.h" />
+    <ClInclude Include="TestGString.h" />
+    <ClInclude Include="TestGSystem.h" />
+    <ClInclude Include="TestGText.h" />
+    <ClInclude Include="TestGTime.h" />
+    <ClInclude Include="TestGTokenizer.h" />
+    <ClInclude Include="TestGUtilities.h" />
+    <ClInclude Include="utilities-unit-tests.h" />
+  </ItemGroup>
+</Project>
