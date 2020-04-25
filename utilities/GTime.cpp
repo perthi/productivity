@@ -226,21 +226,15 @@ GTime::IsValidDateString(const string t)
     {
         std::stringstream buffer;
         buffer << "could not scan string " << t << " scanf returned " << ret << ", expected 6 paramters " << "\n";
-
-
 #ifdef _WIN32
         throw(std::exception(buffer.str().c_str()));
 #else
         throw(std::runtime_error(buffer.str().c_str()));
 #endif
-
-        //EXCEPTION("Could not scan string: \"%s\". sscanf returned: %i, expected 6 parameters", t.c_str(), ret);
     }
 #else
     sscanf(t.c_str(),  "[%s %d %s %d:%d:%d]", day, &date, month, &hour, &minute, &second );
 #endif
-
-
     vector<string> ytokens = g_tokenizer()->Tokenize(month, "-");
 
     if (ytokens.size() == 2)
@@ -565,7 +559,7 @@ GTime::DateString2Time(const string date, const string format, std::tm *t, int64
 
 
 
-/*
+
 string
 GTime::GetTime_ISO8601(bool use_microseconds)
 {
@@ -599,7 +593,7 @@ GTime::GetTime_ISO8601(bool use_microseconds)
 
     return string(t);
 }
-*/
+
 
 
 double   

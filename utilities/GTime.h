@@ -20,10 +20,7 @@
 #include <map>
 #include <vector>
 #include <string>
-
-
 #include <stdint.h>
-
 
 using std::vector;
 using std::string;
@@ -32,7 +29,6 @@ using std::map;
 class GTime;
 
 GTime * g_time();
-
 
 /** @brief Convert a time duration in micro seconds  to seconds, minutes, hours etc..*/
 class GTimeSpan
@@ -95,7 +91,7 @@ public:
     static string			API   TimeStamp(const char * format, int64_t *us = 0 );
     static void				API   GetRawTime(time_t *seconds, int64_t  *us = nullptr);
     static double            API   GetEpochTime();
-    //    static string			API   GetTime_ISO8601( bool use_microseconds = true );
+    static string			API   GetTime_ISO8601( bool use_microseconds = true );
     static time_t			API   DateString2Time(const string date, const string format, std::tm *t = 0, int64_t *us = 0);
     string		TimeStampShort(struct std::tm *tout = 0, struct std::tm *tin = 0, int64_t *us = 0);
     
