@@ -10,18 +10,15 @@
 *****************************************************************************/
 
 
-#include <utilities/GDefinitions.h>
+#include "GDefinitions.h"
+#include "GCommon.h"
+#include "GText.h"
+#include "GLocation.h"
 
 #include <ostream>
 using std::ostream;
 #include <sstream>
-
-
 #include <typeinfo>
-///#include "GException.h"
-#include <utilities/GCommon.h>
-#include <utilities/GText.h>
-#include <utilities/GLocation.h>
 
 #ifndef _WIN32
 #include <execinfo.h>

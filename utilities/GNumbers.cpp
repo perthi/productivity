@@ -27,7 +27,7 @@
 ******************************************************************************/
 
 
-#include <utilities/GNumbers.h>
+#include "GNumbers.h"
 
 
 
@@ -36,8 +36,6 @@ GNumbers * g_numbers()
 	static GNumbers *instance = new GNumbers();
 	return instance;
 }
-
-
 
 
 void
@@ -99,8 +97,6 @@ GNumbers::Hex2Dec(const string  str)
 string
 GNumbers::Dec2Hex(const string  str)
 {
-
-
 	std::stringstream buffer;
     if (IsHex(str) == true)
     {
@@ -110,15 +106,11 @@ GNumbers::Dec2Hex(const string  str)
 	}
 	else
 	{
-
 		long long int     num = ToInteger<long long int>(str);
 		buffer << std::hex << "0x" << num;
 	}
-
 	return buffer.str();
 }
-
-
 
 
  bool
@@ -143,7 +135,6 @@ GNumbers::IsAlphaNumber(string num)
     }
     return true;
 }
-
 
 
  bool
@@ -262,6 +253,10 @@ GNumbers::IsNumber(const double num)
 {
     return IsNumber(g_string()->ToString(num));
 }
+
+
+
+
 
 
 bool

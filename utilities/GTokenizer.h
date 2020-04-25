@@ -21,10 +21,10 @@
 *   The class also tokenizes C style command lines (e,g int argc const char **argv) */
 
 
-#include <utilities/GConstants.h>
+#include "GConstants.h"
 using namespace GCONSTANTS;
 
-#include <utilities/GDefinitions.h>
+#include "GDefinitions.h"
 
 #include <string>
 #include <vector>

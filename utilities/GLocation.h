@@ -15,7 +15,7 @@
 #include <string>
 using std::string;
 #include <typeinfo>
-#include <utilities/GDefinitions.h>
+#include "GDefinitions.h"
 
 #define GLOCATION  GLocation(__FILE__, __LINE__, __FUNCTION__)
 

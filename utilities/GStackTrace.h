@@ -11,7 +11,7 @@
 #pragma once
 
 #include <string>
-#include <utilities/GDefinitions.h>
+#include "GDefinitions.h"
 
 using std::string;
 

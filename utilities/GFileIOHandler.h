@@ -15,7 +15,7 @@
 
 
 
-#include <utilities/GDefinitions.h>
+#include "GDefinitions.h"
 
 #include <string>
 #include <vector>

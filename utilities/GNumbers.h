@@ -14,22 +14,23 @@
 *** General Public License(LGPL) V3 or later.See.cpp file for details     ***
 *****************************************************************************/
 
+
+#include <string>
+#include <vector>
+#include <sstream>
+#include <typeinfo>
+#include <stdlib.h>     /* strtod */
+#include <stdint.h>
+
 #include "GCommon.h"
 #include "GString.h"
 #include "GTokenizer.h"
 #include "GDefinitions.h"
-#include <string>
-#include <vector>
-#include <sstream>
-///#include "GException.h"
-#include <typeinfo>
 #include "GUtilities.h"
-#include <utilities/GString.h>
+#include "GString.h"
 
-//#include <boost/lexical_cast.hpp>
 
-#include <stdlib.h>     /* strtod */
-#include <stdint.h>
+
 
 using std::hex;
 using std::string;

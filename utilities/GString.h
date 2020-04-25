@@ -12,7 +12,7 @@
 *** General Public License(LGPL) V3 or later.See.cpp file for details     ***
 *****************************************************************************/
 
-#include <utilities/GDefinitions.h>
+#include "GDefinitions.h"
 #include <string>
 #include <cstring>
 

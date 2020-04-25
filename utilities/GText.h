@@ -14,8 +14,10 @@
 #include <string>
 using std::string;
 #include "GPrintable.h"
+#include "GDefinitions.h"
+
 #include <stdint.h>
-#include <utilities/GDefinitions.h>
+
 
 /** @brief Generate a text object using printf formatting */
 class GText : public GPrintable
