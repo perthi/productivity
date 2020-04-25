@@ -32,11 +32,13 @@ GCommon * g_common();
 class GCommon
 {
 	friend    GCommon * g_common();
-
 public:
 	void  HandleError(const string message, const GLocation l, const bool disable_error );
+	void  DisableOutput()  {  fDisableOuput = true; };
+	void  EnableOutput()   {  fDisableOuput = false; };
 
 private:
+	bool fDisableOuput = false;
 	GCommon() {};
 	~GCommon() {};
 

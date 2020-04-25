@@ -39,7 +39,7 @@ public:
     bool           API      mkdir(const string dirname);
     bool           API      mkfile(const string filepath);
     void           API      cp(string src, string dest);
-    int            API      rm(const string filename);
+    bool           API      rm(const string filename);
     void           API      mv(const string src, const string dest);
     string         API      exec(const char *cmd);
     string         API      GetProcessID();

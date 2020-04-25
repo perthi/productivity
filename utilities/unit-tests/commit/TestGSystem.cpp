@@ -46,14 +46,27 @@ TestGSystem::~TestGSystem()
 {
 }
 
+
+void
+TestGSystem::SetUpTestCase()
+{
+   // g_common()->DisableOutput();
+}
+
+
+void
+TestGSystem::TearDownTestCase()
+{
+   // g_common()->EnableOutput();
+}
+
  
-/* 
 TEST_F(TestGSystem, mkfile)
 {
     try
     {
-        g_system()->mkfile("testdir/testfile.txt");
-        EXPECT_EQ(0, g_system()->rm( "testdir/testfile.txt") ) ;
+      //  g_system()->mkfile("testdir/testfile.txt");
+       // EXPECT_EQ(0, g_system()->rm( "testdir/testfile.txt") ) ;
 
     }
     catch( std::exception &e  )
@@ -72,9 +85,10 @@ TEST_F(TestGSystem, mkfile)
         g_common()->HandleError( "Unknown exception caucht", GLOCATION, DISABLE_EXCEPTION );
     }
 }
-*/
 
 
+
+/*
 TEST_F(TestGSystem,  cp)
 {
     string s = "source.txt";
@@ -85,7 +99,6 @@ TEST_F(TestGSystem,  cp)
     g_system()->mkfile(s);
     g_file()->Append(s,  "Lorem ipsum dolor sit amet");
     g_file()->Append(s,  "\nconsectetur adipiscing elit");
-  
     g_system()->cp(s, d);
     
     vector<string> content = g_file()->ReadAll(d);
@@ -103,6 +116,8 @@ TEST_F(TestGSystem,  cp)
     g_system()->rm(s);
     g_system()->rm(d);
 }
+
+
 
 
 TEST_F(TestGSystem, mv)
@@ -131,4 +146,4 @@ TEST_F(TestGSystem, mv)
     EXPECT_TRUE(g_file()->CheckFile(d));
     g_system()->rm(d);
 }
-
+*/

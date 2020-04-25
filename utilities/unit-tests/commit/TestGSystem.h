@@ -21,5 +21,7 @@ class TestGSystem : public TestBase
 public:
     TestGSystem();
     virtual ~TestGSystem();
+    static void SetUpTestCase();
+    static void TearDownTestCase();
 };
 

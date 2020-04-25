@@ -109,8 +109,6 @@ GSystem::mkdir(const string dirname)
     int status = ::mkdir(dirname.c_str(), 0755)
 #endif // _WIN32
 
- 
-
     if(status == 0)
     {
         return true;
@@ -435,15 +433,15 @@ GSystem::mkfile(const string filepath)
         mkdir(dir);
     }
 
-    FILE *fp;
+    FILE *fp = g_file()->OpenFile( filepath, "r", GLOCATION );
 
-#ifdef _WIN32
-    fopen_s(&fp, filepath.c_str(), "r");
-#else
-    fp = fopen(filepath.c_str(), "r");
-#endif
+//#ifdef _WIN32
+//    fopen_s(&fp, filepath.c_str(), "r");
+//#else
+//    fp = fopen(filepath.c_str(), "r");
+//#endif
 
-    if (fp != 0)
+    if (fp !=  nullptr)
     {
         g_common()->HandleError( GText("File \"%s\" allready exists, will not be recreated", filepath.c_str()  ).str(), GLOCATION, DISABLE_EXCEPTION ) ;
         fclose(fp);
@@ -451,17 +449,19 @@ GSystem::mkfile(const string filepath)
     }
     else
     {
-        FILE *fp2 = 0;
+        FILE* fp = g_file()->OpenFile(filepath, "w", GLOCATION);
+
+ /*       FILE *fp2 = 0;
 
 #ifdef _WIN32
         fopen_s(&fp2, filepath.c_str(), "w");
 #else
         fp2 = fopen(filepath.c_str(), "w");
-#endif
+#endif*/
 
-        if (fp2 != 0)
+        if (fp !=  nullptr)
         {
-            fclose(fp2);
+            fclose(fp);
             return true;
         }
         else
@@ -490,10 +490,11 @@ GSystem::cp(string source, string dest)
 }
 
 
-int
+bool
 GSystem::rm(const string filename)
 {
-    return std::remove(filename.c_str());
+    return g_file()->Delete(filename);
+    //return std::remove(filename.c_str());
 }
 
 

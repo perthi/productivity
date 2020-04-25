@@ -38,6 +38,18 @@
 #undef CreateFile
 
 
+void 
+TestGFileIOHandler::SetUpTestCase()
+{
+    g_common()->DisableOutput();
+}
+
+
+void 
+TestGFileIOHandler::TearDownTestCase()
+{
+    g_common()->EnableOutput();
+}
  
 
 /**
@@ -98,9 +110,9 @@ TEST_F(TestGFileIOHandler, CheckFileNSR305)
 
 
 
-/*
 TEST_F(TestGFileIOHandler, AppendCreate)
 {
+    GFileIOHandler* f = g_file();
     string fname = g_random()->Name("append_test", ".txt");
     EXPECT_EQ(true, f->Append(fname, "testwrite to file with parameters: a=%d, b=%d\n", 42, 43));
     
@@ -122,6 +134,7 @@ TEST_F(TestGFileIOHandler, AppendCreate)
 
 TEST_F(TestGFileIOHandler, Read)
 {
+    GFileIOHandler* f = g_file();
     string fname = g_random()->Name("read_test", ".txt");
     f->Append(fname,  "Lorem ipsum dolor sit amet, consectetur adipiscing elit");
     vector<string> r = f->ReadAll(fname);
@@ -172,7 +185,7 @@ cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est la
 
     f->Delete(fname);
 }
-*/
+
 
 
 

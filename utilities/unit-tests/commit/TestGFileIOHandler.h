@@ -22,7 +22,9 @@ class TestGFileIOHandler : public TestBase
 public:
     TestGFileIOHandler() {};
     virtual ~TestGFileIOHandler() {};
-//	GFileIOHandler *f = g_file();
+    static void SetUpTestCase();
+    static void TearDownTestCase();
+
 
 };
 
