@@ -266,9 +266,10 @@ TEST_F(TestGTokenizer, bugNSR2152)
 #ifdef NDEBUG
 TEST_F(TestGTokenizer, Strip_performance )
 {
+#ifdef HAS_LOGGING
 	SET_LOGTARGET("--target-file");
 	SET_LOGLEVEL("--error");
-
+#endif
 	/*
 	DRIVER_DEBUG( "A test message" );
 	DRIVER_WARNING( "A test message" );
