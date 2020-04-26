@@ -660,3 +660,210 @@ GString::ToLowerCase(const string in) const
      std::transform( copy.begin(), copy.end(),  copy.begin(), ::tolower );    
      return copy;   
 }
+
+
+
+string
+GString::ReplaceBackSlash(const string input)
+{
+	string out;
+	for (auto c : input)
+	{
+		switch (c)
+		{
+		case '\a':
+			out += "\\a";
+			break;
+		case '\b':
+			out.push_back('\\b');
+			break;
+		case '\c':
+			out.push_back('\\c');
+			break;
+		case '\d':
+			out.push_back('\\d');
+			break;
+		case '\e':
+			out.push_back('\\e');
+			break;
+		case '\f':
+			out.push_back('\\f');
+			break;
+		case '\g':
+			out.push_back('\\g');
+			break;
+		case '\h':
+			out.push_back('\\h');
+			break;
+		case '\i':
+			out.push_back('\\i');
+			break;
+		case '\j':
+			out.push_back('\\j');
+			break;
+		case '\k':
+			out.push_back('\\k');
+			break;
+		case '\l':
+			out.push_back('\\l');
+			break;
+		case '\m':
+			out.push_back('\\m');
+			break;
+		case '\n':
+			out.push_back('\\n');
+			break;
+		case '\o':
+			out.push_back('\\o');
+			break;
+		case '\p':
+			out.push_back('\\p');
+			break;
+		case '\q':
+			out.push_back('\\q');
+			break;
+		case '\r':
+			out.push_back('\\r');
+			break;
+		case '\s':
+			out.push_back('\\s');
+			break;
+		case '\t':
+			out.push_back('\\t');
+			break;
+	/*	case '\u':
+			out.push_back('\\u');
+			break;*/
+		case '\v':
+			out.push_back('\\v');
+			break;
+		case '\w':
+			out.push_back('\\w');
+			break;
+	/*	case '\x':
+			out.push_back('\\x');
+			break;*/
+		case '\y':
+			out.push_back('\\y');
+			break;
+		case '\z':
+			out.push_back('\\z');
+			break;
+		case '\A':
+			out.push_back('\\A');
+			break;
+		case '\B':
+			out.push_back('\\B');
+			break;
+		case '\C':
+			out.push_back('\\C');
+			break;
+		case '\D':
+			out.push_back('\\D');
+			break;
+		case '\E':
+			out.push_back('\\E');
+			break;
+		case '\F':
+			out.push_back('\\F');
+			break;
+		case '\G':
+			out.push_back('\\G');
+			break;
+		case '\H':
+			out.push_back('\\H');
+			break;
+		case '\I':
+			out.push_back('\\I');
+			break;
+		case '\J':
+			out.push_back('\\J');
+			break;
+		case '\K':
+			out.push_back('\\K');
+			break;
+		case '\L':
+			out.push_back('\\L');
+			break;
+		case '\M':
+			out.push_back('\\M');
+			break;
+		case '\N':
+			out.push_back('\\N');
+			break;
+		case '\O':
+			out.push_back('\\O');
+			break;
+		case '\P':
+			out.push_back('\\P');
+			break;
+		case '\Q':
+			out.push_back('\\Q');
+			break;
+		case '\R':
+			out.push_back('\\R');
+			break;
+		case '\S':
+			out.push_back('\\S');
+			break;
+		case '\T':
+			out.push_back('\\T');
+			break;
+	/*	case '\U':
+			out.push_back('\\U');*/
+			break;
+		case '\V':
+			out.push_back('\\V');
+			break;
+		case '\W':
+			out.push_back('\\W');
+			break;
+		case '\X':
+			out.push_back('\\X');
+			break;
+		case '\Y':
+			out.push_back('\\Y');
+			break;
+		case '\Z':
+			out.push_back('\\Z');
+			break;
+	/*	case '\0':
+			out.push_back('\\0');
+			break;*/
+		case '\1':
+			out.push_back('\\1');
+			break;
+		case '\2':
+			out.push_back('\\2');
+			break;
+		case '\3':
+			out.push_back('\\3');
+			break;
+		case '\4':
+			out.push_back('\\4');
+			break;
+		case '\5':
+			out.push_back('\\5');
+			break;
+		case '\6':
+			out.push_back('\\6');
+			break;
+	/*	case '\7':
+			out.push_back('\\7');
+			break;*/
+		case '\8':
+			out.push_back('\\8');
+			break;
+		case '\9':
+			out.push_back('\\9');
+			break;
+
+		default:
+			out.push_back(c);
+			break;
+
+		}
+	}
+
+	return out;
+}

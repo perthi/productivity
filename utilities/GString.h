@@ -76,7 +76,7 @@ class GString
      string       &ToLower(string &s);
      string       &ToUpper(string &s);
      bool API      IsMatch(const string pattern, const string val, bool require_exact_match = false);
-
+     string ReplaceBackSlash(const string input);
  private:
      GString(){};
      virtual ~GString(){};
