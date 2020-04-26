@@ -65,7 +65,7 @@ public:
 	void             API  CreateDirIfNeeded(const std::string& filename);
     FILE             API  * OpenFile(const string fname, const string opt, const GLocation loc);
     
-    #ifdef _win32
+    #ifdef _WIN32
     string           API  Errno2String(const  errno_t code, const string fname, const string  opt);
     #else
     string           API  Errno2String(const  error_t code, const string fname, const string  opt);
