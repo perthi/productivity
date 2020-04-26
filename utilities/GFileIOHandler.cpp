@@ -318,6 +318,7 @@ GFileIOHandler::DoExists(const string fname, const char* opt)
 }
 
 
+#ifdef _WIN32
 string 
 GFileIOHandler::Errno2String(const  errno_t code, const string fname, const string  opt)
 {
@@ -325,8 +326,23 @@ GFileIOHandler::Errno2String(const  errno_t code, const string fname, const stri
     char errmsg[sz];
     strerror_s(errmsg, sz, code);
     return string( errmsg );
-
 }
+#else
+string 
+GFileIOHandler::Errno2String(const  error_t code, const string fname, const string  opt)
+{
+    char *errmsg  = strerror( code);;
+    if(errmsg != nullptr)
+    {
+        return string( errmsg );
+    }
+    else
+    {
+        return "<no strerror message( fopen(fp, " + fname + "," + opt + ") >" ;
+    }
+    
+}
+#endif
 
 
 
@@ -334,8 +350,13 @@ FILE*
 GFileIOHandler::OpenFile(const string fname, const string opt, const GLocation l )
 {
 	FILE* fp = nullptr;
-	fopen_s(&fp, fname.c_str(), opt.c_str());
-
+	
+    #ifdef _WIN32
+         fopen_s(&fp, fname.c_str(), opt.c_str());
+    #else
+        fp = fopen(fname.c_str(), opt.c_str());
+    #endif
+    
     if (fp == nullptr)
     {
         string errmsg = Errno2String(  errno, fname, opt );

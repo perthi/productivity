@@ -3,7 +3,7 @@
 PROGRAM:=utilities-unit-tests
 
 
-SRCCPP += utilities-dll-test.cpp \
+SRCCPP += utilities-unit-tests.cpp \
 	TestGMath.cpp \
 	TestGRandom.cpp \
 	TestGString.cpp \
@@ -16,7 +16,7 @@ SRCCPP += utilities-dll-test.cpp \
 	TestGNumbers.cpp \
 	TestGEnum.cpp \
 	TestDataTypesT.cpp  \
-        TestGCrc.cpp \
+    TestGCrc.cpp \
 	TestGSystem.cpp
 
 
@@ -24,5 +24,5 @@ SRCCPP += utilities-dll-test.cpp \
 include ../../../../common.mk
 include ../../../../unittest-common.mk
 
-LIBS+=   -lutilities -lexception -lreadline
+LIBS+=   -lutilities  -lreadline
 INCLUDES+=$(GTEST_INCLUDES)

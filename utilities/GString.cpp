@@ -664,9 +664,12 @@ GString::ToLowerCase(const string in) const
 
 
 string
-GString::ReplaceBackSlash(const string input)
+GString::ReplaceBackSlash(const string /*input*/ )
 {
-	string out;
+	string out = ""; 
+
+/*
+	
 	for (auto c : input)
 	{
 		switch (c)
@@ -675,187 +678,187 @@ GString::ReplaceBackSlash(const string input)
 			out += "\\a";
 			break;
 		case '\b':
-			out.push_back('\\b');
+			out + "\\b";
 			break;
 		case '\c':
-			out.push_back('\\c');
+			out + "\\c";
 			break;
 		case '\d':
-			out.push_back('\\d');
+			out + "\\d";
 			break;
 		case '\e':
-			out.push_back('\\e');
+			out + "\\e";
 			break;
 		case '\f':
-			out.push_back('\\f');
+			out + "\\f";
 			break;
 		case '\g':
-			out.push_back('\\g');
+			out + "\\g";
 			break;
 		case '\h':
-			out.push_back('\\h');
+			out + "\\h";
 			break;
 		case '\i':
-			out.push_back('\\i');
+			out + "\\i";
 			break;
 		case '\j':
-			out.push_back('\\j');
+			out + "\\j";
 			break;
 		case '\k':
-			out.push_back('\\k');
+			out + "\\k";
 			break;
 		case '\l':
-			out.push_back('\\l');
+			out + "\\l";
 			break;
 		case '\m':
-			out.push_back('\\m');
+			out + "\\m";
 			break;
 		case '\n':
-			out.push_back('\\n');
+			out + "\\n";
 			break;
 		case '\o':
-			out.push_back('\\o');
+			out + "\\o";
 			break;
 		case '\p':
-			out.push_back('\\p');
+			out + "\\p";
 			break;
 		case '\q':
-			out.push_back('\\q');
+			out + "\\q";
 			break;
 		case '\r':
-			out.push_back('\\r');
+			out + "\\r";
 			break;
 		case '\s':
-			out.push_back('\\s');
+			out + "\\s";
 			break;
 		case '\t':
-			out.push_back('\\t');
+			out + "\\t";
 			break;
-	/*	case '\u':
-			out.push_back('\\u');
-			break;*/
+		case '\u':
+			out + "\\u";
+			break;
 		case '\v':
-			out.push_back('\\v');
+			out + "\\v";
 			break;
 		case '\w':
-			out.push_back('\\w');
+			out + "\\w";
 			break;
-	/*	case '\x':
-			out.push_back('\\x');
-			break;*/
+		case '\x':
+			out + "\\x";
+			break;
 		case '\y':
-			out.push_back('\\y');
+			out + "\\y";
 			break;
 		case '\z':
-			out.push_back('\\z');
+			out + "\\z";
 			break;
 		case '\A':
-			out.push_back('\\A');
+			out + "\\A";
 			break;
 		case '\B':
-			out.push_back('\\B');
+			out + "\\B";
 			break;
 		case '\C':
-			out.push_back('\\C');
+			out + "\\C";
 			break;
 		case '\D':
-			out.push_back('\\D');
+			out + "\\D";
 			break;
 		case '\E':
-			out.push_back('\\E');
+			out + "\\E";
 			break;
 		case '\F':
-			out.push_back('\\F');
+			out + "\\F";
 			break;
 		case '\G':
-			out.push_back('\\G');
+			out + "\\G";
 			break;
 		case '\H':
-			out.push_back('\\H');
+			out + "\\H";
 			break;
 		case '\I':
-			out.push_back('\\I');
+			out + "\\I";
 			break;
 		case '\J':
-			out.push_back('\\J');
+			out + "\\J";
 			break;
 		case '\K':
-			out.push_back('\\K');
+			out + "\\K";
 			break;
 		case '\L':
-			out.push_back('\\L');
+			out + "\\L";
 			break;
 		case '\M':
-			out.push_back('\\M');
+			out + "\\M";
 			break;
 		case '\N':
-			out.push_back('\\N');
+			out + "\\N";
 			break;
 		case '\O':
-			out.push_back('\\O');
+			out + "\\O";
 			break;
 		case '\P':
-			out.push_back('\\P');
+			out + "\\P";
 			break;
 		case '\Q':
-			out.push_back('\\Q');
+			out + "\\Q";
 			break;
 		case '\R':
-			out.push_back('\\R');
+			out + "\\R";
 			break;
 		case '\S':
-			out.push_back('\\S');
+			out + "\\S";
 			break;
 		case '\T':
-			out.push_back('\\T');
+			out + "\\T";
 			break;
-	/*	case '\U':
-			out.push_back('\\U');*/
+		case '\U':
+			out + "\\U";
 			break;
 		case '\V':
-			out.push_back('\\V');
+			out + "\\V";
 			break;
 		case '\W':
-			out.push_back('\\W');
+			out + "\\W";
 			break;
 		case '\X':
-			out.push_back('\\X');
+			out + "\\X";
 			break;
 		case '\Y':
-			out.push_back('\\Y');
+			out + "\\Y";
 			break;
 		case '\Z':
-			out.push_back('\\Z');
+			out + "\\Z";
 			break;
-	/*	case '\0':
-			out.push_back('\\0');
-			break;*/
+		case '\0':
+			out + "\\0";
+			break;
 		case '\1':
-			out.push_back('\\1');
+			out + "\\1";
 			break;
 		case '\2':
-			out.push_back('\\2');
+			out + "\\2";
 			break;
 		case '\3':
-			out.push_back('\\3');
+			out + "\\3";
 			break;
 		case '\4':
-			out.push_back('\\4');
+			out + "\\4";
 			break;
 		case '\5':
-			out.push_back('\\5');
+			out + "\\5";
 			break;
 		case '\6':
-			out.push_back('\\6');
+			out + "\\6";
 			break;
-	/*	case '\7':
-			out.push_back('\\7');
-			break;*/
+		case '\7':
+			out + "\\7";
+			break;
 		case '\8':
-			out.push_back('\\8');
+			out += "\\8";
 			break;
 		case '\9':
-			out.push_back('\\9');
+			out += "\\9";
 			break;
 
 		default:
@@ -864,6 +867,7 @@ GString::ReplaceBackSlash(const string input)
 
 		}
 	}
+*/
 
 	return out;
 }

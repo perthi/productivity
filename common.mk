@@ -78,40 +78,40 @@ $(LIBNAME_SO):  $(OBJS) $(OBJSCPP) $(INSTALLDIRS)
 	@cp -p $(LIBNAME_SO) $(LIBLOCAL)
 
 
-#.PHONY: compileinfo_dir
-.PHONY: 
-compileinfo_dir:  
-	@if [ ! -b ../../.compileinfo-$(TARGET) ]; \
-		then \
-		mkdir  -p ../../.compileinfo-$(TARGET) ; \
-	fi
+# #.PHONY: compileinfo_dir
+# .PHONY: 
+# compileinfo_dir:  
+# 	@if [ ! -b ../../.compileinfo-$(TARGET) ]; \
+# 		then \
+# 		mkdir  -p ../../.compileinfo-$(TARGET) ; \
+# 	fi
 
 
 
 
-define generate-version-info
-	@if [ "$(PROGRAM)" !=  "version-info" ]; then \
-		$(VERSIONINFO_EXE) $(PROGRAM) -compileflags_file $(CURDIR)/../..//.compileinfo-$(TARGET)/$(PROGRAM)_flags.txt $(CURDIR); \
-		mv GVersion.cpp  tmp.cpp; \
-		old=../GVersion.cpp; \
-		new=tmp.cpp; \
-		if [ -f $${old} ]; then \
-			chk1=`cksum $${old} | awk -F" " '{print $$1}'` ; \
-			chk2=`cksum $${new} | awk -F" " '{print $$1}'` ; \
-			echo "chk1=" $${chk1} > /dev/null; \
-			echo "chk2=" $${chk1} > /dev/null; \
-			if [ $${chk1} -eq $${chk2} ]; then \
-	    			echo "Files are identical !!!!!, doing nothing" > /dev/null  ; \
-			else \
-				echo "Files are not identical !!!!!!" > /dev/null ; \
-				mv $${new} $${old};  \
-			fi; \
-		else	\
-			mv $${new} $${old}; \
-		fi; \
-		rm -f tmp.cpp; \
-	fi;
-endef
+# define generate-version-info
+# 	@if [ "$(PROGRAM)" !=  "version-info" ]; then \
+# 		$(VERSIONINFO_EXE) $(PROGRAM) -compileflags_file $(CURDIR)/../..//.compileinfo-$(TARGET)/$(PROGRAM)_flags.txt $(CURDIR); \
+# 		mv GVersion.cpp  tmp.cpp; \
+# 		old=../GVersion.cpp; \
+# 		new=tmp.cpp; \
+# 		if [ -f $${old} ]; then \
+# 			chk1=`cksum $${old} | awk -F" " '{print $$1}'` ; \
+# 			chk2=`cksum $${new} | awk -F" " '{print $$1}'` ; \
+# 			echo "chk1=" $${chk1} > /dev/null; \
+# 			echo "chk2=" $${chk1} > /dev/null; \
+# 			if [ $${chk1} -eq $${chk2} ]; then \
+# 	    			echo "Files are identical !!!!!, doing nothing" > /dev/null  ; \
+# 			else \
+# 				echo "Files are not identical !!!!!!" > /dev/null ; \
+# 				mv $${new} $${old};  \
+# 			fi; \
+# 		else	\
+# 			mv $${new} $${old}; \
+# 		fi; \
+# 		rm -f tmp.cpp; \
+# 	fi;
+# endef
 
 
 
@@ -120,8 +120,8 @@ endef
 
 
 $(PROGRAM):: $(OBJS) $(OBJSCPP) $(SRCCPP) $(SRC)
-	@echo $(LIBS) > $(CURDIR)/../..//.compileinfo-$(TARGET)/$(PROGRAM)_flags.txt
-	@echo 	$(CCLOCAL) $(CPPFLAGS) -o  $(PROGRAM) $(OBJS) $(OBJSCPP) $(LIBS) >> $(CURDIR)/../..//.compileinfo-$(TARGET)/$(PROGRAM)_flags.txt 
+#	@echo $(LIBS) > $(CURDIR)/../..//.compileinfo-$(TARGET)/$(PROGRAM)_flags.txt
+#	@echo 	$(CCLOCAL) $(CPPFLAGS) -o  $(PROGRAM) $(OBJS) $(OBJSCPP) $(LIBS) >> $(CURDIR)/../..//.compileinfo-$(TARGET)/$(PROGRAM)_flags.txt 
 	$(CCLOCAL) $(CPPFLAGS) -o  $(PROGRAM) $(OBJS) $(OBJSCPP) $(LIBS) 
 	$(MAKE) install 
 

@@ -568,7 +568,7 @@ GTime::GetTime_ISO8601(bool use_microseconds)
     string d = TimeStamp("%FT%T", &us);
     ///	CERR << "us = " << us << "\n";
 
-    static char t[512];
+    static char t[512]; /// @todo remove magic number
 
     if (use_microseconds == true)
     {
@@ -589,11 +589,23 @@ GTime::GetTime_ISO8601(bool use_microseconds)
 
     string utc = TimeStamp("%z");
 
-    SPRINTF(t, 512, "%s%s", t, utc.c_str());
+    SPRINTF_S(t, utc );
 
     return string(t);
 }
 
+// #ifdef _WIN32
+// #define SPRINTF sprintf_s
+// #else
+// #define SPRINTF snprintf
+// #endif
+
+
+// #ifdef _WIN32
+// #define SPRINTF_S(buffer, input) sprintf_s(buffer, sizeof(buffer) -1, "%s", input.c_str() )
+// #else
+// #define SPRINTF_S(buffer, input) snprintf(buffer, sizeof(buffer) -1, "%s", input.c_str() ) 
+// #endif
 
 
 double   
@@ -656,7 +668,7 @@ GTime::TimeStamp(const char * format, int64_t *us)
 
 
 
-///#ifdef _WIN32
+#ifdef _WIN32
 string
 GTime::TimeStamp(struct std::tm *tout, const char * format, struct std::tm *tin, int64_t *us)
 {
@@ -708,65 +720,64 @@ GTime::TimeStamp(struct std::tm *tout, const char * format, struct std::tm *tin,
      }
 }
 
+#else
 
-/// #else
 
+string
+GTime::TimeStamp(struct std::tm *tout, const char * format, struct std::tm *tin, int64_t *us)
+{
+    string offender;
+   if (IsValidFormat(format, offender) == false)
+   {
+       
+       std::stringstream buffer;
+       buffer << "Illegal format specifier " << string(format) << "\"\n"
+           + str() << 
+           ", the offending specifier is \"" << offender << "\" which is unknown" << "\n" 
+              << "error in function " << __FUNCTION__ << "at:" << __FILE__ << ":" << __LINE__ << "\n";
+       ///@todo use GLOCATION
+       throw(std::runtime_error(buffer.str().c_str()));
+       
+   }
+   else
+   
+   {  
+   char tmp[512] = { 0 };
+   char f[512] = { 0 };
+   //struct std::tm *timeinfo = 0;
+   struct std::tm timeinfo;
+   std::time_t now;
+   GetRawTime(&now, us);
+   
+   if (tin == 0)
+   {
+       timeinfo = *localtime(&now);
+   }
+   else
+   {
+       timeinfo = *tin;
+   }
 
-//string
-//GTime::TimeStamp(struct std::tm *tout, const char * format, struct std::tm *tin, int64_t *us)
-//{
-//     string offender;
-//    if (IsValidFormat(format, offender) == false)
-//    {
-//        
-//        std::stringstream buffer;
-//        buffer << "Illegal format specifier " << string(format) << "\"\n"\
-//            + str() << \
-//            ", the offending specifier is \"" << offender << "\" which is unknown" << "\n" \
-//               << "error in function " << __FUNCTION__ << "at:" << __FILE__ << ":" << __LINE__ << "\n";
-//        ///@todo use GLOCATION
-//        throw(std::runtime_error(buffer.str().c_str()));
-//        
-//    }
-//    else
-//    
-//    {  
-//    char tmp[512] = { 0 };
-//    char f[512] = { 0 };
-//    //struct std::tm *timeinfo = 0;
-//    struct std::tm timeinfo;
-//    std::time_t now;
-//    GetRawTime(&now, us);
-//    
-//    if (tin == 0)
-//    {
-//        timeinfo = *localtime(&now);
-//    }
-//    else
-//    {
-//        timeinfo = *tin;
-//    }
-//
-//    if (tout != 0)
-//    {
-//        *tout = timeinfo;
-//    }
-//
-//    if (format == 0)
-//    {
-//        snprintf(f, 512, "%s", "[%a %d %B-%Y %H:%M:%S]");
-//    }
-//    else
-//    {
-//        snprintf(f, 512, "%s", format);
-//    }
-//
-//    std::strftime(tmp, 512 - 1, f, &timeinfo);
-//    return string(tmp);
-//     }
-//}
+   if (tout != 0)
+   {
+       *tout = timeinfo;
+   }
 
-///#endif
+   if (format == 0)
+   {
+       snprintf(f, 512, "%s", "[%a %d %B-%Y %H:%M:%S]");
+   }
+   else
+   {
+       snprintf(f, 512, "%s", format);
+   }
+
+   std::strftime(tmp, 512 - 1, f, &timeinfo);
+   return string(tmp);
+    }
+}
+
+#endif
 
 
 map<string, string>  &
