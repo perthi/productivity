@@ -25,4 +25,9 @@ include ../../../../common.mk
 include ../../../../unittest-common.mk
 
 LIBS+=   -lutilities  -lreadline
+
+ifdef HAS_LOGGING
+LIBS+=  -lexception -llogmaster	
+endif
+
 INCLUDES+=$(GTEST_INCLUDES)
