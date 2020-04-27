@@ -5,7 +5,7 @@
 LIBNAME_SO:=libutilities.so
 ## endif
 
-#LIBNAME_A:=libutilities.a
+LIBNAME_A:=libutilities.a
 
 
 SRCCPP+=GCommon.cpp \

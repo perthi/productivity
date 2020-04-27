@@ -70,53 +70,14 @@ $(LIBNAME_A):  $(OBJS) $(OBJSCPP) $(SRCCPP) $(SRC) $(INSTALLDIRS)
 	@rm -f !  $(LIBLOCAL)/$(LIBNAME_A) 
 	@cp -p $(LIBNAME_A) $(LIBLOCAL)
 
-
-#$(LIBNAME_SO): compileinfo_dir  $(OBJS) $(OBJSCPP) $(INSTALLDIRS)
 $(LIBNAME_SO):  $(OBJS) $(OBJSCPP) $(INSTALLDIRS)
-	$(CCLOCAL) $(LIBFLAGS)   -o $(LIBNAME_SO) $(OBJS) $(OBJSCPP) 
-	@rm -f !  $(LIBLOCAL)/$(LIBNAME_SO) 
-	@cp -p $(LIBNAME_SO) $(LIBLOCAL)
+	@echo hello world  > /dev/null
+#$(LIBNAME_SO): compileinfo_dir  $(OBJS) $(OBJSCPP) $(INSTALLDIRS)
+# $(LIBNAME_SO):  $(OBJS) $(OBJSCPP) $(INSTALLDIRS)
+# 	$(CCLOCAL) $(LIBFLAGS)   -o $(LIBNAME_SO) $(OBJS) $(OBJSCPP) 
+# 	@rm -f !  $(LIBLOCAL)/$(LIBNAME_SO) 
+# 	@cp -p $(LIBNAME_SO) $(LIBLOCAL)
 
-
-# #.PHONY: compileinfo_dir
-# .PHONY: 
-# compileinfo_dir:  
-# 	@if [ ! -b ../../.compileinfo-$(TARGET) ]; \
-# 		then \
-# 		mkdir  -p ../../.compileinfo-$(TARGET) ; \
-# 	fi
-
-
-
-
-# define generate-version-info
-# 	@if [ "$(PROGRAM)" !=  "version-info" ]; then \
-# 		$(VERSIONINFO_EXE) $(PROGRAM) -compileflags_file $(CURDIR)/../..//.compileinfo-$(TARGET)/$(PROGRAM)_flags.txt $(CURDIR); \
-# 		mv GVersion.cpp  tmp.cpp; \
-# 		old=../GVersion.cpp; \
-# 		new=tmp.cpp; \
-# 		if [ -f $${old} ]; then \
-# 			chk1=`cksum $${old} | awk -F" " '{print $$1}'` ; \
-# 			chk2=`cksum $${new} | awk -F" " '{print $$1}'` ; \
-# 			echo "chk1=" $${chk1} > /dev/null; \
-# 			echo "chk2=" $${chk1} > /dev/null; \
-# 			if [ $${chk1} -eq $${chk2} ]; then \
-# 	    			echo "Files are identical !!!!!, doing nothing" > /dev/null  ; \
-# 			else \
-# 				echo "Files are not identical !!!!!!" > /dev/null ; \
-# 				mv $${new} $${old};  \
-# 			fi; \
-# 		else	\
-# 			mv $${new} $${old}; \
-# 		fi; \
-# 		rm -f tmp.cpp; \
-# 	fi;
-# endef
-
-
-
-#$(PROGRAM)::  compileinfo_dir
-#	$(call generate-version-info )
 
 
 $(PROGRAM):: $(OBJS) $(OBJSCPP) $(SRCCPP) $(SRC)
