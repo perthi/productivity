@@ -110,7 +110,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(include);$(gtest-include)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories> $(SolutionDir)\submodules\productivity-1-0-2\;$(SolutionDir)\submodules\productivity-1-0-2\gtest\include;$(include);$(gtest-include)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -130,7 +130,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(include);$(gtest-include)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories> $(SolutionDir)\submodules\productivity-1-0-2\;$(SolutionDir)\submodules\productivity-1-0-2\gtest\include;$(include);$(gtest-include)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -152,7 +152,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING;WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(include);$(gtest-include)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories> $(SolutionDir)\submodules\productivity-1-0-2\;$(SolutionDir)\submodules\productivity-1-0-2\gtest\include;$(include);$(gtest-include)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -176,7 +176,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(include);$(gtest-include)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories> $(SolutionDir)\submodules\productivity-1-0-2\;$(SolutionDir)\submodules\productivity-1-0-2\gtest\include;$(include);$(gtest-include)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>

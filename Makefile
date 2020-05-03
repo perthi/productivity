@@ -51,17 +51,18 @@ GTEST_INCLUDES:= -isystem $(CURDIR)/
 LIBS= -L $(CURDIR)/build/$(TARGET)/lib  -lm
 
 
-export SUPPORT_LIBS:= -lutilities   -lreadline
+
+export SUPPORT_LIBS:= -lutilities  
 export UNIT_TEST_LIBS:=  $(SUPPORT_LIBS) -ltestlib -lgtest -lpthread 
 
-gtest-linux:=         gtest-linux/$(TARGET)
+gtest-linux:=             gtest-linux/$(TARGET)
 utilities:=  	  	  utilities/$(TARGET)
 testlib:=  	  	  testlib/$(TARGET)
-utilities-unittest:=  utilities/unit-tests/commit/$(TARGET)
+utilities-unittest:=      utilities/unit-tests/commit/$(TARGET)
 
 unittests:= 	$(utilities-unittest)
-support-modules:= 	$(utilities)
-src-lib:= $(support-modules) $(testlib)
+support-modules:= 	$(utilities) 
+src-lib:= $(support-modules) $(testlib)  $(gtest-linux)
 src-exe:= $(unittests)
 
 arm-src:=$(src-lib) $(src-exe)
@@ -119,6 +120,10 @@ $(INSTALLDIRS):
 
 x86:
 	@$(MAKE) TARGET=x86
+
+arm:
+	@$(MAKE) TARGET=arm
+
 
 .PHONY: clean
 clean:  clean-x86

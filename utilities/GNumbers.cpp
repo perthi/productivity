@@ -443,11 +443,20 @@ GNumbers::ToBinary(const string b)
         snprintf(message, 512,"Bitstream constains %lld bits, ( bitstring = %s ). The max number of bits is: %lld", BitWidths, b.c_str(), maxbits);
 #endif
 		
+
+
 		//   #else
 #ifdef _WIN32
 		SPRINTF(message, 512,"Bitstream constains %lld bits, ( bitstring = %s ). The max number of bits is: %lld", BitWidths, b.c_str(), maxbits);
 #else
-		SPRINTF(message, 512, "Bitstream constains %ld bits, ( bitstring = %s ). The max number of bits is: %ld", BitWidths, b.c_str(), maxbits);
+#ifdef ARM
+
+        SPRINTF(message, 512, "Bitstream constains %lld bits, ( bitstring = %s ). The max number of bits is: %lld", BitWidths, b.c_str(), maxbits);
+#else
+        SPRINTF(message, 512, "Bitstream constains %ld bits, ( bitstring = %s ). The max number of bits is: %ld", BitWidths, b.c_str(), maxbits);
+
+#endif
+
 #endif
 
 // #ifndef G_STANDALONE

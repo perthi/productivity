@@ -184,7 +184,7 @@ TEST_F(TestGString, substringReplacementNSR387)
 
 
 
-
+#ifndef ARM
 TEST_F(TestGString, ToString)
 {
     EXPECT_EQ("9223372036854775807",  g_string()->ToString(9223372036854775807));
@@ -201,7 +201,7 @@ TEST_F(TestGString, ToString)
     vector<char> c = { 'a', 'b', 'c', 'd', 'e',  'f',  'g',  'h' };
     EXPECT_EQ("abcdefgh",  g_string()->ToString(c, string("")));
 }
-
+#endif
 
 
 

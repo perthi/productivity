@@ -131,16 +131,14 @@ GUtilities::QueryInput( const string prompt)
     return user_input;
     //double freq_f = g_numbers()->ToFloat( freq);
 }
+#endif
 
-
-
-
-#else
+#ifndef ARM
+#ifndef _WIN32
 string  
 GUtilities::QueryInput(const string prompt)
 {
     string option;
-
     const char *line;
     line = readline(prompt.c_str() );
 
@@ -150,10 +148,11 @@ GUtilities::QueryInput(const string prompt)
         option = string(line);
         free((void *)line);
     }
+
     return option;
 }
 #endif
-
+#endif
 
 
 bool 

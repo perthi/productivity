@@ -21,10 +21,16 @@ SRCCPP += utilities-unit-tests.cpp \
 
 
 
+
 include ../../../../common.mk
 include ../../../../unittest-common.mk
 
-LIBS+=   -lutilities  -lreadline
+LIBS+=   -lutilities 
+
+ifneq (arm, $(TARGET))
+LIBS+=   -lreadline
+endif
+
 
 ifdef HAS_LOGGING
 LIBS+=  -lexception -llogmaster	

@@ -69,7 +69,11 @@ class  GUtilities
 public:
   
     string		        API     Copy(const char *buffer, const int length, string *in = nullptr);  
+    
+#ifndef ARM
     string				API		QueryInput( const string prompt);
+ #endif   
+
     bool				API     IsLittleEndian();
     bool				API     IsBigEndian();       
     void				API		Sizes();

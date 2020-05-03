@@ -113,16 +113,18 @@ TEST_F(TestGUtilities, isemptyNSR1804)
 }
 
 
+
+#ifndef ARM
 TEST_F(TestGUtilities, containsNSR1838)
 {
-	vector<string> tmp_s = {"ole", "dole", "doff"};
+	vector<string> tmp_s =  vector<string>({"ole", "dole", "doff"});
 
 	EXPECT_TRUE(g_utilities()->Contains(tmp_s, string("ole") ) );
 	EXPECT_TRUE(g_utilities()->Contains(tmp_s, string("dole")));
 	EXPECT_TRUE(g_utilities()->Contains(tmp_s, string("doff")));
 	EXPECT_FALSE(g_utilities()->Contains(tmp_s, string("donald duck")));
 
-	vector<int> tmp_i = { 1, 123, 1234 };
+	vector<int> tmp_i = vector<int>{ 1, 123, 1234 };
 
 	EXPECT_TRUE(g_utilities()->Contains(tmp_i, 1 ) );
 	EXPECT_TRUE(g_utilities()->Contains(tmp_i, 123 ) );
@@ -130,7 +132,7 @@ TEST_F(TestGUtilities, containsNSR1838)
 	EXPECT_FALSE(g_utilities()->Contains(tmp_i, 123456) );
 
 
-	vector<double> tmp_f = { 3.14, 1.68, 2.345};
+	vector<double> tmp_f =   vector<double>{3.14, 1.68, 2.345};
 
 	EXPECT_TRUE(  g_utilities()->Contains( tmp_f, 3.14));
 	EXPECT_TRUE(  g_utilities()->Contains( tmp_f, 1.68));
@@ -138,6 +140,7 @@ TEST_F(TestGUtilities, containsNSR1838)
 	EXPECT_FALSE( g_utilities()->Contains( tmp_f, 0.618 ));
 
 }
+#endif
 
 
 

@@ -22,6 +22,7 @@ using std::vector;
 using std::string;
 
 #include "GDefinitions.h"
+#include "GLocation.h"
 
 class GSystem;
 
@@ -34,10 +35,12 @@ class GSystem
     friend GSystem *g_system();
 
 public:
+    GSystem(){};
+    ~GSystem(){};
     string         API      pwd(const bool print = false);
     vector<string> API      ls(const string dir = ".");
     bool           API      mkdir(const string dirname);
-     bool           API      mkdir(const string dirname,  const int opt,  bool overwrite = true );
+    bool           API      mkdir(const string dirname,  const int opt,  bool overwrite = true );
     bool           API      mkdir(const string dirname,  const GLocation l, const int opt,  bool overwrite = true  );
     bool           API      mkfile(const string filepath);
     void           API      cp(string src, string dest);
@@ -64,9 +67,9 @@ public:
     char API *GetHomeDir();
 #endif
 
-private:
-    GSystem(){};
-    ~GSystem(){};
+// //private:
+//     GSystem(){};
+//     ~GSystem(){};
 };
 
 #endif

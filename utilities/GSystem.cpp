@@ -56,6 +56,13 @@
 #include <sys/stat.h>
 #include <cstdlib>
 
+#ifndef _WIN32
+#include <libgen.h>
+#endif // !_WIN32
+
+
+
+
 GSystem * g_system()
 {
     static GSystem *instance = new GSystem();
@@ -124,8 +131,6 @@ GSystem::mkdir(const string dirname)
     }
 }
 
-
-
 /**@{*/ 
 /** mkdir =   Make Directory (that is a folder in Windows terms), Unix/bash style
 *   @param    dirname The directory to create
@@ -138,12 +143,19 @@ GSystem::mkdir(const string dirname)
 *   the program is running under a user that doesnt have write access to the currnt directory)
 *   @throw Exception if the directory doesnt exist and it cannot be created.*/
 bool
-GSystem::mkdir(const string dirname,  GLocation l, const int opt, bool overwrite  )
+GSystem::mkdir(const string dirname,  GLocation l, const int /*opt*/, bool overwrite  )
 {
 //    FORCE_DEBUG("creating directory %s", dirname.c_str()  );
 
-    int status = ::mkdir(dirname.c_str(), opt );
+#ifdef _WIN32
+    int status = ::_mkdir(dirname.c_str() );
+#else
+   // int status = ::mkdir(dirname.c_str(), opt);
+     int status = ::mkdir(dirname.c_str(), (int)777 );
+#endif // _WIN32
 
+    ///void  HandleError(const string message, const GLocation l, const bool disable_error );
+    
     switch (status)
     {
     /// abort if any of the below non recoverable erros are encountered
@@ -155,7 +167,8 @@ GSystem::mkdir(const string dirname,  GLocation l, const int opt, bool overwrite
     case ENOSPC:       // No space left on device
     case ENOTDIR:      // Path is not (or cannot be) a directory
     case EROFS:        // The parent directory is read only
-        ErrorHandler().HandleError(GText("non recoverabele erro encountered creating directory %s ( errno %d; %s )",
+        COUT << "TP1 !!!!!!!!!!, status = " << status << endl;
+        GCommon().HandleError(GText("non recoverabele erro encountered creating directory %s ( errno %d; %s )",
                                          dirname.c_str(),
                                          errno,
                                          strerror(errno))
@@ -170,7 +183,8 @@ GSystem::mkdir(const string dirname,  GLocation l, const int opt, bool overwrite
         }
         else
         {
-            ErrorHandler().HandleError(GText("directory %s allready exists and you are not allowed to overwrite it ( errno %d; %s)",
+            COUT << "TP2 !!!!!!!!!!, status = " << status << endl;
+            GCommon().HandleError(GText("directory %s allready exists and you are not allowed to overwrite it ( errno %d; %s)",
                                              dirname.c_str(),
                                              errno,
                                              strerror(errno))
@@ -182,15 +196,6 @@ GSystem::mkdir(const string dirname,  GLocation l, const int opt, bool overwrite
     }
     return true;
 }
-
-
-bool
-GSystem::mkdir(const string dirname,  const int opt,   bool overwrite )
-{
-    return mkdir(dirname, GLOCATION,  opt,  overwrite  );
-}
-/**@}*/
-
 
 
 bool
@@ -392,6 +397,8 @@ GSystem::GetExeDir()
     return buf;
 }
 #else
+
+
 char *
 GSystem::GetExeDir()
 {
@@ -402,12 +409,13 @@ GSystem::GetExeDir()
     PathRemoveFileSpecA(buf);
     return buf;
     #else
-    return getcwd(NULL,0);
+
+    static  char buf[ PATH_MAX ] = {0};
+    readlink("/proc/self/exe", buf, PATH_MAX);
+    dirname(buf);
+    return buf;
     #endif
-
 }
-
-
 
 #endif
 

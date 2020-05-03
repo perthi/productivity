@@ -18,16 +18,18 @@ using std::string;
 #include "GDefinitions.h"
 
 #define GLOCATION  GLocation(__FILE__, __LINE__, __FUNCTION__)
+#define SETPOS() { location = GLocation(__FILE__, __LINE__, __func__); }
 
 
 /** @brief Helper class to stor information about source code location */
 class GLocation
 {
 public:
+    inline GLocation() {};
     inline GLocation(const string fname, const int lineno, const string funct ) : fFileName(fname), fLineNo(lineno), fFunctName(funct) {}
-    string fFileName;
-    int   fLineNo;
-    string fFunctName;
+    string fFileName = "";
+    int   fLineNo = -1;
+    string fFunctName = "";
 
     inline const char * c_str() const
     {
