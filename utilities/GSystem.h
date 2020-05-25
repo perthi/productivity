@@ -23,6 +23,8 @@ using std::string;
 
 #include "GDefinitions.h"
 #include "GLocation.h"
+#include <sys/types.h>
+#include <sys/stat.h>
 
 class GSystem;
 
@@ -40,8 +42,8 @@ public:
     string         API      pwd(const bool print = false);
     vector<string> API      ls(const string dir = ".");
     bool           API      mkdir(const string dirname);
-    bool           API      mkdir(const string dirname,  const int opt,  bool overwrite = true );
-    bool           API      mkdir(const string dirname,  const GLocation l, const int opt,  bool overwrite = true  );
+  //  bool           API      mkdir(const string dirname,  const int opt =  S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH ,  bool overwrite = true );
+    bool           API      mkdir(const string dirname,  const GLocation l, const int opt =  S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH,  bool overwrite = true  );
     bool           API      mkfile(const string filepath);
     void           API      cp(string src, string dest);
     bool           API      rm(const string filename);

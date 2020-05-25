@@ -114,7 +114,7 @@ GSystem::mkdir(const string dirname)
 #ifdef _WIN32
     int status = ::_mkdir(dirname.c_str() );
 #else
-    int status = ::mkdir(dirname.c_str(), 0755);
+    int status = ::mkdir(dirname.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH );
 #endif // _WIN32
 
     if( status == 0)
@@ -143,7 +143,7 @@ GSystem::mkdir(const string dirname)
 *   the program is running under a user that doesnt have write access to the currnt directory)
 *   @throw Exception if the directory doesnt exist and it cannot be created.*/
 bool
-GSystem::mkdir(const string dirname,  GLocation l, const int /*opt*/, bool overwrite  )
+GSystem::mkdir(const string dirname,  GLocation l, const int  opt, bool overwrite  )
 {
 //    FORCE_DEBUG("creating directory %s", dirname.c_str()  );
 
@@ -151,7 +151,8 @@ GSystem::mkdir(const string dirname,  GLocation l, const int /*opt*/, bool overw
     int status = ::_mkdir(dirname.c_str() );
 #else
    // int status = ::mkdir(dirname.c_str(), opt);
-     int status = ::mkdir(dirname.c_str(), (int)777 );
+   // COUT << "opt = " <<  opt << "     !!!!!!!!!!"  << endl;
+     int status = ::mkdir(dirname.c_str(),  opt );
 #endif // _WIN32
 
     ///void  HandleError(const string message, const GLocation l, const bool disable_error );
