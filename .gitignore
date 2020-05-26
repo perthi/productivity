@@ -38,3 +38,4 @@ utilities/unit-tests/commit/x86/utilities-unit-tests
 **/gtest-md/
 **/testdir/
 **/.vscode/
+utilities/unit-tests/commit/arm/utilities-unit-tests

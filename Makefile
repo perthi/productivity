@@ -51,9 +51,9 @@ GTEST_INCLUDES:= -isystem $(CURDIR)/
 LIBS= -L $(CURDIR)/build/$(TARGET)/lib  -lm
 
 
-
 export SUPPORT_LIBS:= -lutilities  
 export UNIT_TEST_LIBS:=  $(SUPPORT_LIBS) -ltestlib -lgtest -lpthread 
+
 
 gtest-linux:=             gtest-linux/$(TARGET)
 utilities:=  	  	  utilities/$(TARGET)
@@ -64,11 +64,12 @@ unittests:= 	$(utilities-unittest)
 support-modules:= 	$(utilities) 
 
 src-lib:= $(support-modules) $(testlib)  $(gtest-linux)
+src-exe:= $(unittests)
 
-#src-exe:= $(unittests)
 
 arm-src:=$(src-lib) $(src-exe)
 x86-src:=$(src-lib) $(src-exe) 
+
 
 ifeq (x86, $(TARGET))
 all-src:=$(x86-src)
