@@ -62,8 +62,10 @@ utilities-unittest:=      utilities/unit-tests/commit/$(TARGET)
 
 unittests:= 	$(utilities-unittest)
 support-modules:= 	$(utilities) 
+
 src-lib:= $(support-modules) $(testlib)  $(gtest-linux)
-src-exe:= $(unittests)
+
+#src-exe:= $(unittests)
 
 arm-src:=$(src-lib) $(src-exe)
 x86-src:=$(src-lib) $(src-exe) 

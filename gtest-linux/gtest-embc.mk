@@ -1,7 +1,7 @@
 
 
 LIBNAME_SO=libgtest.so
-#LIBNAME_A=libgtest.a
+LIBNAME_A=libgtest.a
 
 SRCCPP:=  gtest-all.cpp
 
