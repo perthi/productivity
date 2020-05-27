@@ -143,7 +143,11 @@ GSystem::mkdir(const string dirname)
 *   the program is running under a user that doesnt have write access to the currnt directory)
 *   @throw Exception if the directory doesnt exist and it cannot be created.*/
 bool
-GSystem::mkdir(const string dirname,  GLocation l, const int  opt, bool overwrite  )
+#ifndef _WIN32
+GSystem::mkdir(const string dirname, GLocation l, const int  opt, bool overwrite)
+#else
+GSystem::mkdir(const string dirname, GLocation l, bool overwrite)
+#endif // !_WIN32
 {
 //    FORCE_DEBUG("creating directory %s", dirname.c_str()  );
 
@@ -168,7 +172,6 @@ GSystem::mkdir(const string dirname,  GLocation l, const int  opt, bool overwrit
     case ENOSPC:       // No space left on device
     case ENOTDIR:      // Path is not (or cannot be) a directory
     case EROFS:        // The parent directory is read only
-        COUT << "TP1 !!!!!!!!!!, status = " << status << endl;
         GCommon().HandleError(GText("non recoverabele erro encountered creating directory %s ( errno %d; %s )",
                                          dirname.c_str(),
                                          errno,
@@ -184,7 +187,6 @@ GSystem::mkdir(const string dirname,  GLocation l, const int  opt, bool overwrit
         }
         else
         {
-            COUT << "TP2 !!!!!!!!!!, status = " << status << endl;
             GCommon().HandleError(GText("directory %s allready exists and you are not allowed to overwrite it ( errno %d; %s)",
                                              dirname.c_str(),
                                              errno,

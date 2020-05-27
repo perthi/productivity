@@ -26,6 +26,7 @@ using std::string;
 #include <sys/types.h>
 #include <sys/stat.h>
 
+
 class GSystem;
 
 GSystem API * g_system();
@@ -43,7 +44,13 @@ public:
     vector<string> API      ls(const string dir = ".");
     bool           API      mkdir(const string dirname);
   //  bool           API      mkdir(const string dirname,  const int opt =  S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH ,  bool overwrite = true );
-    bool           API      mkdir(const string dirname,  const GLocation l, const int opt =  S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH,  bool overwrite = true  );
+    
+#ifndef _WIN32
+    bool           API      mkdir(const string dirname, const GLocation l, const int opt = S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH, bool overwrite = true);
+#else
+    bool           API      mkdir(const string dirname, const GLocation l,  bool overwrite = true);
+#endif // !_WIN32
+
     bool           API      mkfile(const string filepath);
     void           API      cp(string src, string dest);
     bool           API      rm(const string filename);
