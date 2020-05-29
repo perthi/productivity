@@ -518,10 +518,7 @@ GTime::DateString2Time(const string date, const string format, std::tm *t, int64
     std::istringstream ss(date);
     ss >> std::get_time(&t_l, format.c_str());
     vector<string> tokens = g_tokenizer()->Tokenize(date, ".");
-    
     size_t n = tokens.size();
-
-    //   COUT << "us = " <<  us << endl;
     
     if (us != 0)
     {
@@ -529,11 +526,9 @@ GTime::DateString2Time(const string date, const string format, std::tm *t, int64
         {
             *us = 0;
         }
-        //else if (n >= 0)
         else
         {
             string snum = tokens.at(n - 1);
-            //           COUT << "snum = " << snum << endl;
             if (g_numbers()->IsNumber(snum))
             {
                 snum = "." + snum;
@@ -547,8 +542,6 @@ GTime::DateString2Time(const string date, const string format, std::tm *t, int64
         }
     }
   
-
-
     if (t != 0)
     {
         *t = t_l;
@@ -559,15 +552,14 @@ GTime::DateString2Time(const string date, const string format, std::tm *t, int64
 
 
 
-
 string
 GTime::GetTime_ISO8601(bool use_microseconds)
 {
     static int64_t us;
-
     string d = TimeStamp("%FT%T", &us);
-    ///	CERR << "us = " << us << "\n";
-
+    
+    return d;
+    
     static char t[512]; /// @todo remove magic number
 
     if (use_microseconds == true)
@@ -594,18 +586,6 @@ GTime::GetTime_ISO8601(bool use_microseconds)
     return string(t);
 }
 
-// #ifdef _WIN32
-// #define SPRINTF sprintf_s
-// #else
-// #define SPRINTF snprintf
-// #endif
-
-
-// #ifdef _WIN32
-// #define SPRINTF_S(buffer, input) sprintf_s(buffer, sizeof(buffer) -1, "%s", input.c_str() )
-// #else
-// #define SPRINTF_S(buffer, input) snprintf(buffer, sizeof(buffer) -1, "%s", input.c_str() ) 
-// #endif
 
 
 double   
@@ -642,16 +622,6 @@ GTime::GetRawTime(time_t * sec, int64_t * us)
 }
 
 
-/*
-string
-GTime::TimeStampShort(int64_t *us)
-{
-    //    TimeStamp(format, us);
-    return TimeStampShort(0, 0, us);
-}
-*/
-
-
 
 string
 GTime::TimeStampShort(struct std::tm *  tout, struct std::tm * tin, int64_t * us )
@@ -667,120 +637,64 @@ GTime::TimeStamp(const char * format, int64_t *us)
 }
 
 
-
-#ifdef _WIN32
 string
-GTime::TimeStamp(struct std::tm *tout, const char * format, struct std::tm *tin, int64_t *us)
+GTime::TimeStamp(struct std::tm *tout, const char *format, struct std::tm *tin, int64_t *us)
 {
     string offender;
-     if (IsValidFormat(format, offender) == false)
-     {
-         CERR << "Illegal format" << "\n";
-         std::stringstream buffer;
-         buffer << "Illegal format specifier " << string(format) << "\"\n"\
-             + str() << \
-             ", the offending specifier is \"" << offender << "\" which is unknown" << "\n" \
-                << "error in function " << __FUNCTION__ << "at:" << __FILE__ << ":" << __LINE__ << "\n";
-
-         ///@todo use GLOCATION
-         throw(std::exception(buffer.str().c_str()));
-     }
-     else
-    { 
-    char tmp[512] = { 0 };
-    char f[512] = { 0 };
-
-    struct std::tm timeinfo;
-    std::time_t now;
-    GetRawTime(&now, us);
-
-    if (tin == 0)
+    if (IsValidFormat(format, offender) == false)
     {
-        localtime_s(&timeinfo, &now);
+
+        std::stringstream buffer;
+        buffer << "Illegal format specifier " << string(format) << "\"\n" + str() << ", the offending specifier is \"" << offender << "\" which is unknown"
+               << "\n"
+               << "error in function " << __FUNCTION__ << "at:" << __FILE__ << ":" << __LINE__ << "\n";
+        ///@todo use GLOCATION
+        throw(std::runtime_error(buffer.str().c_str()));
     }
     else
+
     {
-        timeinfo = *tin;
-    }
-    if (tout != 0)
-    {
-        *tout = timeinfo;
-    }
-    if (format == 0)
-    {
-        snprintf(f, 512, "%s", "[%a %d %B-%Y %H:%M:%S]");
-    }
-    else
-    {
-        snprintf(f, 512, "%s", format);
-    }
+        char tmp[512] = {0};
+        char f[512] = {0};
+        //struct std::tm *timeinfo = 0;
+        struct std::tm timeinfo;
+        std::time_t now;
+        GetRawTime(&now, us);
 
-    std::strftime(tmp, 512 - 1, f, &timeinfo);
-    return string(tmp);
-     }
-}
+        if (tin == 0)
+        {
+            #ifndef _WIN32
+                timeinfo = *localtime(&now);
+            #else
+                localtime_s(&timeinfo, &now);
+            #endif
+        }
+        else
+        {
+            timeinfo = *tin;
+        }
 
-#else
+        if (tout != 0)
+        {
+            *tout = timeinfo;
+        }
 
+        if (format == 0)
+        {
+            snprintf(f, 512, "%s", "[%a %d %B-%Y %H:%M:%S]");
+        }
+        else
+        {
+            snprintf(f, 512, "%s", format);
+        }
 
-string
-GTime::TimeStamp(struct std::tm *tout, const char * format, struct std::tm *tin, int64_t *us)
-{
-    string offender;
-   if (IsValidFormat(format, offender) == false)
-   {
-       
-       std::stringstream buffer;
-       buffer << "Illegal format specifier " << string(format) << "\"\n"
-           + str() << 
-           ", the offending specifier is \"" << offender << "\" which is unknown" << "\n" 
-              << "error in function " << __FUNCTION__ << "at:" << __FILE__ << ":" << __LINE__ << "\n";
-       ///@todo use GLOCATION
-       throw(std::runtime_error(buffer.str().c_str()));
-       
-   }
-   else
-   
-   {  
-   char tmp[512] = { 0 };
-   char f[512] = { 0 };
-   //struct std::tm *timeinfo = 0;
-   struct std::tm timeinfo;
-   std::time_t now;
-   GetRawTime(&now, us);
-   
-   if (tin == 0)
-   {
-       timeinfo = *localtime(&now);
-   }
-   else
-   {
-       timeinfo = *tin;
-   }
-
-   if (tout != 0)
-   {
-       *tout = timeinfo;
-   }
-
-   if (format == 0)
-   {
-       snprintf(f, 512, "%s", "[%a %d %B-%Y %H:%M:%S]");
-   }
-   else
-   {
-       snprintf(f, 512, "%s", format);
-   }
-
-   std::strftime(tmp, 512 - 1, f, &timeinfo);
-   return string(tmp);
+        std::strftime(tmp, 512 - 1, f, &timeinfo);
+        return string(tmp);
     }
 }
 
-#endif
 
-
-map<string, string>  &
+map<string, string> &
 GTime::FormatChars()
 {
     static map<string, string> format;
@@ -826,19 +740,15 @@ GTime::FormatChars()
         format.emplace("%Y", "year with century");
         format.emplace("%z", "Time zone");
         format.emplace("%z", "Time zone name (if any)");
-       // format.emplace("[", "");
-       // format.emplace("]", "");
-
+        // format.emplace("[", "");
+        // format.emplace("]", "");
 
         isInitialized = true;
     }
     return format;
 }
 
-
-
-bool
-GTime::IsValidFormat(const char *c, string & offender)
+bool GTime::IsValidFormat(const char *c, string &offender)
 {
     //  Initialize();
     bool has_valid_token = false;
@@ -851,14 +761,17 @@ GTime::IsValidFormat(const char *c, string & offender)
     else
     {
         vector<string> tokens = g_tokenizer()->Tokenize(c, "%");
-        static std::map<string, string>  &format = FormatChars();
+        static std::map<string, string> &format = FormatChars();
 
         for (unsigned int i = 0; i < tokens.size(); i++)
         {
             bool isvalid = false;
             string tmp = "";
-            if (tokens[i].size() >= 1) { tmp = "%" + tokens[i].substr(0, 1); }
-            for(auto const &item : format)
+            if (tokens[i].size() >= 1)
+            {
+                tmp = "%" + tokens[i].substr(0, 1);
+            }
+            for (auto const &item : format)
             {
                 if (item.first == tmp)
                 {
