@@ -33,7 +33,7 @@ endif
 
 
 ifdef HAS_LOGGING
-LIBS+=  -lexception -llogmaster	
+LIBS+=  -lexception -llogmaster	  -lsqlite-embc -ldl -lpthread
 endif
 
 INCLUDES+=$(GTEST_INCLUDES)
