@@ -75,8 +75,7 @@ GNumbers::IsFloatTypeS(string type)
 * the same number writen on decimale base 10 format (also represented as a string)
 * @param str Input string on hex format. NB it must start with either 0x or 0X succeded
 * witk a valid sequence of hex digits (0-F) othervise and exeption will be thrown.
-* @return The input number on decinmal base 10 format.
-*/
+* @return The input number on decinmal base 10 format. */
  string
 GNumbers::Hex2Dec(const string  str)
 {
@@ -92,8 +91,7 @@ GNumbers::Hex2Dec(const string  str)
 * the same number writen on hexadecimal format (also represented as a string)
 * @param str Input string on DEC format.
 * with a valid sequence of hex digits (0-F) othervise and exeption will be thrown.
-* @return The input number on hexadecimal form.
-*/
+* @return The input number on hexadecimal form. */
 string
 GNumbers::Dec2Hex(const string  str)
 {
@@ -353,7 +351,6 @@ GNumbers::IsFloatVTypeS(string type)
  bool
 GNumbers::IsIntegerVTypeS(string type)
 {
-    //  string type = typeid(T).name();
     if (type == typeid(vector<char>).name() ||
         type == typeid(vector<short>).name() ||
         type == typeid(vector<int>).name() ||
@@ -378,11 +375,7 @@ GNumbers::IsIntegerVTypeS(string type)
  bool
 GNumbers::IsIntegerTypeS(string t)
 {
-
-	//FORCE_DEBUG("t = %s\t typeid(int).name() = %s ", t.c_str(), typeid(int).name());
-
 	int cnt = 0;
-	//		typeid(int).name();
 
 	if (t == string(typeid(short).name()) ||
 		t == string(typeid(int).name()) ||
@@ -493,7 +486,7 @@ GNumbers::ToBinary(const string b)
 /**@{
 * Evaluates the the witdt of the binary number "in" repsented on string format in number of bits.
 * For xample "0010101" is 5 bits wide (discarding preceeeding zeroes), "111" is 3 bits wide, etc
-* @param in[in] Must be a binary number, i.e  a string containig only "0" and "1".
+* @param[in] in Must be a binary number, i.e  a string containig only "0" and "1".
 * @exception std::exception if the string "in" is not a valid binary number
 * @return The widt in number of bits */
 int64_t
@@ -501,9 +494,6 @@ GNumbers::BitWidth(const char *in)
 {
     return BitWidth(string(in));
 }
-
-
-
 
 int64_t
 GNumbers::BitWidth(const string in)
@@ -522,6 +512,7 @@ GNumbers::BitWidth(const string in)
         return npos;
     }
 }
+/**@}*/
 
 
 
@@ -536,8 +527,6 @@ bool
 GNumbers::IsFloat(string num)
 {
     num = g_string()->Trim(num, { ' ', '\t', '\n' });
-   // using boost::lexical_cast;
-   // using boost::bad_lexical_cast;
 
 	// Exceptions is a pain, so lets remove some common causes.
     if (num == ",")
@@ -568,9 +557,6 @@ GNumbers::IsFloat(string num)
     try
     {
         std::stold(num);
-     //   stold
-     //   boost::lexical_cast<long double>(num);
-    
     }
     catch ( ... )
     {
@@ -580,8 +566,6 @@ GNumbers::IsFloat(string num)
     return true;
    
 }
-
-
 
 
 

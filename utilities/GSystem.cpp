@@ -199,7 +199,7 @@ GSystem::mkdir(const string dirname, GLocation l, bool overwrite)
     }
     return true;
 }
-
+/**@}*/
 
 bool
 GSystem::Exists(const string filepath)
