@@ -634,25 +634,25 @@ TEST_F(TestGNumbers, PadOnes)
 
 
 #ifdef HAS_LOGGING
-TEST_F(TestGNumbers, NSR1988DisableError)
-{	
+// TEST_F(TestGNumbers, NSR1988DisableError)
+// {	
     
-	#undef G_STANDALONE
-	EXPECT_ANY_THROW( g_numbers()->ToNumber<float>("blahhhh") );
-	GException::DisableException();
-	g_numbers()->DisableError();
-	EXPECT_NO_THROW(  g_numbers()->ToNumber<float>("blahhhh") );
-	auto m = LMessageGenerator::Instance()->GetLastMsg();
-	g_numbers()->DisableError();
-	EXPECT_NO_THROW(g_numbers()->ToNumber<float>("blahhhh"));
-	m = LMessageGenerator::Instance()-> GetLastMsg();
-	EXPECT_NO_THROW(g_numbers()->ToHex("blahhhh"));
-	m = LMessageGenerator::Instance()->GetLastMsg();
-	EXPECT_NO_THROW(g_numbers()->ToBinary("blahhhh"));
-	m = LMessageGenerator::Instance()->GetLastMsg();
-	g_numbers()->EnableError();
-	GException::EnableException();
-}
+// 	#undef G_STANDALONE
+// 	EXPECT_ANY_THROW( g_numbers()->ToNumber<float>("blahhhh") );
+// 	GException::DisableException();
+// 	g_numbers()->DisableError();
+// 	EXPECT_NO_THROW(  g_numbers()->ToNumber<float>("blahhhh") );
+// 	auto m = LMessageGenerator::Instance()->GetLastMsg();
+// 	g_numbers()->DisableError();
+// 	EXPECT_NO_THROW(g_numbers()->ToNumber<float>("blahhhh"));
+// 	m = LMessageGenerator::Instance()-> GetLastMsg();
+// 	EXPECT_NO_THROW(g_numbers()->ToHex("blahhhh"));
+// 	m = LMessageGenerator::Instance()->GetLastMsg();
+// 	EXPECT_NO_THROW(g_numbers()->ToBinary("blahhhh"));
+// 	m = LMessageGenerator::Instance()->GetLastMsg();
+// 	g_numbers()->EnableError();
+// 	GException::EnableException();
+// }
 #endif
 
 
