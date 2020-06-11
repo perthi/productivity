@@ -181,3 +181,25 @@ GUtilities::Copy(const char *buffer, const int length, string *in)
     return tmp;
 }
 
+
+
+string 
+GUtilities::AutoClause( string addendum, FILE *fp)
+{
+    std::stringstream buffer;
+    buffer <<  endl <<  "/***** Auto generated file: DO NOT EDIT !!!!!! *****/" << endl;
+    string tmp2 =  GTime::TimeStamp( "%a %d %B-%Y %H:%M:%S");   
+    
+    buffer <<  "/*** Generated at: " << tmp2 << "  ***/" << endl;  
+    buffer << addendum << endl;
+
+
+    if( fp != nullptr )
+    {
+        fprintf( fp, "%s", tmp2.c_str()  );
+      //  fprintf(fp, "/*** Generated at: %s  ***/\n\n", tmp2.c_str()  );
+    }
+
+    return buffer.str();
+
+}

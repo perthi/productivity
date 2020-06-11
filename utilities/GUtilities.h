@@ -26,6 +26,7 @@
 #include "GLocation.h"
 #include "GCommon.h"
 #include "GText.h"
+#include "GTime.h"
 
 #include <vector>
 #include <map>
@@ -39,6 +40,7 @@
 #include <type_traits>
 #include <typeinfo>
 #include <set>
+#include <time.h>
 
 
 //using std::stringstream;
@@ -73,6 +75,7 @@ public:
 #ifndef ARM
     string				API		QueryInput( const string prompt);
  #endif   
+    string                API     AutoClause(string addendum = "", FILE *fp  = nullptr);
 
     bool				API     IsLittleEndian();
     bool				API     IsBigEndian();       
@@ -576,4 +579,5 @@ GUtilities::TabAlign( const string & in, int max_tabs, int *n  )
     }
     return tmp;
 }
+
 
