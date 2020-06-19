@@ -71,6 +71,9 @@ GDataBaseIF::SQLType2String(const int sql_type) const
         return buffer.str();
         break;
     }
+
+    return "blahh";
+
 }
 
 
@@ -84,24 +87,34 @@ GDataBaseIF::HandleError(const GLocation l, const char *fmt, ...)
 {
     va_list ap;
     va_start(ap, fmt);
+    
+    va_list ap_l;
+    va_copy(ap_l, ap);
+    
     char formatted_message[2048] = {0};
     vsnprintf(formatted_message, sizeof(formatted_message) - 1, fmt, ap);
+    
+
 
 #ifdef HAS_LOGGING
-    std::shared_ptr<LMessage> msg_ptr = fMessageGenerator->GenerateMsg(eMSGFORMAT::PREFIX_ALL, lvl, eMSGSYSTEM::SYS_DATABASE, l.fFileName.c_str(), l.fLineNo, l.fFunctName.c_str(), fmt, ap);
+    std::shared_ptr<LMessage> msg_ptr = fMessageGenerator->GenerateMsg(eMSGFORMAT::PREFIX_ALL, lvl, eMSGSYSTEM::SYS_DATABASE, l.fFileName.c_str(), l.fLineNo, l.fFunctName.c_str(), fmt, ap_l);
+    
     LMessage msg = *msg_ptr;
-    LPublisher::Instance()->PublishToConsole(msg);
-    LPublisher::Instance()->PublishToFile("db.log", msg);
-    LPublisher::Instance()->PublishToSubscribers(msg);
-    LPublisher::Instance()->PublishToSubscribers(msg);
+
+    LPublisher::Instance()->PublishToConsole(msg );
+    LPublisher::Instance()->PublishToFile("db.log", msg );
+    LPublisher::Instance()->PublishToSubscribers(msg );
+    LPublisher::Instance()->PublishToSubscribers(msg );
+    
+
 #else
     printf("%s::%s[line %d]: %s" l.fFileName.c_str(), l.fFunctName.c_str(), l.fLineNo, formatted_message);
 #endif
 
     va_end(ap);
+    va_end(ap_l);
+
 }
-
-
 
 
 /**  Opens the database 
