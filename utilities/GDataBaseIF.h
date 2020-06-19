@@ -18,7 +18,9 @@ using namespace LOGMASTER;
 #endif
 
 #include  <memory>
+#include  <string>
 
+using std::string;
 
 struct  sqlite3;
 struct  sqlite3_stmt;
@@ -43,6 +45,8 @@ class  GDataBaseIF
 	double   API   ReadFloat   (  sqlite3_stmt *stmt, const int idx, const string colname, const int sql_type, const GLocation l);
 	string   API   ReadText    (  sqlite3_stmt *stmt, const int idx, const string colname, const int sql_type, const GLocation l);
 
+	bool API DeleteEntries( const string tablename );
+
 	protected:
 		#ifdef HAS_LOGGING
 		virtual void HandleError( const GLocation l,   eMSGLEVEL lvl,  const bool throw_ex,   const char * fmt, ...);
@@ -51,6 +55,7 @@ class  GDataBaseIF
 		#endif
 		
 		string SQLType2String( const int sql_type  ) const;	
+		string LimitString( const int cnt );
 
 		sqlite3       *fDataBase  =  nullptr; 
         sqlite3_stmt  *fStmt     =   nullptr;  // SQLite statmement 

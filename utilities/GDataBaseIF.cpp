@@ -31,6 +31,7 @@ using namespace LOGMASTER;
 
 #include "sqlite/sqlite3.h"
 #include  <string.h>
+#include  <sstream>
 
 
 GDataBaseIF::GDataBaseIF()
@@ -251,4 +252,13 @@ GDataBaseIF::CloseDatabase()
         } 
 
         return tmp;
+    }
+
+
+    string 
+   GDataBaseIF::LimitString( const int limit )
+    {
+        std::stringstream buffer;
+        buffer << " LIMIT " << limit;
+        return buffer.str();
     }
