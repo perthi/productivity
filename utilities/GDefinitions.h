@@ -56,6 +56,14 @@ using std::string;
 #define SPRINTF_S(buffer, input) snprintf(buffer, sizeof(buffer) -1, "%s", input.c_str() ) 
 #endif
 
+#if defined(_WIN32) || defined(_WIN64)
+#define snprintf _snprintf
+#define vsnprintf _vsnprintf
+#define strcasecmp _stricmp
+#define strncasecmp _strnicmp
+#endif
+
+
 
 #define EXCECUTION_ERROR -33
 #define ARG_MAX 4096

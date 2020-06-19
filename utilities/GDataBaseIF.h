@@ -28,6 +28,8 @@ namespace LOGMASTER
 	class  LMessageGenerator;
 }
 
+//#define THROW_EXCEPTION 1
+//#define DONT_THROW_EXCEPTION 2
 
 class  GDataBaseIF
 {
@@ -37,12 +39,15 @@ class  GDataBaseIF
     virtual bool   CreateTables() = 0;
 	void     API   CloseDatabase();
 	bool     API   OpenDatabase( const char *db_path );
+	int      API   ReadInteger (  sqlite3_stmt *stmt,  const int idx, const string colname, const int sql_type, const GLocation l);
+	double   API   ReadFloat   (  sqlite3_stmt *stmt, const int idx, const string colname, const int sql_type, const GLocation l);
+	string   API   ReadText    (  sqlite3_stmt *stmt, const int idx, const string colname, const int sql_type, const GLocation l);
 
 	protected:
 		#ifdef HAS_LOGGING
-		virtual void HandleError( const GLocation l,   eMSGLEVEL lvl, const char * fmt, ...);
+		virtual void HandleError( const GLocation l,   eMSGLEVEL lvl,  const bool throw_ex,   const char * fmt, ...);
 		#else
-		virtual void HandleError( const GLocation l, const char * fmt, ...);
+		virtual void HandleError( const GLocation l,  const bool throw_ex,   const char * fmt, ...);
 		#endif
 		
 		string SQLType2String( const int sql_type  ) const;	

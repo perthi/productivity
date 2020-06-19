@@ -18,15 +18,19 @@
 #include  <logging/LLogApi.h>
 #include  <logging/LMessageGenerator.h>
 #include  <logging/LPublisher.h>
+#include <exception/GException.h>
 using namespace LOGMASTER;
-
 #else
 #include <stdio.h>
+#include <exception>
 #endif
 
 
+#include "GDefinitions.h"
+#include "GCommon.h"
 
 #include "sqlite/sqlite3.h"
+#include  <string.h>
 
 
 GDataBaseIF::GDataBaseIF()
@@ -80,9 +84,9 @@ GDataBaseIF::SQLType2String(const int sql_type) const
 
 void 
 #ifdef HAS_LOGGING
-GDataBaseIF::HandleError(const GLocation l, eMSGLEVEL lvl, const char *fmt, ...)
+GDataBaseIF::HandleError(const GLocation l, eMSGLEVEL lvl,  const bool throw_ex, const char *fmt, ...)
 #else
-GDataBaseIF::HandleError(const GLocation l, const char *fmt, ...)
+GDataBaseIF::HandleError(const GLocation l,  const bool throw_ex, const char *fmt, ...)
 #endif
 {
     va_list ap;
@@ -91,7 +95,9 @@ GDataBaseIF::HandleError(const GLocation l, const char *fmt, ...)
     va_list ap_l;
     va_copy(ap_l, ap);
     
-    char formatted_message[2048] = {0};
+    static char formatted_message[4096] = {0};
+    formatted_message[0] = 0;
+
     vsnprintf(formatted_message, sizeof(formatted_message) - 1, fmt, ap);
     
 
@@ -105,10 +111,21 @@ GDataBaseIF::HandleError(const GLocation l, const char *fmt, ...)
     LPublisher::Instance()->PublishToFile("db.log", msg );
     LPublisher::Instance()->PublishToSubscribers(msg );
     LPublisher::Instance()->PublishToSubscribers(msg );
+
+    if( throw_ex == THROW_EXCEPTION )
+    {
+        DB_EXCEPTION("%s",formatted_message );
+    }    
     
 
 #else
     printf("%s::%s[line %d]: %s" l.fFileName.c_str(), l.fFunctName.c_str(), l.fLineNo, formatted_message);
+
+    if( throw_ex == THROW_EXCEPTION )
+    {
+        throw ( std::invalid_argument( formatted_message ) );
+    }   
+
 #endif
 
     va_end(ap);
@@ -131,9 +148,9 @@ GDataBaseIF::OpenDatabase(const char *db_path)
         printf("%s line %d, Can't open database: %s\n", __FILE__, __LINE__, sqlite3_errmsg(fDataBase));
         
         #ifdef HAS_LOGGING
-            HandleError(GLOCATION, eMSGLEVEL::LOG_FATAL, "Failed to open database \"%s\"",   db_path  );
+            HandleError(GLOCATION, eMSGLEVEL::LOG_FATAL,  THROW_EXCEPTION, "Failed to open database \"%s\"",    db_path  );
         #else
-            HandleError(GLOCATION,  "Failed to open database \"%s\"",   db_path  );
+            HandleError(GLOCATION,  THROW_EXCEPTION,  "Failed to open database \"%s\"",   db_path  );
         #endif
         return false;
 
@@ -153,9 +170,9 @@ GDataBaseIF::CloseDatabase()
     while (sqlite3_close(fDataBase) == SQLITE_BUSY)
     {
 #ifdef HAS_LOGGING
-        HandleError(GLOCATION, eMSGLEVEL::LOG_ERROR, "database is busy, cnt =  %d", cnt);
+        HandleError(GLOCATION, eMSGLEVEL::LOG_ERROR,  DISABLE_EXCEPTION, "database is busy, cnt =  %d", cnt);
 #else
-        HandleError(GLOCATION, "database is busy, cnt =  %d", cnt);
+        HandleError(GLOCATION,  DISABLE_EXCEPTION, "database is busy, cnt =  %d", cnt);
 #endif
 
         cnt++;
@@ -164,11 +181,74 @@ GDataBaseIF::CloseDatabase()
         if (cnt == 100)
         {
 #ifdef HAS_LOGGING
-            HandleError(GLOCATION, eMSGLEVEL::LOG_FATAL, "failed to close database after %d attempts, bailing out !!!", cnt);
+            HandleError( GLOCATION, eMSGLEVEL::LOG_FATAL, DISABLE_EXCEPTION, "failed to close database after %d attempts, bailing out !!!", cnt);
 #else
-            HandleError(GLOCATION, eMSGLEVEL::LOG_ERROR, "failed to close database after %d attempts, bailing out !!!", cnt);
+            HandleError( GLOCATION, DISABLE_EXCEPTION, "failed to close database after %d attempts, bailing out !!!", cnt);
 #endif
             break;
         }
     }
 }
+
+
+ string 
+  GDataBaseIF::ReadText( sqlite3_stmt *stmt,  const int idx, const string colname,  const int sql_type, const GLocation l )
+    {
+        string tmp = "";
+         if (strcasecmp(sqlite3_column_name( stmt, idx ), "json") == 0)
+        {
+            if (sqlite3_column_type(stmt , idx ) == SQLITE_TEXT)
+            {
+              tmp = std::string(reinterpret_cast<const char *>(sqlite3_column_text( stmt,  idx)));
+            }
+            else
+            {
+                HandleError(l, eMSGLEVEL::LOG_ERROR, THROW_EXCEPTION, "Incorrect Type (%d = %s) for \"%s\", expected SQLITE_TEXT", sql_type, SQLType2String(sql_type).c_str(), colname.c_str()   );   
+            }
+         }
+
+
+        return tmp;
+    }
+
+
+
+
+    double 
+  GDataBaseIF::ReadFloat( sqlite3_stmt *stmt,  const int idx, const string colname,  const int sql_type, const GLocation l )
+    {
+        double tmp = -1;
+        if (strcasecmp(sqlite3_column_name(stmt, idx ), colname.c_str() ) == 0 )
+        {
+           if (sqlite3_column_type( stmt, idx ) == SQLITE_FLOAT )
+              {
+                 tmp  = (sqlite3_column_double(  stmt, idx ));
+              }
+              else
+              {
+                  HandleError(l, eMSGLEVEL::LOG_ERROR, THROW_EXCEPTION, "Incorrect Type  (%d = %s) \"%s\", expcted SQLITE_FLOAT",  sql_type, SQLType2String(  sql_type ).c_str(),  colname.c_str()   );  
+              }
+        } 
+
+        return tmp;
+    }
+
+
+    int 
+  GDataBaseIF::ReadInteger( sqlite3_stmt *stmt,  const int idx, const string colname,  const int sql_type, const GLocation l )
+    {
+        int tmp = -1;
+        if (strcasecmp(sqlite3_column_name(stmt, idx ), colname.c_str() ) == 0 )
+        {
+           if (sqlite3_column_type( stmt, idx ) == SQLITE_INTEGER )
+              {
+                 tmp  = (sqlite3_column_int(  stmt, idx ));
+              }
+              else
+              {
+                    HandleError(l, eMSGLEVEL::LOG_ERROR,  THROW_EXCEPTION, "Incorrect Type  (%d = %s) \"%s\", expected SQL_INTEGER",  sql_type, SQLType2String(  sql_type   ).c_str(), colname.c_str()  );  
+              }
+        } 
+
+        return tmp;
+    }
