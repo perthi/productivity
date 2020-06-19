@@ -94,7 +94,7 @@ VPATH=../
 
 
 %.o: %.c  %.h 
-	$(CCLOCAL) $(CFLAGS) -c -o $(@F) $< $(INCLUDES)
+	$(CC) $(CFLAGS) -c -o $(@F) $< $(INCLUDES)
 
 
 %.o:  	%.cpp  %.h

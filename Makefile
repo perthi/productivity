@@ -57,13 +57,14 @@ export UNIT_TEST_LIBS:=  $(SUPPORT_LIBS) -ltestlib -lgtest -lpthread
 
 gtest-linux:=             gtest-linux/$(TARGET)
 utilities:=  	  	  utilities/$(TARGET)
+sqlite:=		  sqlite/$(TARGET)	
 testlib:=  	  	  testlib/$(TARGET)
 utilities-unittest:=      utilities/unit-tests/commit/$(TARGET)
 
 unittests:= 	$(utilities-unittest)
 support-modules:= 	$(utilities) 
 
-src-lib:= $(support-modules) $(testlib)  $(gtest-linux)
+src-lib:= $(support-modules) $(testlib)  $(gtest-linux)  $(sqlite)
 src-exe:= $(unittests)
 
 
@@ -93,6 +94,7 @@ CCLOCAL:=c++   -std=c++17
 ARLOCAL:=ar
 else
 CCLOCAL:=arm-linux-gnueabihf-g++   -std=c++17 -DARM
+CC:= arm-linux-gnueabihf-gcc
 ARLOCAL:=arm-linux-gnueabihf-ar
 endif
 

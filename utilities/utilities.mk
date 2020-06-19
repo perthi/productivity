@@ -28,7 +28,8 @@ SRCCPP+=GCommon.cpp \
 	GEnumHelperImpl.cpp \
 	GSemaphore.cpp \
 	GCrc.cpp \
-	GStackTrace.cpp
+	GStackTrace.cpp \
+	GDataBaseIF.cpp
 
 
 include ../../common.mk
