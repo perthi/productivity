@@ -25,13 +25,13 @@ using std::string;
 struct  sqlite3;
 struct  sqlite3_stmt;
 
+
 namespace LOGMASTER
 {
 	class  LMessageGenerator;
 }
 
-//#define THROW_EXCEPTION 1
-//#define DONT_THROW_EXCEPTION 2
+
 
 class  GDataBaseIF
 {
@@ -56,7 +56,6 @@ class  GDataBaseIF
 		
 		string SQLType2String( const int sql_type  ) const;	
 		string LimitString( const int cnt );
-
 		sqlite3       *fDataBase  =  nullptr; 
         sqlite3_stmt  *fStmt     =   nullptr;  // SQLite statmement 
 

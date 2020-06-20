@@ -141,13 +141,19 @@ GDataBaseIF::HandleError(const GLocation l,  const bool throw_ex, const char *fm
 bool 
 GDataBaseIF::OpenDatabase(const char *db_path)
 {
+    #ifdef HAS_LOGGING
+          HandleError(GLOCATION, eMSGLEVEL::LOG_INFO, DISABLE_EXCEPTION, "opening database \"%s\"",    db_path  );
+    #else
+        HandleError(GLOCATION, DISABLE_EXCEPTION, "opening database \"%s\"",    db_path  );
+    #endif 
+
     int rc;
     rc = sqlite3_open(db_path, &fDataBase);
 
     if (rc)
     {
-        printf("%s line %d, Can't open database: %s\n", __FILE__, __LINE__, sqlite3_errmsg(fDataBase));
-        
+
+
         #ifdef HAS_LOGGING
             HandleError(GLOCATION, eMSGLEVEL::LOG_FATAL,  THROW_EXCEPTION, "Failed to open database \"%s\"",    db_path  );
         #else
