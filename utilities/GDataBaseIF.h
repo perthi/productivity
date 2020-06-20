@@ -62,7 +62,7 @@ class  GDataBaseIF
 	 private:
 	 	GDataBaseIF( const GDataBaseIF &rhs );
 		GDataBaseIF &	operator = 	( const GDataBaseIF &rhs); 
-		std::shared_ptr<LMessageGenerator> fMessageGenerator = nullptr;
+		std::shared_ptr< LOGMASTER::LMessageGenerator> fMessageGenerator = nullptr;
 };
 
 #endif

@@ -8,7 +8,6 @@
  **************************************************************************/
 #include "GDataBaseIF.h"
 
-
 #include  <stdarg.h>
 
 
@@ -18,6 +17,7 @@
 #include  <logging/LLogApi.h>
 #include  <logging/LMessageGenerator.h>
 #include  <logging/LPublisher.h>
+#include  <logging/LEnums.h>
 #include <exception/GException.h>
 using namespace LOGMASTER;
 #else
@@ -28,10 +28,12 @@ using namespace LOGMASTER;
 
 #include "GDefinitions.h"
 #include "GCommon.h"
-
 #include "sqlite/sqlite3.h"
 #include  <string.h>
 #include  <sstream>
+#include <chrono>
+#include <thread>
+
 
 
 GDataBaseIF::GDataBaseIF()
@@ -85,29 +87,23 @@ GDataBaseIF::SQLType2String(const int sql_type) const
 
 void 
 #ifdef HAS_LOGGING
-GDataBaseIF::HandleError(const GLocation l, eMSGLEVEL lvl,  const bool throw_ex, const char *fmt, ...)
+GDataBaseIF::HandleError(const GLocation  l, eMSGLEVEL  lvl,  const bool  throw_ex, const char *  fmt, ...)
 #else
-GDataBaseIF::HandleError(const GLocation l,  const bool throw_ex, const char *fmt, ...)
+GDataBaseIF::HandleError(const GLocation  l,  const bool  throw_ex, const char *  fmt, ...)
 #endif
 {
     va_list ap;
     va_start(ap, fmt);
-    
     va_list ap_l;
     va_copy(ap_l, ap);
-    
     static char formatted_message[4096] = {0};
     formatted_message[0] = 0;
-
     vsnprintf(formatted_message, sizeof(formatted_message) - 1, fmt, ap);
-    
-
 
 #ifdef HAS_LOGGING
-    std::shared_ptr<LMessage> msg_ptr = fMessageGenerator->GenerateMsg(eMSGFORMAT::PREFIX_ALL, lvl, eMSGSYSTEM::SYS_DATABASE, l.fFileName.c_str(), l.fLineNo, l.fFunctName.c_str(), fmt, ap_l);
-    
-    LMessage msg = *msg_ptr;
 
+    std::shared_ptr<LMessage> msg_ptr = fMessageGenerator->GenerateMsg(eMSGFORMAT::PREFIX_ALL, lvl, eMSGSYSTEM::SYS_DATABASE, l.fFileName.c_str(), l.fLineNo, l.fFunctName.c_str(), fmt, ap_l);
+    LMessage msg = *msg_ptr;
     LPublisher::Instance()->PublishToConsole(msg );
     LPublisher::Instance()->PublishToFile("db.log", msg );
     LPublisher::Instance()->PublishToSubscribers(msg );
@@ -116,9 +112,7 @@ GDataBaseIF::HandleError(const GLocation l,  const bool throw_ex, const char *fm
     if( throw_ex == THROW_EXCEPTION )
     {
         DB_EXCEPTION("%s",formatted_message );
-    }    
-    
-
+    }      
 #else
     printf("%s::%s[line %d]: %s" l.fFileName.c_str(), l.fFunctName.c_str(), l.fLineNo, formatted_message);
 
@@ -126,13 +120,11 @@ GDataBaseIF::HandleError(const GLocation l,  const bool throw_ex, const char *fm
     {
         throw ( std::invalid_argument( formatted_message ) );
     }   
-
 #endif
-
     va_end(ap);
     va_end(ap_l);
-
 }
+
 
 
 /**  Opens the database 
