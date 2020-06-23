@@ -144,22 +144,18 @@ GDataBaseIF::OpenDatabase(const char *db_path)
 
     if (rc)
     {
-
-
         #ifdef HAS_LOGGING
             HandleError(GLOCATION, eMSGLEVEL::LOG_FATAL,  THROW_EXCEPTION, "Failed to open database \"%s\"",    db_path  );
         #else
             HandleError(GLOCATION,  THROW_EXCEPTION,  "Failed to open database \"%s\"",   db_path  );
         #endif
         return false;
-
     }
     else
     {
         return CreateTables();
     }
 }
-
 
 
 void 
@@ -177,7 +173,7 @@ GDataBaseIF::CloseDatabase()
         cnt++;
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
-        if (cnt == 100)
+        if (cnt == 10)
         {
 #ifdef HAS_LOGGING
             HandleError( GLOCATION, eMSGLEVEL::LOG_FATAL, DISABLE_EXCEPTION, "failed to close database after %d attempts, bailing out !!!", cnt);
@@ -189,74 +185,74 @@ GDataBaseIF::CloseDatabase()
     }
 }
 
-
- string 
-  GDataBaseIF::ReadText( sqlite3_stmt *stmt,  const int idx, const string colname,  const int sql_type, const GLocation l )
+string
+GDataBaseIF::ReadText(sqlite3_stmt *stmt, const int idx, const string colname, const int sql_type, const GLocation l)
+{
+    string tmp = "";
+   // if (strcasecmp(sqlite3_column_name(stmt, idx), "json") == 0)
+    if (strcasecmp(sqlite3_column_name(stmt, idx), colname.c_str() ) == 0)
     {
-        string tmp = "";
-         if (strcasecmp(sqlite3_column_name( stmt, idx ), "json") == 0)
+        if (sqlite3_column_type(stmt, idx) == SQLITE_TEXT)
         {
-            if (sqlite3_column_type(stmt , idx ) == SQLITE_TEXT)
-            {
-              tmp = std::string(reinterpret_cast<const char *>(sqlite3_column_text( stmt,  idx)));
-            }
-            else
-            {
-                HandleError(l, eMSGLEVEL::LOG_ERROR, THROW_EXCEPTION, "Incorrect Type (%d = %s) for \"%s\", expected SQLITE_TEXT", sql_type, SQLType2String(sql_type).c_str(), colname.c_str()   );   
-            }
-         }
-
-
-        return tmp;
-    }
-
-
-
-
-    double 
-  GDataBaseIF::ReadFloat( sqlite3_stmt *stmt,  const int idx, const string colname,  const int sql_type, const GLocation l )
-    {
-        double tmp = -1;
-        if (strcasecmp(sqlite3_column_name(stmt, idx ), colname.c_str() ) == 0 )
+            tmp = std::string(reinterpret_cast<const char *>(sqlite3_column_text(stmt, idx)));
+            CERR << "tmp = " << tmp << "   colname =  " << colname <<   " !!!!!!!!! " << endl;
+        }
+        else
         {
-           if (sqlite3_column_type( stmt, idx ) == SQLITE_FLOAT )
-              {
-                 tmp  = (sqlite3_column_double(  stmt, idx ));
-              }
-              else
-              {
-                  HandleError(l, eMSGLEVEL::LOG_ERROR, THROW_EXCEPTION, "Incorrect Type  (%d = %s) \"%s\", expcted SQLITE_FLOAT",  sql_type, SQLType2String(  sql_type ).c_str(),  colname.c_str()   );  
-              }
-        } 
-
-        return tmp;
+            CERR << "INCORRECT TYPE !!!!!!!!!" << sql_type << ": " << SQLType2String(sql_type ) << endl;
+            tmp = "INVALID TYPE !!!!!!";
+            HandleError(l, eMSGLEVEL::LOG_ERROR, THROW_EXCEPTION, "Incorrect Type (%d = %s) for \"%s\", expected SQLITE_TEXT", sql_type, SQLType2String(sql_type).c_str(), colname.c_str());
+        }
     }
 
+    return tmp;
+}
 
-    int 
-  GDataBaseIF::ReadInteger( sqlite3_stmt *stmt,  const int idx, const string colname,  const int sql_type, const GLocation l )
+
+
+
+double
+GDataBaseIF::ReadFloat(sqlite3_stmt *stmt, const int idx, const string colname, const int sql_type, const GLocation l)
+{
+    double tmp = -1;
+    if (strcasecmp(sqlite3_column_name(stmt, idx), colname.c_str()) == 0)
     {
-        int tmp = -1;
-        if (strcasecmp(sqlite3_column_name(stmt, idx ), colname.c_str() ) == 0 )
+        if (sqlite3_column_type(stmt, idx) == SQLITE_FLOAT)
         {
-           if (sqlite3_column_type( stmt, idx ) == SQLITE_INTEGER )
-              {
-                 tmp  = (sqlite3_column_int(  stmt, idx ));
-              }
-              else
-              {
-                    HandleError(l, eMSGLEVEL::LOG_ERROR,  THROW_EXCEPTION, "Incorrect Type  (%d = %s) \"%s\", expected SQL_INTEGER",  sql_type, SQLType2String(  sql_type   ).c_str(), colname.c_str()  );  
-              }
-        } 
-
-        return tmp;
+            tmp = (sqlite3_column_double(stmt, idx));
+        }
+        else
+        {
+            HandleError(l, eMSGLEVEL::LOG_ERROR, THROW_EXCEPTION, "Incorrect Type  (%d = %s) \"%s\", expcted SQLITE_FLOAT", sql_type, SQLType2String(sql_type).c_str(), colname.c_str());
+        }
     }
 
+    return tmp;
+}
 
-    string 
-   GDataBaseIF::LimitString( const int limit )
+int GDataBaseIF::ReadInteger(sqlite3_stmt *stmt, const int idx, const string colname, const int sql_type, const GLocation l)
+{
+    int tmp = -1;
+    if (strcasecmp(sqlite3_column_name(stmt, idx), colname.c_str()) == 0)
     {
-        std::stringstream buffer;
-        buffer << " LIMIT " << limit;
-        return buffer.str();
+        if (sqlite3_column_type(stmt, idx) == SQLITE_INTEGER)
+        {
+            tmp = (sqlite3_column_int(stmt, idx));
+        }
+        else
+        {
+            HandleError(l, eMSGLEVEL::LOG_ERROR, THROW_EXCEPTION, "Incorrect Type  (%d = %s) \"%s\", expected SQL_INTEGER", sql_type, SQLType2String(sql_type).c_str(), colname.c_str());
+        }
     }
+
+    return tmp;
+}
+
+
+string
+GDataBaseIF::LimitString(const int limit)
+{
+    std::stringstream buffer;
+    buffer << " LIMIT " << limit;
+    return buffer.str();
+}
