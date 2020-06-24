@@ -256,3 +256,47 @@ GDataBaseIF::LimitString(const int limit)
     buffer << " LIMIT " << limit;
     return buffer.str();
 }
+
+
+
+bool 
+GDataBaseIF::DeleteEntries( const string tablename )
+{
+    int rc;
+    char sql[200];
+    char *zErrMsg = 0;
+    snprintf(sql, 200, "DELETE FROM %s;", tablename.c_str() ); 
+
+    rc = sqlite3_exec(fDataBase, sql, NULL, 0, &zErrMsg);
+    if (rc != SQLITE_OK)
+    {
+        CERR <<  "DeleteEntries SQL error: " << zErrMsg << endl;
+        sqlite3_free(zErrMsg);
+        return false;
+    }
+
+    sqlite3_free(zErrMsg);
+    return true;
+}
+
+
+
+//  /** @brief  Delete all log entries from the database 
+//      *  @return true if the deletion was sucessful, false othervise */
+//     bool
+//     LDatabase::DeleteEntries()
+//     {
+//         int rc;
+//         char sql[200];
+//         char *zErrMsg = 0;
+//         snprintf(sql, 200, "DELETE FROM t_logging;");
+
+//         rc = sqlite3_exec(fDataBase, sql, NULL, 0, &zErrMsg);
+//         if (rc != SQLITE_OK)
+//         {
+//             CERR <<  "Log DeleteEntries SQL error: " << zErrMsg << endl;
+//             sqlite3_free(zErrMsg);
+//             return false;
+//         }
+//         return true;
+//     }
