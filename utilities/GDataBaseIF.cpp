@@ -189,18 +189,15 @@ string
 GDataBaseIF::ReadText(sqlite3_stmt *stmt, const int idx, const string colname, const int sql_type, const GLocation l)
 {
     string tmp = "";
-   // if (strcasecmp(sqlite3_column_name(stmt, idx), "json") == 0)
+    
     if (strcasecmp(sqlite3_column_name(stmt, idx), colname.c_str() ) == 0)
     {
         if (sqlite3_column_type(stmt, idx) == SQLITE_TEXT)
         {
             tmp = std::string(reinterpret_cast<const char *>(sqlite3_column_text(stmt, idx)));
-            CERR << "tmp = " << tmp << "   colname =  " << colname <<   " !!!!!!!!! " << endl;
         }
         else
         {
-            CERR << "INCORRECT TYPE !!!!!!!!!" << sql_type << ": " << SQLType2String(sql_type ) << endl;
-            tmp = "INVALID TYPE !!!!!!";
             HandleError(l, eMSGLEVEL::LOG_ERROR, THROW_EXCEPTION, "Incorrect Type (%d = %s) for \"%s\", expected SQLITE_TEXT", sql_type, SQLType2String(sql_type).c_str(), colname.c_str());
         }
     }
@@ -279,24 +276,3 @@ GDataBaseIF::DeleteEntries( const string tablename )
     return true;
 }
 
-
-
-//  /** @brief  Delete all log entries from the database 
-//      *  @return true if the deletion was sucessful, false othervise */
-//     bool
-//     LDatabase::DeleteEntries()
-//     {
-//         int rc;
-//         char sql[200];
-//         char *zErrMsg = 0;
-//         snprintf(sql, 200, "DELETE FROM t_logging;");
-
-//         rc = sqlite3_exec(fDataBase, sql, NULL, 0, &zErrMsg);
-//         if (rc != SQLITE_OK)
-//         {
-//             CERR <<  "Log DeleteEntries SQL error: " << zErrMsg << endl;
-//             sqlite3_free(zErrMsg);
-//             return false;
-//         }
-//         return true;
-//     }
