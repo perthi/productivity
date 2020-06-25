@@ -114,7 +114,7 @@ GDataBaseIF::HandleError(const GLocation  l,  const bool  throw_ex, const char *
         DB_EXCEPTION("%s",formatted_message );
     }      
 #else
-    printf("%s::%s[line %d]: %s" l.fFileName.c_str(), l.fFunctName.c_str(), l.fLineNo, formatted_message);
+    printf("%s::%s[line %d]: %s", l.fFileName.c_str(), l.fFunctName.c_str(), l.fLineNo, formatted_message);
 
     if( throw_ex == THROW_EXCEPTION )
     {
