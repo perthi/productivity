@@ -198,7 +198,11 @@ GDataBaseIF::ReadText(sqlite3_stmt *stmt, const int idx, const string colname, c
         }
         else
         {
+#ifdef HAS_LOGGING
             HandleError(l, eMSGLEVEL::LOG_ERROR, THROW_EXCEPTION, "Incorrect Type (%d = %s) for \"%s\", expected SQLITE_TEXT", sql_type, SQLType2String(sql_type).c_str(), colname.c_str());
+#else
+            HandleError(l, THROW_EXCEPTION, "Incorrect Type (%d = %s) for \"%s\", expected SQLITE_TEXT", sql_type, SQLType2String(sql_type).c_str(), colname.c_str());
+#endif // HAS_LOGGING
         }
     }
 
@@ -220,7 +224,15 @@ GDataBaseIF::ReadFloat(sqlite3_stmt *stmt, const int idx, const string colname, 
         }
         else
         {
+#ifdef HAS_LOGGING
             HandleError(l, eMSGLEVEL::LOG_ERROR, THROW_EXCEPTION, "Incorrect Type  (%d = %s) \"%s\", expcted SQLITE_FLOAT", sql_type, SQLType2String(sql_type).c_str(), colname.c_str());
+
+#else
+            HandleError(l, THROW_EXCEPTION, "Incorrect Type  (%d = %s) \"%s\", expcted SQLITE_FLOAT", sql_type, SQLType2String(sql_type).c_str(), colname.c_str());
+
+#endif // DEBUG
+
+        
         }
     }
 
@@ -238,7 +250,14 @@ int GDataBaseIF::ReadInteger(sqlite3_stmt *stmt, const int idx, const string col
         }
         else
         {
+#ifdef HAS_LOGGING
             HandleError(l, eMSGLEVEL::LOG_ERROR, THROW_EXCEPTION, "Incorrect Type  (%d = %s) \"%s\", expected SQL_INTEGER", sql_type, SQLType2String(sql_type).c_str(), colname.c_str());
+
+#else
+            HandleError(l, THROW_EXCEPTION, "Incorrect Type  (%d = %s) \"%s\", expected SQL_INTEGER", sql_type, SQLType2String(sql_type).c_str(), colname.c_str());
+
+#endif // HAS_LOGGING
+
         }
     }
 

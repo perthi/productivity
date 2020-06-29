@@ -49,13 +49,13 @@ class  GDataBaseIF
 
 	protected:
 		#ifdef HAS_LOGGING
-		virtual void HandleError( const GLocation l,   eMSGLEVEL lvl,  const bool throw_ex,   const char * fmt, ...);
+		virtual void API HandleError( const GLocation l,   eMSGLEVEL lvl,  const bool throw_ex,   const char * fmt, ...);
 		#else
-		virtual void HandleError( const GLocation l,  const bool throw_ex,   const char * fmt, ...);
+		virtual void API HandleError( const GLocation l,  const bool throw_ex,   const char * fmt, ...);
 		#endif
 		
-		string SQLType2String( const int sql_type  ) const;	
-		string LimitString( const int cnt );
+		string  API SQLType2String( const int sql_type  ) const;	
+		string  API LimitString( const int cnt );
 		sqlite3       *fDataBase  =  nullptr; 
         sqlite3_stmt  *fStmt     =   nullptr;  // SQLite statmement 
 

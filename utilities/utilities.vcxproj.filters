@@ -28,6 +28,9 @@
     <ClInclude Include="GTime.h" />
     <ClInclude Include="GTokenizer.h" />
     <ClInclude Include="GUtilities.h" />
+    <ClInclude Include="..\sqlite\sqlite3.h" />
+    <ClInclude Include="..\sqlite\sqlite3ext.h" />
+    <ClInclude Include="GDataBaseIF.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GCommon.cpp" />
@@ -51,5 +54,7 @@
     <ClCompile Include="GTime.cpp" />
     <ClCompile Include="GTokenizer.cpp" />
     <ClCompile Include="GUtilities.cpp" />
+    <ClCompile Include="..\sqlite\sqlite3.c" />
+    <ClCompile Include="GDataBaseIF.cpp" />
   </ItemGroup>
 </Project>
