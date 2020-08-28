@@ -40,6 +40,7 @@
 #include  <cmdline/GLogApplication.h>
 #endif
 
+//#define G_STANDALONE
 
 MAIN_UNITTEST()
 

@@ -38,7 +38,7 @@ export LIBLOCAL=$(BUILDDIR)/$(TARGET)/lib
 export INSTALLDIRS=$(BUILDDIR) $(BUILDDIR)/$(TARGET)  $(BUILDDIR)/$(TARGET)/bin  $(BUILDDIR)/$(TARGET)/lib
 export VERSIONINFO_EXE=$(BUILDDIR)/x86/bin/version-info
 
-export COMMON_FLAGS:= -fPIC -ggdb -std=c++17  -g
+export COMMON_FLAGS:= -fPIC -ggdb -std=c++17  -g -DG_STANDALONE
 export PEDANTIC_FLAGS:= -Weffc++ -Wshadow -Wall -Wextra -Wpedantic -Wno-unknown-pragmas -Wswitch-enum -Wimplicit-fallthrough -Wignored-qualifiers -Werror
 
 export CPPFLAGS:=           $(COMMON_FLAGS) $(PEDANTIC_FLAGS)
@@ -46,7 +46,7 @@ export CPPFLAGS_RELAXED:=   $(COMMON_FLAGS) $(PEDANTIC_FLAGS)
 
 export LIBFLAGS:= -shared
 
-INCLUDES:= -I $(CURDIR)/include/
+INCLUDES:= -I $(CURDIR)/include/  -isystem $(CURDIR)/include/system
 GTEST_INCLUDES:= -isystem $(CURDIR)/
 LIBS= -L $(CURDIR)/build/$(TARGET)/lib  -lm
 
