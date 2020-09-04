@@ -52,7 +52,7 @@ GUtilities * g_utilities()
 
 
 void 
-GUtilities::Sizes()
+GUtilities::Sizes() const
 {
     short s = 0;
     int i = 0;
@@ -88,14 +88,14 @@ GUtilities::EnableError()
 
 
 bool
-GUtilities::IsDisabledError()
+GUtilities::IsDisabledError() const
 {
 	return fIsDisabledError;
 }
 
 
 bool   
-GUtilities::IsLittleEndian()
+GUtilities::IsLittleEndian() const
 {
    int num = 1;
 
@@ -110,7 +110,7 @@ GUtilities::IsLittleEndian()
 }
 
 bool    
-GUtilities::IsBigEndian()
+GUtilities::IsBigEndian() const
 {
     return IsLittleEndian() == true ? false : true;
 }    
@@ -143,6 +143,8 @@ GUtilities::QueryInput(const string prompt)
         free((void *)line);
     }
 
+    //cout << endl;
+
     return option;
 }
 #endif
@@ -150,7 +152,7 @@ GUtilities::QueryInput(const string prompt)
 
 
 bool 
-GUtilities::IsValidIPV4Address(const string ipv4_address)
+GUtilities::IsValidIPV4Address(const string ipv4_address) const
 {
     std::regex pattern("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)");
     return std::regex_match(ipv4_address, pattern);
@@ -201,5 +203,19 @@ GUtilities::AutoClause( string addendum, FILE *fp)
     }
 
     return buffer.str();
+
+}  
+
+string              
+GUtilities::TrueOrFalse( const bool val ) const
+{
+    if(val == true)
+    {
+        return "TRUE";
+    }
+    else
+    {
+        return "FALSE";
+    }
 
 }

@@ -70,13 +70,14 @@ $(LIBNAME_A):  $(OBJS) $(OBJSCPP) $(SRCCPP) $(SRC) $(INSTALLDIRS)
 	@rm -f !  $(LIBLOCAL)/$(LIBNAME_A) 
 	@cp -p $(LIBNAME_A) $(LIBLOCAL)
 
-$(LIBNAME_SO):  $(OBJS) $(OBJSCPP) $(INSTALLDIRS)
-	@echo hello world  > /dev/null
+#$(LIBNAME_SO):  $(OBJS) $(OBJSCPP) $(INSTALLDIRS)
+#	@echo hello world  > /dev/null
+
 #$(LIBNAME_SO): compileinfo_dir  $(OBJS) $(OBJSCPP) $(INSTALLDIRS)
-# $(LIBNAME_SO):  $(OBJS) $(OBJSCPP) $(INSTALLDIRS)
-# 	$(CCLOCAL) $(LIBFLAGS)   -o $(LIBNAME_SO) $(OBJS) $(OBJSCPP) 
-# 	@rm -f !  $(LIBLOCAL)/$(LIBNAME_SO) 
-# 	@cp -p $(LIBNAME_SO) $(LIBLOCAL)
+$(LIBNAME_SO):  $(OBJS) $(OBJSCPP) $(INSTALLDIRS)
+	$(CCLOCAL) $(LIBFLAGS) -fPIC  -o $(LIBNAME_SO) $(OBJS) $(OBJSCPP) 
+	@rm -f !  $(LIBLOCAL)/$(LIBNAME_SO) 
+	@cp -p $(LIBNAME_SO) $(LIBLOCAL)
 
 
 
