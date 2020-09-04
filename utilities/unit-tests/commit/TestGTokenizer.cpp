@@ -80,7 +80,6 @@ TEST_F(TestGTokenizer, Tokenize )
 
     vector<string> combo = {in1, in2, in3};
     res = g_tokenizer()->Tokenize(combo, " ");
-   // CERR << typeid(this).name() << endl;
    
     if (res.size() == 12)
     {

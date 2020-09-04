@@ -108,7 +108,6 @@ TEST_F(TestGRandom, numberGenerationNSR331)
         double tmp = g_random()->Binominal<int>(n, p);
         EXPECT_LE(tmp, 10);
         EXPECT_GE(tmp, 0);
-        //   CERR << "The generated number is" << tmp << endl;
     }
 
     double n2 = 20;

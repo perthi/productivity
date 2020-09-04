@@ -286,7 +286,7 @@ GDataBaseIF::DeleteEntries( const string tablename )
     rc = sqlite3_exec(fDataBase, sql, NULL, 0, &zErrMsg);
     if (rc != SQLITE_OK)
     {
-        CERR <<  "DeleteEntries SQL error: " << zErrMsg << endl;
+        CERR <<  "DeleteEntries SQL error: " << zErrMsg << ENDL;
         sqlite3_free(zErrMsg);
         return false;
     }

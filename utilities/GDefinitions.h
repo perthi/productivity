@@ -69,9 +69,16 @@ using std::string;
 #define ARG_MAX 4096
 
 #define COUT  cout << __FILE__ << ":" <<__LINE__ <<":" << __FUNCTION__ <<":"
-#define CERR  cerr << __FILE__ << ":" <<__LINE__ <<":" << __FUNCTION__ <<":"
-#define SHOW(a) COUT << #a << ": " << (a) << std::endl
 
+#if defined(__unix__)
+#define CERR   cerr << "\033[7;1;34m" <<__FILE__ << ":" <<__LINE__ <<":" << __FUNCTION__ <<":" 
+#define ENDL   "\033[0m" << endl;
+
+#else
+#define CERR  cerr << __FILE__ << ":" <<__LINE__ <<":" << __FUNCTION__ <<":"
+#endif
+
+#define SHOW(a) COUT << #a << ": " << (a) << std::endl
 
 #if _WIN64
 typedef   wchar_t DBCHAR;
