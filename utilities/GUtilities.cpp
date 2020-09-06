@@ -43,6 +43,8 @@
 
 #include <regex>
 
+#include <thread>
+#include <chrono>
 
 GUtilities * g_utilities()
 {
@@ -132,6 +134,8 @@ GUtilities::QueryInput( const string prompt)
 string  
 GUtilities::QueryInput(const string prompt)
 {
+    std::this_thread::sleep_for( std::chrono::milliseconds(300) );
+
     string option;
     const char *line;
     line = readline(prompt.c_str() );
