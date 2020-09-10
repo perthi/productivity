@@ -65,17 +65,17 @@ TEST_F(TestGRegexp, ScanNumber )
     }
     catch (std::exception &e)
     {
-        cerr << e.what() << ENDL;
+        cerr << e.what() << endl;
     }
     #ifdef HAS_LOGGING
     catch (GException &e)
     {
-        cerr << e.what() << ENDL;
+        cerr << e.what() << endl;
     }
     #endif
     catch (...)
     {
-        CERR << "UNKNOWN EXCEPTION !!!!" << ENDL;
+        CERR << "UNKNOWN EXCEPTION !!!!" << endl;
     }
 }
 

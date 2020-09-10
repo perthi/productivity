@@ -431,20 +431,20 @@ TEST_F(TestGNumbers, ToFloat)
     #ifdef HAS_LOGGING
 	catch (GException &e)
 	{
-		CERR << e.what() << ENDL;
+		CERR << e.what() << endl;
 	}
     #endif
 	catch(std::exception &e)
 	{
-		CERR << e.what() << ENDL;
+		CERR << e.what() << endl;
 	}
 	catch (std::string s)
 	{
-		CERR << s << ENDL;
+		CERR << s << endl;
 	}
 	catch (...)
 	{
-		CERR << "Unknown exception caught" << ENDL;
+		CERR << "Unknown exception caught" << endl;
 	}
 
 

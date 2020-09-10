@@ -93,7 +93,7 @@ GFileIOHandler::Append(const string fname, const char * fmt, ...)
     }
     catch (std::exception &e)
     {
-        CERR << "Exception caught appending to file, message:" << e.what() << ENDL;
+        CERR << "Exception caught appending to file, message:" << e.what() << endl;
         return false;
     }
 }
@@ -454,7 +454,7 @@ GFileIOHandler::CheckFile(const string fname, const char *opt)
 
 	 if (ret != 1)
 	 {
-		 CERR << "could not set attribute !!" << ENDL;
+		 CERR << "could not set attribute !!" << endl;
 	 }
  }
 #endif
@@ -473,11 +473,14 @@ GFileIOHandler::ReadAll(const string fname, bool * status)
     static int cnt = 0;
     cnt ++;
 
+   //  CERR << "reading file = " << fname << endl;
 	 vector<string> ret;
 	 std::ifstream fin;
 	 string line;
 
+
 	 bool l_status = true;
+
 
 	 fin.open(fname);
 	 if (!fin.good())
@@ -588,7 +591,7 @@ GFileIOHandler::ClearAttribute(const string fname, unsigned long attr)
 
 	 if (ret != 1)
 	 {
-		 CERR << "could not set attribute !!" << ENDL;
+		 CERR << "could not set attribute !!" << endl;
 	 }
  }
 
