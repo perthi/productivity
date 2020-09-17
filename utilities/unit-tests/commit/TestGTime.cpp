@@ -169,18 +169,18 @@ TEST_F(TestGTime, TimeStamp)
     #ifdef HAS_LOGGING
 	catch (GException& e)
 	{
-		CERR << e.what() << endl;
+		CERR << e.what() << ENDL;
 		throw(e);      
 	}
     #endif
 	catch (std::exception& e)
 	{
-		CERR << e.what() << endl;
+		CERR << e.what() << ENDL;
 		//throw(e);
 	}
 	catch (...)
 	{
-		CERR << "Unknown exception caught" << endl;
+		CERR << "Unknown exception caught" << ENDL;
 		//throw(std::invalid_argument("unknown exception caught") );
 	}
 

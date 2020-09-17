@@ -43,6 +43,8 @@
 
 #include <regex>
 
+#include <thread>
+#include <chrono>
 
 GUtilities * g_utilities()
 {
@@ -52,7 +54,7 @@ GUtilities * g_utilities()
 
 
 void 
-GUtilities::Sizes()
+GUtilities::Sizes() const
 {
     short s = 0;
     int i = 0;
@@ -88,14 +90,14 @@ GUtilities::EnableError()
 
 
 bool
-GUtilities::IsDisabledError()
+GUtilities::IsDisabledError() const
 {
 	return fIsDisabledError;
 }
 
 
 bool   
-GUtilities::IsLittleEndian()
+GUtilities::IsLittleEndian() const
 {
    int num = 1;
 
@@ -110,7 +112,7 @@ GUtilities::IsLittleEndian()
 }
 
 bool    
-GUtilities::IsBigEndian()
+GUtilities::IsBigEndian() const
 {
     return IsLittleEndian() == true ? false : true;
 }    
@@ -132,6 +134,8 @@ GUtilities::QueryInput( const string prompt)
 string  
 GUtilities::QueryInput(const string prompt)
 {
+    std::this_thread::sleep_for( std::chrono::milliseconds(300) );
+
     string option;
     const char *line;
     line = readline(prompt.c_str() );
@@ -143,14 +147,28 @@ GUtilities::QueryInput(const string prompt)
         free((void *)line);
     }
 
+    //cout << endl;
+
     return option;
 }
 #endif
 #endif
 
+#ifdef ARM
+string 
+GUtilities::QueryInput( const string prompt)
+{
+    cout << prompt;	
+    string user_input;
+    std::getline(std::cin,  user_input);
+    return user_input;
+    //double freq_f = g_numbers()->ToFloat( freq);
+}
+#endif
+
 
 bool 
-GUtilities::IsValidIPV4Address(const string ipv4_address)
+GUtilities::IsValidIPV4Address(const string ipv4_address) const
 {
     std::regex pattern("^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)");
     return std::regex_match(ipv4_address, pattern);
@@ -201,5 +219,19 @@ GUtilities::AutoClause( string addendum, FILE *fp)
     }
 
     return buffer.str();
+
+}  
+
+string              
+GUtilities::TrueOrFalse( const bool val ) const
+{
+    if(val == true)
+    {
+        return "TRUE";
+    }
+    else
+    {
+        return "FALSE";
+    }
 
 }

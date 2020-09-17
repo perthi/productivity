@@ -69,46 +69,43 @@ class  GUtilities
 {
     friend GUtilities * g_utilities();
 public:
-  
     string		        API     Copy(const char *buffer, const int length, string *in = nullptr);  
-    
-#ifndef ARM
+//#ifndef ARM
     string				API		QueryInput( const string prompt);
- #endif   
-    string                API     AutoClause(string addendum = "", FILE *fp  = nullptr);
-
-    bool				API     IsLittleEndian();
-    bool				API     IsBigEndian();       
-    void				API		Sizes();
+ //#endif   
+    string              API     AutoClause(string addendum = "", FILE *fp  = nullptr);
+    bool				API     IsLittleEndian() const;
+    bool				API     IsBigEndian() const;       
+    void				API		Sizes() const;
     void				API		DisableError();
     void				API		EnableError();
-    bool				API		IsDisabledError();
-    bool		 	    API     IsEmpty(const string &in);
-    
-    template <typename T >
-    inline void ResetArray( T *arr, const size_t size ) const;
+    bool				API		IsDisabledError() const;
+    bool		 	    API     IsEmpty(const string &in) const;
+    string              API     TrueOrFalse( const bool val ) const;
+    string              API     TabAlign(const string &in,  int max_tabs = 4, int *n_tabs = nullptr ) const;
+    bool                API     IsValidIPV4Address(const string ipv4_address) const;
 
-    template < typename T >   void               Print(const T &array, const string file, const string func, const int line );
-    template < typename T >   void               Print(vector<T> in);
-    template < typename T >   vector<string>     Append(vector<T> &original, const vector<T> appendix );
-    template < typename T >   string	           CheckLimits(const T val, const T low, const T up, const char *varname, const char * filename, const  int linenumber, const char * functionname, bool *status = nullptr);
-    template < typename T >   bool               IsInRange(const T value, const T lower, const T upper);
-    template < typename T1,   typename T2>      bool  Contains(map<T1, T2> *, T1);
-    template < typename T >   string             Vec2String(const vector<T>, const string sep =  "\n");
-    template < typename T>								 string		Hash2String( const map< string, T>   *m, const int ncols = 8, const string sep = "");
-    template < typename T1,	  typename T2>				 vector< T1>	Hash2StringV(const map< T1, T2>  *m);
-	template < typename T1,   typename T2>				 vector< T2>	Hash2SContentV(const map< T1, T2>* m);
-    template < typename T >   bool               HasElement(const T element, const vector<T> &in);
-    template < typename T >   bool               Bits2Array(const T element, vector<T> &in);
-    template < typename T >	  bool               Array2Bits(T & element, const vector<T>& in);
-    template < typename T>    bool               Contains(const vector<T> vect, const T element);
-    template < typename T1, typename T2>   bool  CheckMinMax(const T1 min, const T2 max);
-    template < typename T>				   void FilterOut(vector<T> &in,  const vector<T> &filter);
-    string     API   TabAlign(const string &in,  int max_tabs = 4, int *n_tabs = nullptr );
-
-	/// template <typename T1, typename T2>   bool  AddUniqueElelement(std::map<T1, T2>& m, T1);
-    bool      API  IsValidIPV4Address(const string ipv4_address);
-
+    template <typename T >   void ResetArray( T *arr, const size_t size ) const;
+    template < typename T >  void               Print(const T &array, const string file, const string func, const int line ) const;
+    template < typename T >  void               Print(vector<T> in) const;
+    template < typename T >  vector<string>     Append(vector<T> &original, const vector<T> appendix ) const;
+   
+    template < typename T >   bool               IsInRange(const T value, const T lower, const T upper) const;
+    template < typename T1, typename T2> bool    Contains(map<T1, T2> *, T1) const;
+    template < typename T>    bool               Contains(const vector<T> vect, const T element) const;
+    template < typename T >   string             Vec2String(const vector<T>, const string sep =  "\n") const;
+    template < typename T>    string             Hash2String( const map< string, T>   *m, const int ncols = 8, const string sep = "") const;
+    template < typename T1,	  typename T2> vector< T1> Hash2StringV(const map< T1, T2>  *m) const;
+	template < typename T1,   typename T2> vector< T2> Hash2SContentV(const map< T1, T2>* m) const;
+    template < typename T >   bool               HasElement(const T element, const vector<T> &in) const;
+    template < typename T >   bool               Bits2Array(const T element, vector<T> &in) const;
+    template < typename T >	  bool               Array2Bits(T & element, const vector<T>& in) const;
+   
+    template < typename T1, typename T2>   bool  CheckMinMax(const T1 min, const T2 max) const;
+    template < typename T>				   void FilterOut(vector<T> &in,  const vector<T> &filter) const;
+    template < typename T >  string             CheckLimits( const T val, const T low, const T up, 
+                                                               const char *varname, const char * filename, 
+                                                               const  int linenumber, const char * functionname, bool *status = nullptr) const;
 
 private:
     GUtilities() {};
@@ -116,8 +113,6 @@ private:
     bool fIsDisabledError = false;
     char fCurDir[1024] = "";
 };
-
-
 
 
 
@@ -138,7 +133,7 @@ GUtilities::ResetArray( T *arr, const size_t size ) const
 
 
 template<typename T>  vector<string>  
-GUtilities::Append(vector<T> &original, const vector<T> appendix )
+GUtilities::Append(vector<T> &original, const vector<T> appendix ) const
 {
     original.insert(original.end(), appendix.begin(), appendix.end() );
     return original;
@@ -148,9 +143,10 @@ GUtilities::Append(vector<T> &original, const vector<T> appendix )
 /**  Check if a values (val) is
  *
  */
-template<typename T>
+template <typename T>
 inline string
-GUtilities::CheckLimits(const T val, const T low, const T up,  const char * varname, const char * filename, const  int linenumber, const char * functionname, bool *status )
+GUtilities::CheckLimits(const T val, const T low, const T up,
+                        const char *varname, const char *filename, const int linenumber, const char *functionname, bool *status) const
 {
     std::ostringstream l_msg;
     bool ret = false;
@@ -158,32 +154,29 @@ GUtilities::CheckLimits(const T val, const T low, const T up,  const char * varn
     if (val < low || val > up)
     {
         l_msg << varname << " is:" << val << " which is outside the range [" << low << ", " << up << "] ";
-        
+
         if (status != nullptr)
         {
             *status = ret;
-        }   
-        
+        }
+
         g_common()->HandleError(l_msg.str(), GLocation(filename, linenumber, functionname), IsDisabledError());
     }
     else
     {
         if (status != nullptr)
         {
-            *status = ret;
+            *status = true;
         }
     }
 
-
     return l_msg.str();
-
 }
-
 
 
 template<typename T>
 inline bool
-GUtilities::IsInRange(const T value, const T lower, const T upper)
+GUtilities::IsInRange(const T value, const T lower, const T upper) const
 {
     if (value >= lower && value <= upper)
     {
@@ -198,7 +191,7 @@ GUtilities::IsInRange(const T value, const T lower, const T upper)
 
 template<typename T>
 void
-GUtilities::Print(vector<T> in)
+GUtilities::Print(vector<T> in) const
 {
     for (size_t i = 0; i < in.size(); i++)
     {
@@ -210,7 +203,7 @@ GUtilities::Print(vector<T> in)
 /* Check wether or not the element T1 is contained in the map m */
 template<typename T1, typename T2>
 bool  
-GUtilities::Contains(map<T1, T2> *m , T1 name)
+GUtilities::Contains(map<T1, T2> *m , T1 name) const
 {
     // typename std::map<T1, T2>::iterator it;
     auto it = m->find(name);
@@ -221,7 +214,7 @@ GUtilities::Contains(map<T1, T2> *m , T1 name)
 
 template <typename T>
 string
-GUtilities::Vec2String(const vector<T> data, const string sep)
+GUtilities::Vec2String(const vector<T> data, const string sep) const
 {
     ostringstream buffer;
     unsigned int n = (unsigned int)data.size();
@@ -251,7 +244,7 @@ GUtilities::Vec2String(const vector<T> data, const string sep)
  *   @return a vector of hash codes/entries */
 template <typename T>
 string 
-GUtilities::Hash2String(const map<string, T> *m, const int ncols, const string sep)
+GUtilities::Hash2String(const map<string, T> *m, const int ncols, const string sep) const
 {
     std::stringstream buffer;
 
@@ -288,7 +281,7 @@ GUtilities::Hash2String(const map<string, T> *m, const int ncols, const string s
  *  @param[in] table The hash map to process
  *  @return either a vector of hash codes/entries */
 template<typename T1, typename T2>
-inline vector<T1> GUtilities::Hash2StringV(const map<T1, T2> * table)
+inline vector<T1> GUtilities::Hash2StringV(const map<T1, T2> * table) const
 {
     vector<T1> tmp;
     for (auto it = table->begin(); it != table->end(); it++)
@@ -300,7 +293,7 @@ inline vector<T1> GUtilities::Hash2StringV(const map<T1, T2> * table)
 
 
 template<typename T1, typename T2>
-inline vector<T2> GUtilities::Hash2SContentV(const map<T1, T2>* table)
+inline vector<T2> GUtilities::Hash2SContentV(const map<T1, T2>* table) const
 {
 	vector<T2> tmp;
 	for (auto it = table->begin(); it != table->end(); it++)
@@ -312,7 +305,7 @@ inline vector<T2> GUtilities::Hash2SContentV(const map<T1, T2>* table)
 
 
 template<typename T>
-inline bool GUtilities::HasElement(const T element, const vector<T>& in)
+inline bool GUtilities::HasElement(const T element, const vector<T>& in) const
 {
     for (size_t i = 0; i < in.size(); i++)
     {
@@ -326,7 +319,7 @@ inline bool GUtilities::HasElement(const T element, const vector<T>& in)
 
 
 template<typename T>
-bool GUtilities::Bits2Array(const T element, vector<T>& in)
+bool GUtilities::Bits2Array(const T element, vector<T>& in) const
 {
     static_assert(std::is_integral<T>::value, "Not an integral value.");
     if ((sizeof(element) * CHAR_BIT) == in.size())
@@ -343,7 +336,7 @@ bool GUtilities::Bits2Array(const T element, vector<T>& in)
 
 
 template<typename T>
-bool GUtilities::Array2Bits(T& element, const vector<T>& in)
+bool GUtilities::Array2Bits(T& element, const vector<T>& in) const
 {
     static_assert(std::is_integral<T>::value, "Not an integral value.");
 
@@ -366,7 +359,7 @@ bool GUtilities::Array2Bits(T& element, const vector<T>& in)
 
 
 template<typename T>
-bool GUtilities::Contains(const vector<T> vect, const T element)
+bool GUtilities::Contains(const vector<T> vect, const T element) const
 {
     if (std::find(vect.begin(), vect.end(), element) != vect.end())
     {
@@ -380,7 +373,7 @@ bool GUtilities::Contains(const vector<T> vect, const T element)
 
 
 template<typename T1, typename T2>
-bool GUtilities::CheckMinMax(const T1 min, const T2 max)
+bool GUtilities::CheckMinMax(const T1 min, const T2 max) const
 {
     std::stringstream buffer;
 
@@ -402,7 +395,7 @@ bool GUtilities::CheckMinMax(const T1 min, const T2 max)
 
 template<typename T>
 inline void 
-GUtilities::FilterOut(vector<T>& in, const vector<T> &filter)
+GUtilities::FilterOut(vector<T>& in, const vector<T> &filter) const
 {
     /// CRAP PTH, bubble search
     for (size_t i = 0; i < filter.size() ; i++)
@@ -418,10 +411,62 @@ GUtilities::FilterOut(vector<T>& in, const vector<T> &filter)
     }
 }
 
-//template<typename T1, typename T2>
-//inline void GUtilities::AddUniqueElelement(std::map<T1, T2>& m, T1)
-//{
-//}
+
+template<typename T>
+inline void GUtilities::Print(const T &array, const string file, const string func, const int line) const
+{
+    cout << file << ":" << line << ": " << func << ":  Printing array " << endl;
+
+    for (int i = 0; i < array.size(); i++)
+    {
+        cout << array[i] << endl;
+    }
+}
+
+
+/* We consider a string empty if it only contains spaces, tabs or newline *
+ * in[in] The input string to check
+ * @return true if the string is empty, false othervise */
+bool
+inline GUtilities::IsEmpty(const string &in) const
+{
+    for (uint16_t i = 0; i < in.size(); i++)
+    {
+        if (in[i] != ' ' && in[i] != '\t' && in[i] != '\n')
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+
+#define TAB_SIZE 8
+
+
+inline string 
+GUtilities::TabAlign( const string & in, int max_tabs, int *n  ) const
+{
+    //int n_tabs =  max_tabs - (int)(in.size() -1 )/ TAB_SIZE;
+    int n_tabs =  max_tabs - (int)(in.size()  )/ TAB_SIZE;
+
+    string tmp = in;
+    
+    if ( n != nullptr )
+    {
+        *n = n_tabs;
+    }
+
+    if ( n_tabs > 0 )
+    {
+        for ( int i = 0; i < n_tabs; i++ )
+        {
+            tmp += "\t";
+        }
+    }
+    return tmp;
+}
+
 
 
 
@@ -457,19 +502,13 @@ inline vector<T> operator -  (const vector<T> &lhs,  const vector<T> &rhs)
 
 
 template <typename T1, typename T2>  
-inline vector<T1> operator /  (const vector<T1> &lhs,  const T2 &rhs ) 
+inline vector<T1> operator /  (const vector<T1> &lhs,  const T2 &rhs )  
 {
     vector<T1> tmp;
     
     if(rhs == 0 )
     {
         g_common()->HandleError(  "ATTEMP ON ZERO DIVISION", GLOCATION, THROW_EXCEPTION  );
-
-    //  #ifndef G_STANDALONE    
-	// EXCEPTION("ATTEMP ON ZERO DIVISION");
-	//   #else
-    //     throw ( std::invalid_argument( " ATTEMP ON ZERO DIVISION " ) );
-    //     #endif
     return lhs;
     }
     else
@@ -490,7 +529,7 @@ inline vector<T1> operator *  (const vector<T1> &lhs,  const T2 &rhs )
     
     for(int i = 0; i < lhs.size(); i ++ )
     {
-	tmp.push_back(lhs[i]*rhs);
+	    tmp.push_back(lhs[i]*rhs);
     }
     
     return tmp;
@@ -498,7 +537,7 @@ inline vector<T1> operator *  (const vector<T1> &lhs,  const T2 &rhs )
 
 
 template<typename T>
-inline ostream& operator << ( ostream& os,  const vector<T> &in )
+inline ostream& operator << ( ostream& os,  const vector<T> &in ) 
 {
     std::stringstream buffer;
     
@@ -513,7 +552,7 @@ inline ostream& operator << ( ostream& os,  const vector<T> &in )
 
 template<typename T>
 inline ostream& operator << ( ostream& os,  const vector<T *> &in )
-{
+{ const
     std::stringstream buffer;
     
     for(int i=0; i < in.size(); i++)
@@ -523,61 +562,4 @@ inline ostream& operator << ( ostream& os,  const vector<T *> &in )
     
     return os;
 }
-
-
-template<typename T>
-inline void GUtilities::Print(const T &array, const string file, const string func, const int line)
-{
-    cout << file << ":" << line << ": " << func << ":  Printing array " << endl;
-
-    for (int i = 0; i < array.size(); i++)
-    {
-        cout << array[i] << endl;
-    }
-}
-
-
-/* We consider a string empty if it only contains spaces, tabs or newline *
- * in[in] The input string to check
- * @return true if the string is empty, false othervise */
-bool
-inline GUtilities::IsEmpty(const string &in)
-{
-    for (uint16_t i = 0; i < in.size(); i++)
-    {
-        if (in[i] != ' ' && in[i] != '\t' && in[i] != '\n')
-        {
-            return false;
-        }
-    }
-    return true;
-}
-
-
-#define TAB_SIZE 8
-
-
-inline string 
-GUtilities::TabAlign( const string & in, int max_tabs, int *n  )
-{
-    //int n_tabs =  max_tabs - (int)(in.size() -1 )/ TAB_SIZE;
-    int n_tabs =  max_tabs - (int)(in.size()  )/ TAB_SIZE;
-
-    string tmp = in;
-    
-    if ( n != nullptr )
-    {
-        *n = n_tabs;
-    }
-
-    if ( n_tabs > 0 )
-    {
-        for ( int i = 0; i < n_tabs; i++ )
-        {
-            tmp += "\t";
-        }
-    }
-    return tmp;
-}
-
 

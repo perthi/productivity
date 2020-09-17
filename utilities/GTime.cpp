@@ -244,7 +244,7 @@ GTime::IsValidDateString(const string t)
     }
     else
     {
-        CERR << "ERROR; invalid GTime  string;\t " << t << ", GTime.size() = " << t.size() << "\n";
+        CERR << "ERROR; invalid GTime  string;\t " << t << ", GTime.size() = " << t.size() <<  ENDL;
         return false;
     }
 
@@ -262,7 +262,6 @@ GTime::IsValidDateString(const string t)
     {
         if (sday == validDays[i])
         {
-            //      CERR << "DAY is valid (" << sday << ")" << endl;
             isValidDay = true;
             break;
         }
@@ -282,7 +281,7 @@ GTime::IsValidDateString(const string t)
     }
     else
     {
-        CERR << "Invalid year " << year << ", year must be between " << YEAR_MIN << " and " << YEAR_MAX << "\n";
+        CERR << "Invalid year " << year << ", year must be between " << YEAR_MIN << " and " << YEAR_MAX << ENDL;
     }
 
     string smonth = string(month);
