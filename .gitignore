@@ -39,3 +39,7 @@ utilities/unit-tests/commit/x86/utilities-unit-tests
 **/testdir/
 **/.vscode/
 utilities/unit-tests/commit/arm/utilities-unit-tests
+configurator/logging-configurator/x86/configurator-example1
+configurator/logging-configurator/x86/logging-example1
+configurator/unit-tests/commit/x86/logging-unit-tests
+exception/unit-tests/commit/x86/logging-unit-tests

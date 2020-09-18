@@ -42,6 +42,52 @@
 #include <chrono>
 using namespace std::chrono;
 
+namespace {
+vector<string> s_validMonths = {
+    "January", "February", "March",     "April",   "May",      "June",
+    "July",    "August",   "September", "October", "November", "December"};
+vector<string> s_validDays = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
+std::tm s_t_l;
+static map<string, string> s_format = {
+    {"%a", "abbrevated weekday"},
+    {"%A", "weekday"},
+    {"%b", "abbrevated month"},
+    {"%B", "month"},
+    {"%C", "Century (00-99)"},
+    {"%d", "Day of month (01-31), zero padded"},
+    {"%e", "Day of month ( 1-31), space padded"},
+    {"%D", "Equivalent to \"%m/%d/%y\""},
+    {"%F", "Equivalent to \"%Y-%m-%d\""},
+    {"%g", "last two digits of the week-based year"},
+    {"%G", "Week-based year"},
+    {"%h", "equivalent to %b (abbrevated month)"},
+    {"%H", "24-hour decimal (00-24)"},
+
+    {"%I", "12-hour decimal (00-12)"},
+    {"%j", "year day (001-366)"},
+    {"%m", "Month in decimal (01-12)"},
+    {"%M", "Minutes in decimal (00-59)"},
+
+    {"%n", "newline character"},
+    {"%p", "AM/PM designation"},
+    {"%r", "Equivalent to \"%I:%M : %S %p\""},
+    {"%R", "Equivalent to \"%H:%M\""},
+    {"%S", "Seconds in decimal (00-59)"},
+    {"%t", "newline character"},
+    {"%T", "Equivalent to \"%H:%M:%S\""},
+    {"%u", "week day in decimal (1-7)"},
+    {"%w", "week day in decimal (0-6)"},
+
+    {"%U", "sunday week number (00-53)"},
+    {"%W", "monday week number (00-53)"},
+    {"%V", " ISO 8601 week number (00-53)"},
+    {"%X", "Time display"},
+
+    {"%y", "year without century"},
+    {"%Y", "year with century"},
+    {"%z", "Time zone"},
+    {"%z", "Time zone name (if any)"}};
+}
 
 
 GTime * g_time()
@@ -203,17 +249,14 @@ bool GTime::IsGregorianLeapYear(int iYear)
 bool
 GTime::IsValidDateString(const string t)
 {
-    static vector<string> validMonths = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
-    static vector<string> validDays = { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" };
-
     if (t.size() == 0)
     {
         return false;
     }
 
-	static char day[64] = {0};
+        char day[64] = {0};
     int  date;
-	static char month[64] = {0};
+        char month[64] = {0};
     int  year;
     int  hour;
     int  minute;
@@ -258,9 +301,9 @@ GTime::IsValidDateString(const string t)
     bool isValidSecond = false;
 
     string sday = string(day);
-    for (uint16_t i = 0; i < validDays.size(); i++)
+    for (uint16_t i = 0; i < s_validDays.size(); i++)
     {
-        if (sday == validDays[i])
+        if (sday == s_validDays[i])
         {
             isValidDay = true;
             break;
@@ -285,9 +328,9 @@ GTime::IsValidDateString(const string t)
     }
 
     string smonth = string(month);
-    for (uint16_t i = 0; i < validMonths.size(); i++)
+    for (uint16_t i = 0; i < s_validMonths.size(); i++)
     {
-        if (smonth == validMonths[i])
+        if (smonth == s_validMonths[i])
         {
             
             isValidMonth = true;
@@ -513,9 +556,8 @@ long double  GTime::AccessDate(const string date)
 time_t
 GTime::DateString2Time(const string date, const string format, std::tm *t, int64_t *us )
 {
-    static std::tm t_l;
     std::istringstream ss(date);
-    ss >> std::get_time(&t_l, format.c_str());
+    ss >> std::get_time(&s_t_l, format.c_str());
     vector<string> tokens = g_tokenizer()->Tokenize(date, ".");
     size_t n = tokens.size();
     
@@ -543,10 +585,10 @@ GTime::DateString2Time(const string date, const string format, std::tm *t, int64
   
     if (t != 0)
     {
-        *t = t_l;
+        *t = s_t_l;
     }
 
-    return   mktime(&t_l);
+    return   mktime(&s_t_l);
 }
 
 
@@ -554,7 +596,7 @@ GTime::DateString2Time(const string date, const string format, std::tm *t, int64
 string
 GTime::GetTime_ISO8601(bool use_microseconds)
 {
-    static int64_t us;
+    int64_t us;
     string d = TimeStamp("%FT%T", &us);
     
     return d;
@@ -693,58 +735,8 @@ GTime::TimeStamp(struct std::tm *tout, const char *format, struct std::tm *tin, 
 }
 
 
-map<string, string> &
-GTime::FormatChars()
-{
-    static map<string, string> format;
-    static bool isInitialized = false;
-
-    if (isInitialized == false)
-    {
-        format.emplace("%a", "abbrevated weekday");
-        format.emplace("%A", "weekday");
-        format.emplace("%b", "abbrevated month");
-        format.emplace("%B", "month");
-        format.emplace("%C", "Century (00-99)");
-        format.emplace("%d", "Day of month (01-31), zero padded");
-        format.emplace("%e", "Day of month ( 1-31), space padded");
-        format.emplace("%D", "Equivalent to \"%m/%d/%y\"");
-        format.emplace("%F", "Equivalent to \"%Y-%m-%d\"");
-        format.emplace("%g", "last two digits of the week-based year");
-        format.emplace("%G", "Week-based year");
-        format.emplace("%h", "equivalent to %b (abbrevated month)");
-        format.emplace("%H", "24-hour decimal (00-24)");
-
-        format.emplace("%I", "12-hour decimal (00-12)");
-        format.emplace("%j", "year day (001-366)");
-        format.emplace("%m", "Month in decimal (01-12)");
-        format.emplace("%M", "Minutes in decimal (00-59)");
-
-        format.emplace("%n", "newline character");
-        format.emplace("%p", "AM/PM designation");
-        format.emplace("%r", "Equivalent to \"%I:%M : %S %p\"");
-        format.emplace("%R", "Equivalent to \"%H:%M\"");
-        format.emplace("%S", "Seconds in decimal (00-59)");
-        format.emplace("%t", "newline character");
-        format.emplace("%T", "Equivalent to \"%H:%M:%S\"");
-        format.emplace("%u", "week day in decimal (1-7)");
-        format.emplace("%w", "week day in decimal (0-6)");
-
-        format.emplace("%U", "sunday week number (00-53)");
-        format.emplace("%W", "monday week number (00-53)");
-        format.emplace("%V", " ISO 8601 week number (00-53)");
-        format.emplace("%X", "Time display");
-
-        format.emplace("%y", "year without century");
-        format.emplace("%Y", "year with century");
-        format.emplace("%z", "Time zone");
-        format.emplace("%z", "Time zone name (if any)");
-        // format.emplace("[", "");
-        // format.emplace("]", "");
-
-        isInitialized = true;
-    }
-    return format;
+map<string, string> &GTime::FormatChars() {
+    return s_format;
 }
 
 bool GTime::IsValidFormat(const char *c, string &offender)
@@ -760,7 +752,6 @@ bool GTime::IsValidFormat(const char *c, string &offender)
     else
     {
         vector<string> tokens = g_tokenizer()->Tokenize(c, "%");
-        static std::map<string, string> &format = FormatChars();
 
         for (unsigned int i = 0; i < tokens.size(); i++)
         {
@@ -770,7 +761,7 @@ bool GTime::IsValidFormat(const char *c, string &offender)
             {
                 tmp = "%" + tokens[i].substr(0, 1);
             }
-            for (auto const &item : format)
+            for (auto const &item : s_format)
             {
                 if (item.first == tmp)
                 {
@@ -803,9 +794,8 @@ bool GTime::IsValidFormat(const char *c, string &offender)
 string
 GTime::str()
 {
-    static std::map<string, string>  &format = FormatChars();
     string infostring = "******  Valid Format Specifiers  BEGIN ******\n";
-    for (std::map<string, string>::iterator iter = format.begin(); iter != format.end(); ++iter)
+    for (std::map<string, string>::iterator iter = s_format.begin(); iter != s_format.end(); ++iter)
     {
         infostring += iter->first + ":\t" + string(iter->second) + "\n";
 
