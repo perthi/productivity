@@ -11,7 +11,7 @@ message=$1
 socat -d -d pty,raw,echo=0 pty,raw,echo=0 1>&  out.txt &
 tmp="$(cut -d" " -f7   < out.txt)"
 
-exec_dir=$UCW_HOME/build/x86/bin
+exec_dir=$EMBC_HOME/build/x86/bin
 exec_name=uart-com
 
 cmd=$exec_dir/$exec_name

@@ -27,13 +27,11 @@ include ../../../../unittest-common.mk
 
 LIBS+=   -lutilities 
 
-ifneq (arm, $(TARGET))
-LIBS+=   -lreadline
-endif
-
 
 ifdef HAS_LOGGING
 LIBS+=  -lexception -llogmaster	  -lsqlite-embc -ldl -lpthread
 endif
+
+LIBS+= -lreadline -lhistory -lncurses 
 
 INCLUDES+=$(GTEST_INCLUDES)

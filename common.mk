@@ -63,19 +63,27 @@ ifneq "$(MAKECMDGOALS)" "clean"
 endif
 
 
-$(LIBNAME_A):  $(OBJS) $(OBJSCPP) $(SRCCPP) $(SRC) $(INSTALLDIRS) 
+ifndef KTS_SHARED
+$(LIBNAME_A): $(OBJS) $(OBJSCPP) 
 	@$(ARLOCAL) -cr  $(LIBNAME_A) $(OBJS) $(OBJSCPP)
 	@ranlib $(LIBNAME_A)	
 	@rm -f !  $(LIBLOCAL)/$(LIBNAME_A) 
 	@cp -p $(LIBNAME_A) $(LIBLOCAL)
 
-#$(LIBNAME_SO):  $(OBJS) $(OBJSCPP) $(INSTALLDIRS)
-#	@echo hello world  > /dev/null
 
-$(LIBNAME_SO):  $(OBJS) $(OBJSCPP) $(INSTALLDIRS)
-	$(CCLOCAL) $(LIBFLAGS) -fPIC  -o $(LIBNAME_SO) $(OBJS) $(OBJSCPP) 
+$(LIBNAME_SO): $(OBJS) $(OBJSCPP) 
+	@echo hello world  > /dev/null
+else
+$(LIBNAME_SO): $(OBJS) $(OBJSCPP) $(INSTALLDIRS)
+	@$(CCLOCAL) $(LIBFLAGS) -fPIC  -shared  -o $(LIBNAME_SO) $(OBJS) $(OBJSCPP) $(LIBS)
 	@rm -f !  $(LIBLOCAL)/$(LIBNAME_SO) 
 	@cp -p $(LIBNAME_SO) $(LIBLOCAL)
+
+$(LIBNAME_A): $(OBJS) $(OBJSCPP) 
+	@echo hello world  > /dev/null
+
+endif
+
 
 
 $(PROGRAM):: $(OBJS) $(OBJSCPP) $(SRCCPP) $(SRC)

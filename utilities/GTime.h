@@ -83,10 +83,10 @@ public:
     static bool				API   IsValidMinute( const int     h);
     static bool				API   IsValidSecond( const string  s);
     static bool				API   IsValidSecond( const int     s);
-    static bool				API   IsValidFormat(const char  *c,  string & offender);
+  //  static bool				API   IsValidFormat( const char  *c,  string & offender);
     vector<string> static	API   GetFormatSpecifiers();
-    static  map<string, string> API & FormatChars();
-    static string			API   str();
+   // static  map<string, string> API & FormatChars();
+  //  static string			API   str();
     static string			API   TimeStamp(struct std::tm *tout = 0, const char * format = 0, struct std::tm *tin = 0, int64_t *us = 0);
     static string			API   TimeStamp(const char * format, int64_t *us = 0 );
     static void				API   GetRawTime(time_t *seconds, int64_t  *us = nullptr);

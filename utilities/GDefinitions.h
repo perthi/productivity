@@ -56,13 +56,17 @@ using std::string;
 #define SPRINTF_S(buffer, input) snprintf(buffer, sizeof(buffer) -1, "%s", input.c_str() ) 
 #endif
 
-#if defined(_WIN32) || defined(_WIN64)
+
+#if defined(_WIN32) && (_MSC_VER) && _MSC_VER < 1500 || defined(_WIN64) && (_MSC_VER) && _MSC_VER < 1500
 #define snprintf _snprintf
 #define vsnprintf _vsnprintf
-#define strcasecmp _stricmp
 #define strncasecmp _strnicmp
+#define strcasecmp _stricmp
 #endif
 
+#ifdef _WIN32
+#define strcasecmp _stricmp	
+#endif
 
 
 #define EXCECUTION_ERROR -33
@@ -76,6 +80,7 @@ using std::string;
 
 #else
 #define CERR  cerr << __FILE__ << ":" <<__LINE__ <<":" << __FUNCTION__ <<":"
+#define ENDL endl
 #endif
 
 #define SHOW(a) COUT << #a << ": " << (a) << std::endl

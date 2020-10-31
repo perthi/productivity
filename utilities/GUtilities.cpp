@@ -117,6 +117,8 @@ GUtilities::IsBigEndian() const
     return IsLittleEndian() == true ? false : true;
 }    
 
+
+
 #ifdef _WIN32
 string 
 GUtilities::QueryInput( const string prompt)
@@ -129,13 +131,11 @@ GUtilities::QueryInput( const string prompt)
 }
 #endif
 
-#ifndef ARM
-#ifndef _WIN32
+//#ifndef ARM
+#ifdef __linux__
 string  
 GUtilities::QueryInput(const string prompt)
 {
-    std::this_thread::sleep_for( std::chrono::milliseconds(300) );
-
     string option;
     const char *line;
     line = readline(prompt.c_str() );
@@ -152,8 +152,9 @@ GUtilities::QueryInput(const string prompt)
     return option;
 }
 #endif
-#endif
+//#endif
 
+/*
 #ifdef ARM
 string 
 GUtilities::QueryInput( const string prompt)
@@ -165,6 +166,7 @@ GUtilities::QueryInput( const string prompt)
     //double freq_f = g_numbers()->ToFloat( freq);
 }
 #endif
+*/
 
 
 bool 

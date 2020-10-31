@@ -12,9 +12,7 @@
 #
 
 
-##testcard=$fec5
-# x86_dir=$UCW_HOME/build/x86/bin/
-# arm_dir=$UCW_HOME/build/arm/bin/
+
 x86_dir=build/x86/bin/
 arm_dir=build/arm/bin/
 

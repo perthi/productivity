@@ -5,7 +5,6 @@
 ***          Author: Per Thomas Hille <pth@embc.no>                     ****
 ****************************************************************************/
 
-
 /****************************************************************************
 *** Copyright(C) 2018  Per Thomas Hille, pth@embc.no                      ***
 *** This file is part of logmaster.logmaster is free software : you can   ***
@@ -13,19 +12,17 @@
 *** General Public License(LGPL) V3 or later.See.cpp file for details     ***
 *****************************************************************************/
 
-
 #include <utilities/GDefinitions.h>
 
-#ifdef  HAS_LOGGING
-extern  int argc_;
-extern  char** argv_;
+#ifdef HAS_LOGGING
+extern int argc_;
+extern char **argv_;
 #include <cmdline/GLogApplication.h>
 #include <cmdline/GCmdScan.h>
 #include <utilities/GFileIOHandler.h>
 #include <logging/LLogApi.h> ///@todo replace with forward declaration
 using namespace LOGMASTER;
 #endif
-
 
 #include <string>
 using std::string;
@@ -36,53 +33,71 @@ using std::string;
 #include <gtest-linux/gtest.h>
 #endif
 
+#define CATCH_GTEST_EXEPTION                                  \
+	catch (GException & e)                                    \
+	{                                                         \
+		CERR << "WHAT!!:" << e.what() << endl;                             \
+		FAIL();                                               \
+	}                                                         \
+	catch (testing::internal::GoogleTestFailureException & e) \
+	{                                                         \
+		CERR << "WHAT!!: "<< e.what() << endl;                             \
+		FAIL();                                               \
+	}                                                         \
+	catch (const std::exception &e)                           \
+	{                                                         \
+		CERR << "WAT!!:" << e.what() << '\n';                             \
+		FAIL();                                               \
+	}                                                         \
+	catch (std::string & e)                                 \
+	{                                                         \
+		CERR << "WHAT!!:" << e << endl;                                    \
+		FAIL();                                               \
+	}                                                         \
+	catch (...)                                               \
+	{                                                         \
+		CERR << "WHAT!!: Unknown excpeption caught" << endl;          \
+		FAIL();                                               \
+	}
 
 
 /** @brief Base class for all unit tests */
-#ifndef  HAS_LOGGING
+#ifndef HAS_LOGGING
 class TestBase : public testing::Test
 {
-	
-
-
 };
 #else
 class TestBase : public testing::Test
 {
 
 public:
-    API             inline TestBase( ); 
-    API virtual	    inline ~TestBase();
-    API string	     FileIOTest(const string fname = "");
+	API inline TestBase();
+	API virtual inline ~TestBase();
+	API string FileIOTest(const string fname = "");
 
 protected:
-    LLogging             *l = LLogging::Instance();
-    string	       fOldLogFileName = "not_set.log";
-    string	       fTestLogFileName= "googletest.log";
-	GLogApplication *g = nullptr; 
+	LLogging *l = LLogging::Instance();
+	string fOldLogFileName = "not_set.log";
+	string fTestLogFileName = "googletest.log";
+	GLogApplication *g = nullptr;
 
- private: 
-     inline void API Init();
-     inline TestBase(TestBase &);
-     inline void operator=(TestBase &);
+private:
+	inline void API Init();
+	inline TestBase(TestBase &);
+	inline void operator=(TestBase &);
 };
 
-
-inline 
-TestBase::TestBase() 
+inline TestBase::TestBase()
 {
 	SET_LOGTARGET("--target-off --target-file");
-	g = new GLogApplication( argc_, (const char**)argv_, nullptr, true);
+	g = new GLogApplication(argc_, (const char **)argv_, nullptr, true);
 	Init();
 }
 
-
-inline
-TestBase::~TestBase()
+inline TestBase::~TestBase()
 {
 	//l->Pop();
 }
-
 
 inline void
 TestBase::Init()
@@ -93,9 +108,8 @@ TestBase::Init()
 	GException::DisableStackTrace();
 }
 
-
 /*Here we check the last line written to the log file*/
-inline  string
+inline string
 TestBase::FileIOTest(const string fname)
 {
 	string fname_local = fname == "" ? l->GetLogFileName(eMSGTARGET::TARGET_FILE) : fname;
