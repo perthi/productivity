@@ -1,7 +1,6 @@
 #!/bin/bash
 make clean
 export CC=arm-linux-gnueabihf-gcc
-./configure --host=arm-linux --target=arm-linux
+./configure --host=arm-linux --target=arn-linux
 make -j16
-mv *.a lib/
-rm *.o
+

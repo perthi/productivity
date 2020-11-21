@@ -159,8 +159,8 @@ clean-x86:
 distclean: clean
 	@-$(RM) -r build
 	@-$(RM) `find -name "SvnInfo*" | grep -v .svn`
-	@find -name *.so     |  egrep -v   '^\./arm-lib-dep/' |   xargs rm -f
-	@find -name *.so.*   |  egrep -v   '^\./arm-lib-dep/' |   xargs rm -f
+	@find -name *.so     |  egrep -v   '^\./3rd-party/'  |    egrep -v   '^\./arm-lib-dep/' |   xargs rm -f
+	@find -name *.so.*   |  egrep -v   '^\./3rd-party/'   |     egrep -v   '^\./arm-lib-dep/' |   xargs rm -f
 	@find -name *.a      |  egrep -v   '^\./3rd-party/'   |   xargs rm -f
 	@find -name *~ -exec rm {} \;
 	@find -name tmp.cpp | xargs rm -f;

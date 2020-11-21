@@ -162,6 +162,7 @@
     <ClInclude Include="GEnumHelperImpl.h" />
     <ClInclude Include="GFileIOHandler.h" />
     <ClInclude Include="GFileName_t.h" />
+    <ClInclude Include="GFormatting.h" />
     <ClInclude Include="GLocation.h" />
     <ClInclude Include="GMath.h" />
     <ClInclude Include="GNumbers.h" />
@@ -194,6 +195,7 @@
     <ClCompile Include="GEnumHelperImpl.cpp" />
     <ClCompile Include="GFileIOHandler.cpp" />
     <ClCompile Include="GFileName_t.cpp" />
+    <ClCompile Include="GFormatting.cpp" />
     <ClCompile Include="GLocation.cpp" />
     <ClCompile Include="GMath.cpp" />
     <ClCompile Include="GNumbers.cpp" />

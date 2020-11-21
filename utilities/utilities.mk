@@ -29,7 +29,8 @@ SRCCPP+=GCommon.cpp \
 	GSemaphore.cpp \
 	GCrc.cpp \
 	GStackTrace.cpp \
-	GDataBaseIF.cpp
+	GDataBaseIF.cpp \
+	GFormatting.cpp
 
 
 include ../../common.mk

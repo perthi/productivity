@@ -318,7 +318,7 @@ s/\<fBncurses6-config\\fR(1)/fBncurses6-config\\fR(1)/
 s/\<fBncursesw6-config\\fR(1)/fBncursesw6-config\\fR(1)/
 s/\<fBncursest6-config\\fR(1)/fBncursest6-config\\fR(1)/
 s/\<fBncursestw6-config\\fR(1)/fBncursestw6-config\\fR(1)/
-# Do the BxxxR references in the .NAME section
+# Do the \fBxxx\fR references in the .NAME section
 s/^\\fBcaptoinfo\\f[RP] -/\\fBcaptoinfo\\fR -/
 s/^\\fBclear\\f[RP] -/\\fBclear\\fR -/
 s/^\\fBcurs_add_wch\\f[RP] -/\\fBadd_wch\\fR -/

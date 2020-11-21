@@ -87,8 +87,8 @@ AWK		= mawk
 LD		= ld
 LN_S		= ln -s -f
 
-CTAGS		= ctags
-ETAGS		= etags
+CTAGS		= 
+ETAGS		= 
 
 CC		= arm-linux-gnueabihf-gcc
 CPP		= arm-linux-gnueabihf-gcc -E
@@ -157,8 +157,8 @@ HEADER_DEPS = \
 tags:
 	$(CTAGS) *.[ch]
 
-TAGS:
-	$(ETAGS) *.[ch]
+#TAGS:
+#	$(ETAGS) *.[ch]
 
 mostlyclean ::
 	-rm -f core tags TAGS *~ *.bak *.i *.ln *.atac trace

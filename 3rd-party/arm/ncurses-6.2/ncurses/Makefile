@@ -94,8 +94,8 @@ LD		= ld
 LN_S		= ln -s -f
 NM		= nm
 
-CTAGS		= ctags
-ETAGS		= etags
+CTAGS		= 
+ETAGS		= 
 
 CC		= arm-linux-gnueabihf-gcc
 CPP		= arm-linux-gnueabihf-gcc -E
@@ -201,7 +201,7 @@ TEST_PROGS = \
 	link_test$x \
 	report_hashing$x
 
-LOCAL_LIBDIR	= /home/perthi/kts/escore-ite-ext-opticscore/sw/submodules/escore-cpp-common/ExternalLibraries/logmaster/submodules/productivity/3rd-party/arm/ncurses-6.2/lib
+LOCAL_LIBDIR	= /home/root/ExternalLibraries/logmaster/submodules/productivity/3rd-party/arm/ncurses/lib
 
 base	 = $(srcdir)/base
 serial	 = $(srcdir)/tty
@@ -284,8 +284,8 @@ report_offsets$(BUILD_EXEEXT) : \
 tags:
 	$(CTAGS) *.[ch] */*.[ch]
 
-TAGS:
-	$(ETAGS) *.[ch] */*.[ch]
+#TAGS:
+#	$(ETAGS) *.[ch] */*.[ch]
 
 mostlyclean ::
 	-rm -f core tags TAGS *~ *.bak *.i *.ln *.atac

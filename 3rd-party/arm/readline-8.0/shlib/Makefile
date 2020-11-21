@@ -32,7 +32,7 @@ datarootdir = ${prefix}/share
 srcdir = .
 VPATH = ..
 topdir = ..
-BUILD_DIR = /home/perthi/readline/readline-8.0
+BUILD_DIR = /home/root/ExternalLibraries/logmaster/submodules/productivity/3rd-party/arm/readline
 
 INSTALL = /usr/bin/install -c
 INSTALL_PROGRAM = ${INSTALL}

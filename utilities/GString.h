@@ -13,8 +13,8 @@
 *****************************************************************************/
 
 #include "GDefinitions.h"
-#include <string>
 #include <cstring>
+#include <string>
 
 
 using std::string;

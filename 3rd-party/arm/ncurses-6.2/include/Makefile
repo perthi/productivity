@@ -59,8 +59,8 @@ INSTALL_DATA	= ${INSTALL} -m 644
 AWK		= mawk
 LN_S		= ln -s -f
 
-CTAGS		= ctags
-ETAGS		= etags
+CTAGS		= 
+ETAGS		= 
 
 VERSION		= 6.2
 
@@ -126,8 +126,8 @@ config.h:
 tags:
 	$(CTAGS) *.[ch]
 
-TAGS:
-	$(ETAGS) *.[ch]
+#TAGS:
+#	$(ETAGS) *.[ch]
 
 mostlyclean ::
 	-rm -f core tags TAGS *~ *.bak *.i *.ln *.atac trace

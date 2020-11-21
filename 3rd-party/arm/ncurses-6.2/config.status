@@ -243,7 +243,7 @@ cf_cv_enable_lp64="1"
 cf_cv_enable_opaque="NCURSES_OPAQUE"
 cf_cv_prog_CC_c_o=yes
 cf_cv_prog_CXX_c_o=yes
-cf_cv_prog_gnat_correct=
+cf_cv_prog_gnat_correct=no
 cf_cv_rel_version="6.2"
 cf_cv_rm_so_locs="no"
 cf_cv_shared_soname='`basename $@ .${REL_VERSION}`.${ABI_VERSION}'
@@ -251,7 +251,7 @@ cf_cv_shlib_version="rel"
 cf_cv_shlib_version_infix="no"
 cf_cv_system_name="linux-gnu"
 cf_cv_term_driver="no"
-cf_with_ada="no"
+cf_with_ada="yes"
 cf_with_cxx_binding="yes"
 cf_with_db_install="yes"
 cf_with_manpages="yes"
@@ -348,13 +348,13 @@ s,@PACKAGE_BUGREPORT@,,;t t
 s,@build_alias@,,;t t
 s,@host_alias@,arm-linux,;t t
 s,@target_alias@,arm-linux,;t t
-s,@ECHO_C@,\c,;t t
-s,@ECHO_N@,,;t t
+s,@ECHO_C@,,;t t
+s,@ECHO_N@,-n,;t t
 s,@ECHO_T@,,;t t
 s,@PATH_SEPARATOR@,:,;t t
 s,@DEFS@,-DHAVE_CONFIG_H,;t t
 s,@LIBS@,,;t t
-s,@top_builddir@,/home/perthi/kts/escore-ite-ext-opticscore/sw/submodules/escore-cpp-common/ExternalLibraries/logmaster/submodules/productivity/3rd-party/arm/ncurses-6.2,;t t
+s,@top_builddir@,/home/root/ExternalLibraries/logmaster/submodules/productivity/3rd-party/arm/ncurses,;t t
 s,@EGREP@,grep -E,;t t
 s,@NCURSES_MAJOR@,6,;t t
 s,@NCURSES_MINOR@,2,;t t
@@ -408,10 +408,10 @@ s,@PKG_CONFIG_LIBDIR@,/usr/lib/x86_64-linux-gnu/pkgconfig,;t t
 s,@MAKE_PC_FILES@,#,;t t
 s,@PC_MODULE_SUFFIX@,,;t t
 s,@SET_MAKE@,,;t t
-s,@CTAGS@,ctags,;t t
-s,@ETAGS@,etags,;t t
-s,@MAKE_LOWER_TAGS@,,;t t
-s,@MAKE_UPPER_TAGS@,,;t t
+s,@CTAGS@,,;t t
+s,@ETAGS@,,;t t
+s,@MAKE_LOWER_TAGS@,#,;t t
+s,@MAKE_UPPER_TAGS@,#,;t t
 s,@cf_cv_makeflags@,,;t t
 s,@RANLIB@,ranlib,;t t
 s,@ac_ct_RANLIB@,ranlib,;t t
@@ -512,7 +512,7 @@ s,@NCURSES_OSPEED@,short,;t t
 s,@NCURSES_CCHARW_MAX@,5,;t t
 s,@NCURSES_SBOOL@,char,;t t
 s,@NCURSES_TPARM_ARG@,intptr_t,;t t
-s,@MANPAGE_RENAMES@,/home/perthi/kts/escore-ite-ext-opticscore/sw/submodules/escore-cpp-common/ExternalLibraries/logmaster/submodules/productivity/3rd-party/arm/ncurses-6.2/man/man_db.renames,;t t
+s,@MANPAGE_RENAMES@,/home/root/ExternalLibraries/logmaster/submodules/productivity/3rd-party/arm/ncurses/man/man_db.renames,;t t
 s,@NCURSES_EXT_FUNCS@,1,;t t
 s,@GENERATED_EXT_FUNCS@,generated,;t t
 s,@NCURSES_SP_FUNCS@,1,;t t

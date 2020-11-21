@@ -46,11 +46,11 @@ namespace {
 vector<string> s_validMonths = {
     "January", "February", "March",     "April",   "May",      "June",
     "July",    "August",   "September", "October", "November", "December"};
-vector<string> s_validDays = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
+vector<string> s_validDays = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun",
+"monday",  "tuesday",  "wednesday",  "thursday", "friday", "saturday", "sunday"};
 std::tm s_t_l;
 
 
-/*
 static map<string, string> s_format = {
     {"%a", "abbrevated weekday"},
     {"%A", "weekday"},
@@ -90,7 +90,7 @@ static map<string, string> s_format = {
     {"%Y", "year with century"},
     {"%z", "Time zone"},
     {"%z", "Time zone name (if any)"}};
-    */
+    
 }
 
 
@@ -204,18 +204,18 @@ GTime::SetTime(int year, int month, int dayInMonth, int hour24, int minute, int 
 
 
 
-// vector<string> GTime::GetFormatSpecifiers()
-// {
-//     vector<string> tmp;
-//     std::map<string, string>  format = FormatChars();
+vector<string> GTime::GetFormatSpecifiers()
+{
+    vector<string> tmp;
+    std::map<string, string>  format = FormatChars();
 
-//     for (std::map<string, string>::iterator iter = format.begin(); iter != format.end(); ++iter)
-//     {
-//         tmp.push_back(iter->first);
-//     }
+    for (std::map<string, string>::iterator iter = format.begin(); iter != format.end(); ++iter)
+    {
+        tmp.push_back(iter->first);
+    }
 
-//     return tmp;
-// }
+    return tmp;
+}
 
 
 
@@ -253,6 +253,8 @@ bool GTime::IsGregorianLeapYear(int iYear)
 bool
 GTime::IsValidDateString(const string t)
 {
+    CERR <<"datstring = "<< t << "    (size = " <<  t.size() << ")" << endl;
+
     if (t.size() == 0)
     {
         return false;
@@ -362,8 +364,10 @@ GTime::IsValidDateString(const string t)
 
 bool GTime::IsValidDay(string day)
 {
-    vector<string> valid_days = { "monday",  "tuesday",  "wednesday",  "thursday", "friday", "saturday", "sunday" };
-    return Validate( IsValidDay, day, valid_days);
+   // static vector<string> valid_days = { "monday",  "tuesday",  "wednesday",  "thursday", "friday", "saturday", "sunday" };
+   // return Validate( IsValidDay, day, valid_days);
+    return Validate( IsValidDay, day, s_validDays );
+
 }
 
 
@@ -388,8 +392,8 @@ bool GTime::IsValidDate(const int date)
 
 bool GTime::IsValidMonth(const string month)
 {
-    vector<string> valid_months{ "january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december" };
-    return Validate(IsValidMonth, month, valid_months);
+    //static vector<string> valid_months{ "january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december" };
+    return Validate(IsValidMonth, month,  s_validMonths );
     return false;
 }
 
@@ -686,12 +690,13 @@ GTime::TimeStamp(const char * format, int64_t *us)
 string
 GTime::TimeStamp(struct std::tm *tout, const char *format, struct std::tm *tin, int64_t *us)
 {
-    //string offender = "";
+    string offender = "";
     
     if(format == nullptr)
     {
        // COUT << "format is a Zero pointer" << endl;
-        return "empty format string";
+      //  return "empty format string";
+        return "";
     }
     
   //  if (IsValidFormat(format, offender) == false)
@@ -700,13 +705,13 @@ GTime::TimeStamp(struct std::tm *tout, const char *format, struct std::tm *tin, 
 
         std::stringstream buffer;
         buffer << "not implemented" << endl;
-        //buffer << "Illegal format specifier " << string(format) << "\"\n" + str() << ", the offending specifier is \"" << offender << "\" which is unknown"
-        //       << "\n"
-        //       << "error in function " << __FUNCTION__ << "at:" << __FILE__ << ":" << __LINE__ << "\n";
+        buffer << "Illegal format specifier " << string(format) << "\"\n" + str() << ", the offending specifier is \"" << offender << "\" which is unknown"
+               << "\n"
+               << "error in function " << __FUNCTION__ << "at:" << __FILE__ << ":" << __LINE__ << "\n";
         
-        // buffer << "Illegal format specifier " << string(format) << "\"\n" + str() << "\" which is unknown"
-        //        << "\n"
-        //        << "error in function " << __FUNCTION__ << "at:" << __FILE__ << ":" << __LINE__ << "\n";
+        buffer << "Illegal format specifier " << string(format) << "\"\n" + str() << "\" which is unknown"
+                << "\n"
+                << "error in function " << __FUNCTION__ << "at:" << __FILE__ << ":" << __LINE__ << "\n";
         
         
         ///@todo use GLOCATION
@@ -755,14 +760,14 @@ GTime::TimeStamp(struct std::tm *tout, const char *format, struct std::tm *tin, 
 }
 
 
-/*
+
 map<string, string> &GTime::FormatChars() {
     return s_format;
 }
-*/
 
 
-/*
+
+
 bool GTime::IsValidFormat(const char *c, string &offender)
 {
   //  return true;
@@ -828,10 +833,10 @@ bool GTime::IsValidFormat(const char *c, string &offender)
     return false;
     
 }
-*/
 
 
-/*
+
+
 string
 GTime::str()
 {
@@ -845,4 +850,4 @@ GTime::str()
     infostring += "\n ***** Valid format specifiers END ******\n";
     return infostring;
 }
-*/
+
