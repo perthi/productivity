@@ -64,15 +64,6 @@ GRegexp * g_regexp()
 
 
 
-/*
-#ifndef ARM
-#include <boost/regex.hpp>
-using boost::regex;
-#else
-#include <regex>
-#endif
-*/
-
 #include <regex>
 
 /** @brief Scans number from a string
@@ -81,9 +72,7 @@ using boost::regex;
 *   regular expression). For instance if digist = "4" the it is searched only for four digit numbers (for instance 1234) etc,.. whereas
 *   digits = "1,3" searches for number with 1,2 or 3 digits
 *   @return a vector of numbers written out on string format.
-*   @throw A "boost::exception_detail" if the regular exression is invalid
-*   @todo This function should be moved to one of the utilities classes.
-*   @bug It must be checked that "digits" is actually a number */
+*   @throw A "boost::exception_detail" if the regular exression is invalid */
 vector <string>
 GRegexp::ScanNumber(const string input, const string digits)
 {
@@ -93,24 +82,19 @@ GRegexp::ScanNumber(const string input, const string digits)
     }
     string expr;
 
-    //#ifndef ARM
-    std::regex e("[0-9]{" + digits + "}", regex_constants::ECMAScript);
-    sregex_token_iterator iter(input.begin(), input.end(), e, 0);
-    sregex_token_iterator end;
-
-    //#endif
+    std::regex e("[0-9]{" + digits + "}", std::regex_constants::ECMAScript);
+    std::sregex_token_iterator iter(input.begin(), input.end(), e, 0);
+    std::sregex_token_iterator end;
 
     vector<string> matches;
 
     int i = 0;
     for (; iter != end; ++iter)
     {
-        //COUT << "iter[" << i << "] = " << *iter << "\tinput = "<< input << endl; 
         matches.push_back(*iter);
         i++;
     }
     return matches;
-//    return vector<string>();
 }
 
 
@@ -123,7 +107,7 @@ GRegexp::ScanNumber(const string input, const string digits)
 *  @param pattern[in] The pattern to match the input string against
 *  @return true if the input matches pattern, false othervise
 *  @exception std::regex_error if the regular expression is not well formed*/
-bool
+inline bool
 GRegexp::IsMatch(const string input, const std::regex e)
 {
     std::cmatch cm;
@@ -141,7 +125,7 @@ GRegexp::IsMatch(const string input, const std::regex e)
 
 
 bool
-GRegexp::IsMatch(const string input, const string to_match)
+inline GRegexp::IsMatch(const string input, const string to_match)
 {
     string expression = g_string()->Replace(g_string()->Replace(g_string()->Replace(to_match, "*", "(.*)"), "[", "\\["), "]", "\\]");
     return IsMatch(input, std::regex(expression));
@@ -155,7 +139,7 @@ GRegexp::IsMatch(const string input, const string to_match)
 * @param removed[in|out]  The vector of entries that was removed
 * @return the resulting vector after the filter has been applied*/
 vector<string>
-GRegexp::Filter(const vector<string> input, const std::regex e, vector<string>* removed)
+inline GRegexp::Filter(const vector<string> input, const std::regex e, vector<string>* removed)
 {
     vector<string> filtered_in;
 

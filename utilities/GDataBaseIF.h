@@ -81,26 +81,34 @@ GDataBaseIF::HandleError(const GLocation  l, eMSGLEVEL  lvl,  const bool  throw_
 GDataBaseIF::HandleError(const GLocation  l,  const bool  throw_ex, const char *  fmt,  const Args... args)
 #endif
 {
-    GFormatting::checkFormat(l.fFileName.c_str(), l.fLineNo, l.fFunctName.c_str(), fmt, args...);
+    auto formatCheck = GFormatting::checkFormat(l.fFileName.c_str(), l.fLineNo, l.fFunctName.c_str(), fmt, args...);
     static char formatted_message[4096] = {0};
     formatted_message[0] = 0;
-    if(sizeof...(args) > 0)
+    if(formatCheck.first == true)
     {
-        snprintf(formatted_message, sizeof(formatted_message) - 1, fmt, args...);
+        if(sizeof...(args) > 0)
+        {
+            snprintf(formatted_message, sizeof(formatted_message) - 1, fmt, args...);
+        }
+        else
+        {
+            snprintf(formatted_message, sizeof(formatted_message) - 1, fmt, args...);
+        }
     }
     else
     {
-        snprintf(formatted_message, sizeof(formatted_message) - 1, fmt, args...);
+        snprintf(formatted_message, sizeof(formatted_message) - 1, "Error while checking format %s: %s", fmt,
+                 formatCheck.second.c_str());
     }
 
 #ifdef HAS_LOGGING
 
     std::shared_ptr<LMessage> msg_ptr = fMessageGenerator->GenerateMsg(eMSGFORMAT::PREFIX_ALL, lvl, eMSGSYSTEM::SYS_DATABASE, l.fFileName.c_str(), l.fLineNo, l.fFunctName.c_str(), fmt, args...);
-    LMessage msg = *msg_ptr;
-    LPublisher::Instance()->PublishToConsole(msg );
-    LPublisher::Instance()->PublishToFile("db.log", msg );
-    LPublisher::Instance()->PublishToSubscribers(msg );
-    LPublisher::Instance()->PublishToSubscribers(msg );
+   // LMessage msg = *msg_ptr;
+    LPublisher::Instance()->PublishToConsole(msg_ptr );
+    LPublisher::Instance()->PublishToFile("db.log", msg_ptr );
+    LPublisher::Instance()->PublishToSubscribers(msg_ptr );
+    LPublisher::Instance()->PublishToSubscribers(msg_ptr );
 
     if( throw_ex == THROW_EXCEPTION )
     {

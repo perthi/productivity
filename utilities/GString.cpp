@@ -95,18 +95,25 @@ GString::BeginsWith(const string &str, const string &substring, const bool ignor
 *   @param[in] token   The token to search for in the vector "arr"
 *   @param[in] ignore_case wether or not the text search should be case sensitive.
 *   @return true if "arr" has any element that begins with "token, false othervise" */
-bool GString::BeginsWith(const vector<string> arr, const string token, const bool ignore_case)
+bool GString::BeginsWith(const vector<string> *const arr, const string token, const bool ignore_case)
 {
-    for (unsigned int i = 0; i < arr.size(); i++)
-    {
-        if (BeginsWith(arr[i], token, ignore_case) == true)
-        {
-            return true;
-        }
-    }
-    return false;
+	if (arr == nullptr)
+	{
+		//CERR << "ZERO POINTER" << endl;
+		return false;
+	}
+	else
+	{
+		for (size_t i = 0; i < arr->size(); i++)
+		{
+			if (BeginsWith(arr->at(i), token, ignore_case) == true)
+			{
+				return true;
+			}
+		}
+	}
+	return false;
 }
-
 
  bool GString::EndsWith(const string& str, const string& substring, const bool ignore_case)
 {
@@ -204,7 +211,6 @@ GString::Trim(string &s, const char c)
 * @return  The modified string */
 string & GString::Trim(string & s, const vector<char> tokens)
 {
-    ///todo, PTH, this code segment is not very efficient
     string tmp;
     int64_t size_before = 0;
     int64_t size_after = 0;

@@ -154,20 +154,6 @@ GUtilities::QueryInput(const string prompt)
 #endif
 //#endif
 
-/*
-#ifdef ARM
-string 
-GUtilities::QueryInput( const string prompt)
-{
-    cout << prompt;	
-    string user_input;
-    std::getline(std::cin,  user_input);
-    return user_input;
-    //double freq_f = g_numbers()->ToFloat( freq);
-}
-#endif
-*/
-
 
 bool 
 GUtilities::IsValidIPV4Address(const string ipv4_address) const
@@ -179,7 +165,7 @@ GUtilities::IsValidIPV4Address(const string ipv4_address) const
 
 
 string     
-GUtilities::Copy(const char *buffer, const int length, string *in)
+GUtilities::CopyToString(const char *buffer, const int length, string *in)
 {
     if(in != nullptr )
     {
@@ -208,7 +194,7 @@ GUtilities::AutoClause( string addendum, FILE *fp)
 {
     std::stringstream buffer;
     buffer <<  endl <<  "/***** Auto generated file: DO NOT EDIT !!!!!! *****/" << endl;
-    string tmp2 =  GTime::TimeStamp( "%a %d %B-%Y %H:%M:%S");   
+    string tmp2 =  GTime().TimeStamp( "%a %d %B-%Y %H:%M:%S");   
     
     buffer <<  "/*** Generated at: " << tmp2 << "  ***/" << endl;  
     buffer << addendum << endl;

@@ -29,20 +29,3 @@
 
 #include "TestBase.h"
 
-//#include <utilities/GFileIOHandler.h>
-//#include <logging/LLogApi.h>
-//#include <utilities/GSystem.h>
-//#include <cmdline/GCmdScan.h>
-//#include <cmdline/GArgument.h>
-//#include <exception/GException.h>
-//
-//using namespace LOGMASTER;
-//
-//#include <exception>
-//using std::fstream;
-//
-//
-//extern  int argc_ ;
-//extern  char** argv_ ;
-//
-////SET_LOGTARGET("--target-off --target-file");

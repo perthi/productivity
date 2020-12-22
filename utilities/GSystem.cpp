@@ -60,7 +60,7 @@
 #include <libgen.h>
 #endif // !_WIN32
 
-
+//#include <ftw.h>
 
 
 GSystem * g_system()
@@ -124,7 +124,7 @@ GSystem::mkdir(const string dirname)
     else
     {
         string errmsg = g_file()->Errno2String(errno, dirname, "");
-       g_common()->HandleError(  GText(  "The directory \"%s\" could not be created (%s),.. please check that \
+       GCommon().HandleError(  GText(  "The directory \"%s\" could not be created (%s),.. please check that \
                     you have write + exce permissions to the directory", \
                     dirname.c_str( ), errmsg.c_str() ).str(), GLOCATION, THROW_EXCEPTION  );  
         return false;
@@ -149,17 +149,11 @@ GSystem::mkdir(const string dirname, GLocation l, const int  opt, bool overwrite
 GSystem::mkdir(const string dirname, GLocation l, bool overwrite)
 #endif // !_WIN32
 {
-//    FORCE_DEBUG("creating directory %s", dirname.c_str()  );
-
 #ifdef _WIN32
     int status = ::_mkdir(dirname.c_str() );
 #else
-   // int status = ::mkdir(dirname.c_str(), opt);
-   // COUT << "opt = " <<  opt << "     !!!!!!!!!!"  << endl;
      int status = ::mkdir(dirname.c_str(),  opt );
 #endif // _WIN32
-
-    ///void  HandleError(const string message, const GLocation l, const bool disable_error );
     
     switch (status)
     {
@@ -244,28 +238,7 @@ GSystem::GetProcessID()
 #endif
     return buffer.str();
 }
-
-
 /** @return Returns the name of rootdir */
-
-#ifdef _WIN32
-char*
-GSystem::GetHomeDir()
-{
-    static char* buf;
-    buf = GetExePath();
-    PathRemoveFileSpecA(buf);
-    string path = string(buf);
-    static string dir;
-    static string fout;
-    g_tokenizer()->StripPath(path, dir, fout);
-    static string homedir = fout + "\\..\\..\\";
-    return  (char *)homedir.c_str(); 
-   // inline  void API StripPath(const string fin, string &dir, string &fout, const bool keep_trailing_slash = KEEP_TRAILING_SEPARATOR ); 	
-    SPRINTF(buf, 1024, "%s\\..\\..\\", buf); // CRAP PTH
-	return buf;
-}
-#endif
 
 
 
@@ -388,25 +361,11 @@ GSystem::GetExePath()
 
 
 /**   @return The path relative to the current location for the current excutable excluding  the name of the exec file  */
-#ifdef _WIN32
-char *
-GSystem::GetExeDir()
-{
-    static char *buf;
-    buf = GetExePath();
-
-    PathRemoveFileSpecA(buf);
-    sprintf_s(buf, 1024, "%s\\", buf); // CRAP PTH
-    return buf;
-}
-#else
-
-
 char *
 GSystem::GetExeDir()
 {
     #ifdef _WIN32
-     static char *buf;
+    //static char *buf;
     LPSTR buf;
     buf = GetExePath();
     PathRemoveFileSpecA(buf);
@@ -414,13 +373,22 @@ GSystem::GetExeDir()
     #else
 
     static  char buf[ PATH_MAX ] = {0};
-    readlink("/proc/self/exe", buf, PATH_MAX);
-    dirname(buf);
+    
+    auto ret = readlink("/proc/self/exe", buf, PATH_MAX);
+    if(ret < 0 )
+    {
+        GCommon().HandleError( GText("Error retriveing exe path (%s)", strerror(errno) ).str(), GLOCATION, DISABLE_EXCEPTION );
+    }
+    else
+    {
+        dirname(buf);
+    }
+  
     return buf;
     #endif
 }
 
-#endif
+
 
 
 /** @return the name of the current executable */
@@ -430,7 +398,7 @@ GSystem::GetExeName()
     static string dir;
     static string name;
     string path = string(GetExePath());
-    g_tokenizer()->StripPath(path, dir, name);
+    GTokenizer().StripPath(path, dir, name);
     return (char *)name.c_str();
     return 0;
 }
@@ -464,9 +432,6 @@ GSystem::pwd(const bool print)
     {
         return "ERROR !!!! could not get directory";
     }
-
-  //  current_path[sizeof(current_path) - 1] = '\0'; /* not really required */
-
     if (print == true)
     {
         COUT << ": " << current_path << "\n";
@@ -507,7 +472,7 @@ bool
 GSystem::mkfile(const string filepath)
 {
     string dir, file;
-    g_tokenizer()->StripPath(filepath, dir, file, false);
+    GTokenizer().StripPath(filepath, dir, file, false);
 
     if (dir != "")
     {
@@ -517,7 +482,7 @@ GSystem::mkfile(const string filepath)
     FILE *fp = g_file()->OpenFile( filepath, "r", GLOCATION );
     if (fp !=  nullptr)
     {
-        g_common()->HandleError( GText("File \"%s\" allready exists, will not be recreated", filepath.c_str()  ).str(), GLOCATION, DISABLE_EXCEPTION ) ;
+        GCommon().HandleError( GText("File \"%s\" allready exists, will not be recreated", filepath.c_str()  ).str(), GLOCATION, DISABLE_EXCEPTION ) ;
         fclose(fp);
         return false;
     }
@@ -531,7 +496,7 @@ GSystem::mkfile(const string filepath)
         }
         else
         {
-            g_common()->HandleError(  GText(  "Could not create file \"%s\" Please check your write permissions for this directory", \
+            GCommon().HandleError(  GText(  "Could not create file \"%s\" Please check your write permissions for this directory", \
                                                filepath.c_str()   ).str(), GLOCATION, THROW_EXCEPTION  );      
         }
     }

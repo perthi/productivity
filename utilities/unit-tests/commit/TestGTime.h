@@ -18,17 +18,21 @@
 using std::vector;
 
 #include <testlib/TestBase.h>
+#include <utilities/GTime.h>
+#include <utilities/GTimeValidate.h>
+#include <functional>
 
 /** @brief unit tests for the GTime class */
 class TestGTime : public TestBase
 {
 public:
     TestGTime();
-    virtual ~TestGTime();
+    virtual ~TestGTime() {};
 protected:
-    void  Validate(bool(*funct)(const int val), bool(*funct2)(const string), const int min, const int max, const vector<string> valid, const 
-        vector<string> invalid);
+
+    GTime  fTime;
+    GTimeValidate  fTimeValidate;
 };
 
-
+//  bool  ValidateV2(  std::function<bool(  const int ) > funct, const string &s, const vector<string> * const arr = nullptr );
 

@@ -1,9 +1,17 @@
 #pragma once
 
-#include <testlib/TestBase.h>
+//#include <testlib/TestBase.h>
 #include <utilities/GEnum.h>
 
-class TestGEnum : public TestBase
+#undef HAS_LOGGING
+
+#ifdef _WIN32
+#include <gtest/gtest.h>
+#else
+#include <gtest-linux/gtest.h>
+#endif
+
+class TestGEnum : public testing::Test
 {
 public:
 	G_ENUM(eTESTINT, { EN,TO,UNKNOWN = -1 });

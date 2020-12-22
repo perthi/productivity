@@ -41,14 +41,14 @@
 void 
 TestGFileIOHandler::SetUpTestCase()
 {
-    g_common()->DisableOutput();
+    GCommon().DisableOutput();
 }
 
 
 void 
 TestGFileIOHandler::TearDownTestCase()
 {
-    g_common()->EnableOutput();
+    GCommon().EnableOutput();
 }
  
 

@@ -15,7 +15,6 @@
 *****************************************************************************/
 
 
-
 #include <string>
 #include <vector>
 using std::vector;
@@ -43,7 +42,6 @@ public:
     string         API      pwd(const bool print = false);
     vector<string> API      ls(const string dir = ".");
     bool           API      mkdir(const string dirname);
-  //  bool           API      mkdir(const string dirname,  const int opt =  S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH ,  bool overwrite = true );
     
 #ifndef _WIN32
     bool           API      mkdir(const string dirname, const GLocation l, const int opt = S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH, bool overwrite = true);
@@ -76,9 +74,9 @@ public:
     char API *GetHomeDir();
 #endif
 
-// //private:
-//     GSystem(){};
-//     ~GSystem(){};
+    private:
+   //   GSystem(){};
+   //  ~GSystem(){};
 };
 
 #endif

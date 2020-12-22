@@ -99,7 +99,7 @@ GNumbers::Dec2Hex(const string  str)
     if (IsHex(str) == true)
     {
         string message = str + " is not a decimal number, it is a HEX number, but this function converts from dec to hex";
-		g_common()->HandleError ( message, GLOCATION, IsDisabledError());
+		GCommon().HandleError ( message, GLOCATION, IsDisabledError());
 		return "";
 	}
 	else
@@ -408,7 +408,7 @@ GNumbers::ToHex(const string num)
 	else
 	{
 		string message = s + " is NOT a valid hex number string, please make sure that the number starts with 0x folowed by valid hex digits(0 - F)";
-		g_common()->HandleError(message, GLOCATION, IsDisabledError() );
+		GCommon().HandleError(message, GLOCATION, IsDisabledError() );
 	}
 	return -99999; // Never reached, but just in case
 }
@@ -453,7 +453,7 @@ GNumbers::ToBinary(const string b)
 #endif
 
 // #ifndef G_STANDALONE
-        g_common()->HandleError(message, GLOCATION, IsDisabledError() );
+        GCommon().HandleError(message, GLOCATION, IsDisabledError() );
 // #endif
     }
 
@@ -476,7 +476,7 @@ GNumbers::ToBinary(const string b)
     {
         string message = s + "\t is not a binary number string, the string must contain only ZERO and ONES prefixed by an optional - (minus) sign";
 // #ifndef G_STANDALONE
-       g_common()->HandleError( message, GLOCATION, IsDisabledError() );
+       GCommon().HandleError( message, GLOCATION, IsDisabledError() );
 // #endif
     }
     return negative == true ?  -tmp : tmp;
@@ -503,7 +503,7 @@ GNumbers::BitWidth(const string in)
     if (GNumbers::IsBinary(in) == false)
     {
         string message = in + "%is not a valid binary number: The string must contain only zeroes and ones, and start with a b";
-		g_common()->HandleError(message, GLOCATION, IsDisabledError() );
+		GCommon().HandleError(message, GLOCATION, IsDisabledError() );
 		return -1;
     }
     else

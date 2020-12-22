@@ -101,15 +101,15 @@ TEST_F(TestGUtilities, Contains)
 
 TEST_F(TestGUtilities, isemptyNSR1804)
 {
-	EXPECT_FALSE( g_utilities()->IsEmpty("lorem ipsum") );
-	EXPECT_TRUE(  g_utilities()->IsEmpty(" ") );
-	EXPECT_TRUE(g_utilities()->IsEmpty("   ") );
-	EXPECT_TRUE( g_utilities()->IsEmpty("     ") );
-	EXPECT_TRUE(g_utilities()->IsEmpty("\t") );
-	EXPECT_TRUE(g_utilities()->IsEmpty("\t\t") );
-	EXPECT_TRUE(g_utilities()->IsEmpty("\t  \n") );
-	EXPECT_TRUE(g_utilities()->IsEmpty("\n") );
-	EXPECT_TRUE(g_utilities()->IsEmpty("\n\n  \t\t  ") );
+	EXPECT_FALSE( g_utilities()->IsSpacesOnly("lorem ipsum") );
+	EXPECT_TRUE(  g_utilities()->IsSpacesOnly(" ") );
+	EXPECT_TRUE(g_utilities()->IsSpacesOnly("   ") );
+	EXPECT_TRUE( g_utilities()->IsSpacesOnly("     ") );
+	EXPECT_TRUE(g_utilities()->IsSpacesOnly("\t") );
+	EXPECT_TRUE(g_utilities()->IsSpacesOnly("\t\t") );
+	EXPECT_TRUE(g_utilities()->IsSpacesOnly("\t  \n") );
+	EXPECT_TRUE(g_utilities()->IsSpacesOnly("\n") );
+	EXPECT_TRUE(g_utilities()->IsSpacesOnly("\n\n  \t\t  ") );
 }
 
 
@@ -158,15 +158,15 @@ TEST_F(TestGUtilities, vec2stringNSR2117)
 	EXPECT_EQ(abc, g_utilities()->Vec2String(splitted, "abc"));
 
 	// check that we can conert back to the original string using the tokenizer
-	vector<string> tokens = g_tokenizer()->Tokenize(tab_separated, "\t");
+	vector<string> tokens = GTokenizer().Tokenize(tab_separated, "\t");
 	string res = g_utilities()->Vec2String(tokens, " ");
 	EXPECT_EQ(original, res);
 
-	tokens = g_tokenizer()->Tokenize(newline_separated, "\n");
+	tokens = GTokenizer().Tokenize(newline_separated, "\n");
 	res = g_utilities()->Vec2String(tokens, " ");
 	EXPECT_EQ(original, res);
 
-	tokens = g_tokenizer()->Tokenize(abc, "abc" );
+	tokens = GTokenizer().Tokenize(abc, "abc" );
 	res = g_utilities()->Vec2String(tokens, " ");
 	EXPECT_EQ(original, res);
 

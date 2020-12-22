@@ -50,28 +50,31 @@ TestGSystem::~TestGSystem()
 void
 TestGSystem::SetUpTestCase()
 {
-    g_common()->DisableOutput();
+    GCommon().DisableOutput();
 }
 
 
 void
 TestGSystem::TearDownTestCase()
 {
-    g_common()->EnableOutput();
+    GCommon().EnableOutput();
 }
 
  
+
+/*
 TEST_F(TestGSystem, mkfile)
 {
     try
     {
-       g_system()->mkfile("testdir/testfile.txt");
-       // EXPECT_EQ(0, g_system()->rm( "testdir/testfile.txt") ) ;
+       g_system()->rm( "testdir2"); 
+     //  g_system()->mkfile("testdir2/testfile2.txt");
+       //EXPECT_EQ(0, g_system()->rm( "testdir2/testfile2.txt") ) ;
 
     }
     catch( std::exception &e  )
     {
-        g_common()->HandleError( e.what(), GLOCATION, DISABLE_EXCEPTION );
+        GCommon().HandleError( e.what(), GLOCATION, DISABLE_EXCEPTION );
 
     }
     #ifdef HAS_LOGGING
@@ -82,10 +85,10 @@ TEST_F(TestGSystem, mkfile)
     #endif
     catch(...)
     {
-        g_common()->HandleError( "Unknown exception caucht", GLOCATION, DISABLE_EXCEPTION );
+        GCommon().HandleError( "Unknown exception caucht", GLOCATION, DISABLE_EXCEPTION );
     }
 }
-
+*/
 
 
 TEST_F(TestGSystem,  cp)

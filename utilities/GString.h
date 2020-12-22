@@ -59,9 +59,13 @@ class GString
      int          CountOccurences(const string input, const char c, const bool ignore_case);
      bool         Contains(const vector<string> &str, const string &substring, const bool ignore_case = true, long long int *pos = 0);
      bool         Contains(const string &str, const string &substring, const bool ignore_case = true, long long int *pos = 0);
+     
      bool         BeginsWith(const string &str, const string &substring, const bool ignore_case = true);
-     bool         BeginsWith(const vector<string> arr, const string token, const bool ignore_case = true);
+     
+     bool         BeginsWith(const vector<string> * const arr, const string token, const bool ignore_case = true);
+     
      bool         EndsWith(const string &str, const string &substring, const bool ignore_case = true);
+     
      bool         CompareNoCase(string lhs, string rhs) { return (ToUpper(lhs) == ToUpper(rhs)); }
      string       &Ltrim(string &s, const char c = ' ');
      string       &Rtrim(string &s, const char c = ' ');

@@ -163,7 +163,7 @@ void GNumbers::CheckUnsigned(const string num)
     if (IsNumber(num) == false)
     {
         message = "\"" + num + "\"" + " is not a number ";
-        g_common()->HandleError(message, GLOCATION, IsDisabledError() );
+        GCommon().HandleError(message, GLOCATION, IsDisabledError() );
     }
 
     string tmp = typeid(T).name();
@@ -172,7 +172,7 @@ void GNumbers::CheckUnsigned(const string num)
     {
 
         message = string("Illegal operation, you have tried to convert the unsigned type") + typeid(T).name() + string("to a negative number ");
-        g_common()->HandleError(message, GLOCATION, IsDisabledError() );
+        GCommon().HandleError(message, GLOCATION, IsDisabledError() );
     }
 }
 
@@ -243,7 +243,7 @@ GNumbers::ToInteger(const string num)
     {
 
       string message = num + " is NOT an Integer or hex number, aborting, ..";
-	    g_common()->HandleError(message, GLOCATION, IsDisabledError() );
+	    GCommon().HandleError(message, GLOCATION, IsDisabledError() );
     }
 
     CheckUnsigned<T>(trimmed);
@@ -329,7 +329,7 @@ GNumbers::ToFloat(const string num)
     else
     {
         string message = "The number:" + num + ":is NOT a number, aborting,..";
-        g_common()->HandleError(message, GLOCATION, IsDisabledError() );
+         GCommon().HandleError(message, GLOCATION, IsDisabledError() );
     }
     return ret;
 }

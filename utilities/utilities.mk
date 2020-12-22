@@ -22,6 +22,9 @@ SRCCPP+=GCommon.cpp \
 	GText.cpp \
 	GSystem.cpp \
 	GTime.cpp \
+	GTimeFormat.cpp \
+	GTimeValidate.cpp \
+	GTimeSpan.cpp \
 	GTokenizer.cpp \
 	GUtilities.cpp \
 	GEnumHelper.cpp \

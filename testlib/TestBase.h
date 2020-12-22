@@ -20,7 +20,7 @@ extern char **argv_;
 #include <cmdline/GLogApplication.h>
 #include <cmdline/GCmdScan.h>
 #include <utilities/GFileIOHandler.h>
-#include <logging/LLogApi.h> ///@todo replace with forward declaration
+#include <logging/LLogApi.h> 
 using namespace LOGMASTER;
 #endif
 
@@ -36,27 +36,27 @@ using std::string;
 #define CATCH_GTEST_EXEPTION                                  \
 	catch (GException & e)                                    \
 	{                                                         \
-		CERR << "WHAT!!:" << e.what() << endl;                             \
+		CERR << "WHAT1!!:" << e.what() <<  endl;                             \
 		FAIL();                                               \
 	}                                                         \
 	catch (testing::internal::GoogleTestFailureException & e) \
 	{                                                         \
-		CERR << "WHAT!!: "<< e.what() << endl;                             \
+		CERR << "WHAT2!!: "<< e.what() << endl;                             \
 		FAIL();                                               \
 	}                                                         \
 	catch (const std::exception &e)                           \
 	{                                                         \
-		CERR << "WAT!!:" << e.what() << '\n';                             \
+		CERR << "WHAT3!!:" << e.what() << '\n';                             \
 		FAIL();                                               \
 	}                                                         \
 	catch (std::string & e)                                 \
 	{                                                         \
-		CERR << "WHAT!!:" << e << endl;                                    \
+		CERR << "WHAT4!!:" << e << endl;                                    \
 		FAIL();                                               \
 	}                                                         \
 	catch (...)                                               \
 	{                                                         \
-		CERR << "WHAT!!: Unknown excpeption caught" << endl;          \
+		CERR << "WHAT5!!: Unknown excpeption caught" << endl;          \
 		FAIL();                                               \
 	}
 

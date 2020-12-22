@@ -1,11 +1,13 @@
 #include "GFormatting.h"
 #include "exception/GException.h"
 #include <iostream>
+#include <sstream>
 
 #include <cstdint>
 namespace GFormatting
 {
-bool doCheckFormat(  const char *file, const int line, const char *func,  const char *fmt, const Arg *args, const size_t numArgs)
+
+bool actuallyCheckFormat(const char *file, int line, const char *func, const char *fmt, const Arg *args, const size_t numArgs)
 {
     // here we can access arguments by index
     size_t currentArg = 0;
@@ -14,9 +16,9 @@ bool doCheckFormat(  const char *file, const int line, const char *func,  const 
     {
         if(*fmt == '%')
         {
-//            auto findSpecifier = [&currentArg, &fmt, args, numArgs](auto &&findSpec) constexpr
-            auto findSpecifier = [&currentArg, &fmt, args, numArgs,  file, line, func ](auto&& findSpec)
-
+            bool longSpecified = false;
+            // Passing reference to self to have a recursive lambda function
+            auto findSpecifier = [&currentArg, &fmt, args, numArgs,  file, line, func, &longSpecified](auto&& findSpec)
             {
                 if(currentArg >= numArgs)
                 {
@@ -25,7 +27,36 @@ bool doCheckFormat(  const char *file, const int line, const char *func,  const 
                     return false;
                 }
                 ++fmt;
-                switch(*fmt)
+                auto currChar = *fmt;
+                if(longSpecified)
+                {
+                    switch(currChar)
+                    {
+                    case 'l':
+                        return findSpec(findSpec);
+                    case 'd':
+                    case 'i':
+                    case 'u':
+                    case 'o':
+                    case 'x':
+                    case 'X':
+                    if(args[currentArg].type != Arg::Type::INT)
+                    {
+                        INVALID_ARGUMENT_EXCEPTION("Expected integer argument as argument %d ( from %s:%s:line[%d] )",
+                        currentArg+1, file, func, line  );
+                        return false;
+                    }
+                    longSpecified = false;
+                    ++currentArg;
+                    return true;
+                    default:
+                        INVALID_ARGUMENT_EXCEPTION("Invalid format specifier at position %d ( from %s:%s:line[%d] )",
+                                                   currentArg+1, file, func, line  );
+                        return false;
+                    }
+
+                }
+                switch(currChar)
                 {
                 case '\0':
                     // Too few arguments
@@ -61,6 +92,9 @@ bool doCheckFormat(  const char *file, const int line, const char *func,  const 
                     }
                     ++currentArg;
                     return true;
+                case 'l':
+                    longSpecified = true;
+                    return findSpec(findSpec);
                 case 'f':
                 case 'F':
                 case 'e':
@@ -123,4 +157,36 @@ bool doCheckFormat(  const char *file, const int line, const char *func,  const 
     return true;
 }
 
+std::pair<bool, std::string> // Success/failure, reason
+doCheckFormat(const char *filename, int lineno, const char *function, const char *fmt, const Arg *args, const size_t numArgs)
+{
+    std::string reason;
+    bool formatOk = false;
+    try
+    {
+        formatOk = actuallyCheckFormat(filename, lineno, function, fmt, args, numArgs);
+    }
+    catch(GException &e)
+    {
+        std::stringstream str;
+        str << "Error in format: " << fmt << ": " << e.what();
+        reason = str.str();
+        formatOk = false;
+    }
+    catch(std::exception &e)
+    {
+        std::stringstream str;
+        str << "Error when checking format: " << fmt << ": " << e.what();
+        reason = str.str();
+        formatOk = false;
+    }
+    catch(...)
+    {
+        std::stringstream str;
+        str << "Unknown error when checking format: " << fmt;
+        reason = str.str();
+        formatOk = false;
+    }
+    return {formatOk, reason};
+}
 }

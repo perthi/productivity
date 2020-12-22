@@ -21,17 +21,18 @@ TEST_F(TestGEnum, get_char_ptr)
 	EXPECT_TRUE(::strcmp(*eTest2::TO, "TO") == 0);
 }
 
-/*
+
 TEST_F(TestGEnum, get_string)
 {
-	EXPECT_TRUE((*eTEST::EN) == "EN");
-	EXPECT_TRUE((*eTEST::TO) == "TO");
-	EXPECT_TRUE((*eTEST::TRE) == "TRE");
-	EXPECT_TRUE((*eTEST::FIRE) == "FIRE");
-	EXPECT_TRUE((*eTEST::FEM) == "FEM");
-	EXPECT_TRUE((*eTEST::SEKS) == "SEKS");
+	EXPECT_TRUE((*eTEST::EN) ==  string("EN") );
+	
+	EXPECT_TRUE((*eTEST::TO) ==  string("TO"));
+	EXPECT_TRUE((*eTEST::TRE) ==  string("TRE"));
+	EXPECT_TRUE((*eTEST::FIRE) ==  string("FIRE"));
+	EXPECT_TRUE((*eTEST::FEM) ==  string("FEM"));
+	EXPECT_TRUE((*eTEST::SEKS) ==  string("SEKS"));
 }
-*/
+
 
 TEST_F(TestGEnum, Enum2Str)
 {

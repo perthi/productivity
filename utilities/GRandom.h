@@ -53,7 +53,7 @@ public:
     template<typename T>  T
     inline  Binominal(T n, double /*p*/, typename std::enable_if<std::is_floating_point<T>::value>::type* = 0)
     {
-        g_common()->HandleError(  GText( "The parameter n mus be an integral value, n is of type %s", typeid(n).name()).str(), GLOCATION, THROW_EXCEPTION  );
+        GCommon().HandleError(  GText( "The parameter n mus be an integral value, n is of type %s", typeid(n).name()).str(), GLOCATION, THROW_EXCEPTION  );
         return 0;
     }
   
@@ -64,7 +64,7 @@ public:
     {
         if (min > max)
         {
-            g_common()->HandleError(  GText(  "Min value must be lower than max value, you have entered  min = %f and max = %f", min, max  ).str(), GLOCATION, THROW_EXCEPTION  );
+            GCommon().HandleError(  GText(  "Min value must be lower than max value, you have entered  min = %f and max = %f", min, max  ).str(), GLOCATION, THROW_EXCEPTION  );
             return -1;
         }
         else
@@ -84,7 +84,7 @@ public:
     {
         if (  (min) > (max)  )
         {
-            g_common()->HandleError(  GText(  "Min value must be lower than max value, you have entered  min = %d and max = %d", min, max  ).str(), GLOCATION, false  );
+            GCommon().HandleError(  GText(  "Min value must be lower than max value, you have entered  min = %d and max = %d", min, max  ).str(), GLOCATION, false  );
             return -1;
         }
         else
@@ -104,7 +104,7 @@ public:
         if (sigma < 0)
         {
             ///RANGE_EXCEPTION("Invalid sigma value %f, sigma must be positive", sigma);
-            g_common()->HandleError(  GText(  "Invalid sigma value %f, sigma must be positive" ) .str(), GLOCATION, THROW_EXCEPTION  );
+            GCommon().HandleError(  GText(  "Invalid sigma value %f, sigma must be positive" ) .str(), GLOCATION, THROW_EXCEPTION  );
         }
         else
         {
@@ -120,7 +120,7 @@ public:
     inline  Gauss(T /*mean*/, T /*sigma*/, typename std::enable_if<std::is_integral<T>::value>::type* = 0)
     {
         //EXCEPTION("You cannot use the Gauss random geneartor with an integral typ. %s Is an integral type, use a binominal generator instead", typeid(T).name());
-        g_common()->HandleError(  GText(  "You cannot use the Gauss random geneartor with an integral type. \
+        GCommon().HandleError(  GText(  "You cannot use the Gauss random geneartor with an integral type. \
                                            %s Is an integral type, use a binominal generator instead", typeid(T).name()) .str(), GLOCATION,   THROW_EXCEPTION  );
         return 0;
     }

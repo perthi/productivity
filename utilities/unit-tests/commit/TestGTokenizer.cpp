@@ -58,9 +58,9 @@ TEST_F(TestGTokenizer, CheckEmty)
 {
     string in = "a\tb\t \t\t\t";
  //   auto res = g_tokenizer()->Tokenize(in, "\t");
-    auto res = g_tokenizer()->Tokenize(in, "\t", KEEP_EMPTY);
+    auto res = GTokenizer().Tokenize(in, "\t", KEEP_EMPTY);
     EXPECT_EQ(5, res.size());
-    res = g_tokenizer()->Tokenize(in, "\t",  DISCARD_EMPTY );
+    res = GTokenizer().Tokenize(in, "\t",  DISCARD_EMPTY );
     EXPECT_EQ(2, res.size());
 }
 
@@ -72,14 +72,14 @@ TEST_F(TestGTokenizer, Tokenize )
     string in2 = "e f g h";
     string in3 = "i j k l";
 
-    auto res = g_tokenizer()->Tokenize(in1, " ");
+    auto res = GTokenizer().Tokenize(in1, " ");
     EXPECT_EQ("a", res[0]);
     EXPECT_EQ("b", res[1]);
     EXPECT_EQ("c", res[2]);
     EXPECT_EQ("d", res[3]);
 
     vector<string> combo = {in1, in2, in3};
-    res = g_tokenizer()->Tokenize(combo, " ");
+    res = GTokenizer().Tokenize(combo, " ");
    
     if (res.size() == 12)
     {
@@ -108,7 +108,7 @@ TEST_F(TestGTokenizer, Tokenize )
     string d3 = "dir7\\dir8\\dir9";
     combo = {d1, d2, d3};
 
-    res = g_tokenizer()->Tokenize(combo, "\\");
+    res = GTokenizer().Tokenize(combo, "\\");
 
     if (res.size() == 9)
     {
@@ -129,7 +129,7 @@ TEST_F(TestGTokenizer, Tokenize )
 
      string d4 = "dir1\\dir2/dir3/dir4\\dir5";
      vector<string> sep = { "\\", "/" };
-     res = g_tokenizer()->Tokenize(d4, vector<string>{ "\\", "/" } );
+     res = GTokenizer().Tokenize(d4, vector<string>{ "\\", "/" } );
 
     if (res.size() == 5)
     {
@@ -145,7 +145,7 @@ TEST_F(TestGTokenizer, Tokenize )
     }
 
     d4 = "dir1\\dir2/dir3/dir4\\dir5";
-    res = g_tokenizer()->Tokenize(d4, vector<string>{ "\\", "/"}, DISCARD_EMPTY,  KEEP_SEPARATOR );
+    res = GTokenizer().Tokenize(d4, vector<string>{ "\\", "/"}, DISCARD_EMPTY,  KEEP_SEPARATOR );
 
     if (res.size() == 5)
     {
@@ -167,22 +167,22 @@ TEST_F(TestGTokenizer, Strip )
 {
     string tmp = "dirname\\filename";
     string dir, file;
-    g_tokenizer()->StripPath(tmp, dir, file);
+    GTokenizer().StripPath(tmp, dir, file);
     EXPECT_EQ(dir,  "dirname\\");
     EXPECT_EQ(file, "filename");
 
     tmp = "dirname2/filename2";
-    g_tokenizer()->StripPath(tmp, dir, file);
+    GTokenizer().StripPath(tmp, dir, file);
     EXPECT_EQ(dir, "dirname2/");
     EXPECT_EQ(file, "filename2");
 
     tmp = "dirname3/filename3";
-    g_tokenizer()->StripPath(tmp, dir, file, DISCAR_TRAILING_SEPARATOR);
+    GTokenizer().StripPath(tmp, dir, file, DISCAR_TRAILING_SEPARATOR);
     EXPECT_EQ(dir,  "dirname3");
     EXPECT_EQ(file, "filename3");
 
     tmp = "dir2/dir3/dir4/file.txt";
-    g_tokenizer()->StripPath(tmp, dir, file);
+    GTokenizer().StripPath(tmp, dir, file);
     EXPECT_EQ(dir, "dir2/dir3/dir4/");
     EXPECT_EQ(file, "file.txt");
  }
@@ -195,8 +195,8 @@ TEST_F(TestGTokenizer, GTokenizerNSR246)
     {
         string lpath = "/dir1/dir2/dir3/file.txt";
         string wpath = "\\dir1\\dir2\\dir2\\file.txt";
-        vector<string> ltokens = g_tokenizer()->Tokenize(lpath, "/");
-        vector<string> wtokens = g_tokenizer()->Tokenize(wpath, "\\");
+        vector<string> ltokens = GTokenizer().Tokenize(lpath, "/");
+        vector<string> wtokens = GTokenizer().Tokenize(wpath, "\\");
         EXPECT_EQ(4, ltokens.size());
         EXPECT_EQ("dir1", ltokens[0]);
         EXPECT_EQ("dir2", ltokens[1]);
@@ -209,7 +209,7 @@ TEST_F(TestGTokenizer, GTokenizerNSR246)
     }
     catch (std::exception &e)
     {
-        g_common()->HandleError( GText( "STD Exception caught:\t %s", e.what() ).str(),GLOCATION, DISABLE_EXCEPTION  );
+        GCommon().HandleError( GText( "STD Exception caught:\t %s", e.what() ).str(),GLOCATION, DISABLE_EXCEPTION  );
     }
     #ifdef HAS_LOGGING
     catch (GException &e)
@@ -221,7 +221,7 @@ TEST_F(TestGTokenizer, GTokenizerNSR246)
 
     catch (...)
     {
-        g_common()->HandleError(  "Unknown Exception caught" ,GLOCATION, DISABLE_EXCEPTION  );
+        GCommon().HandleError(  "Unknown Exception caught" ,GLOCATION, DISABLE_EXCEPTION  );
     }
 }
 
@@ -230,22 +230,22 @@ TEST_F(TestGTokenizer, NSR1133)
 {
     string path = "myfile.cpp";
     string dir, filename;
-    g_tokenizer()->StripPath(path, dir, filename);
+    GTokenizer().StripPath(path, dir, filename);
 
 	EXPECT_EQ(path, filename);
 
 	path = "mydir/";
-    g_tokenizer()->StripPath(path, dir, filename);
+    GTokenizer().StripPath(path, dir, filename);
     EXPECT_EQ(path, dir);
     EXPECT_EQ("", filename );
 
     path = "mydir\\";
-    g_tokenizer()->StripPath(path, dir, filename);
+    GTokenizer().StripPath(path, dir, filename);
     EXPECT_EQ(path, dir);
     EXPECT_EQ("", filename);
 
     path = "dir\\dir2\\mydir\\";
-    g_tokenizer()->StripPath(path, dir, filename);
+    GTokenizer().StripPath(path, dir, filename);
     EXPECT_EQ(path, dir);
     EXPECT_EQ("", filename);
 
@@ -256,7 +256,7 @@ TEST_F(TestGTokenizer, bugNSR2152)
 {
 	string input = "Loremabcipsumabcdolorabcsitabcamet,abcconsecteturabcadipiscingabcelit.abcNullamabcfacilisisabclaoreetabcnisi,";  // Lorem ipsum separated by ABC
 	vector<string> expected_tokens = { "Lorem", "ipsum", "dolor", "sit", "amet,", "consectetur", "adipiscing", "elit.", "Nullam", "facilisis", "laoreet", "nisi," };
-	vector<string> actual_tokens =  g_tokenizer()->Tokenize(input, "abc");
+	vector<string> actual_tokens =  GTokenizer().Tokenize(input, "abc");
 	EXPECT_EQ(expected_tokens, actual_tokens);
 }
 
@@ -288,10 +288,10 @@ TEST_F(TestGTokenizer, Strip_performance )
 	clock_t begin = clock();	
 	for ( int i = 0; i < n; i++ )
 	{
-		g_tokenizer()->StripPath( tmp1, dir, file );
-		g_tokenizer()->StripPath( tmp2, dir, file );
-		g_tokenizer()->StripPath( tmp3, dir, file, DISCAR_TRAILING_SEPARATOR );
-		g_tokenizer()->StripPath( tmp4, dir, file );
+		GTokenizer().StripPath( tmp1, dir, file );
+		GTokenizer().StripPath( tmp2, dir, file );
+		GTokenizer().StripPath( tmp3, dir, file, DISCAR_TRAILING_SEPARATOR );
+		GTokenizer().StripPath( tmp4, dir, file );
 	}
 
 	clock_t end = clock();

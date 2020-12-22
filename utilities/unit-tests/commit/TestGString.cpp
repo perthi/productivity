@@ -97,7 +97,7 @@ TEST_F(TestGString, Trim)
 TEST_F(TestGString, TrimVector)
 {
     string test = "a,b,c, d, e   ,f  , g,h  , i ";   
-    vector<string>  tokens = g_tokenizer()->Tokenize(test, ",");
+    vector<string>  tokens = GTokenizer().Tokenize(test, ",");
 
     EXPECT_EQ(tokens.size(), 9);
 
@@ -129,7 +129,7 @@ TEST_F(TestGString, TrimVector_multiple_tokens)
 {
     string test = "a,b,c, \td, e\n\n   , \tf  , g,h  \n,   \t i    \n \t ";
 
-    vector<string>  tokens = g_tokenizer()->Tokenize(test, ",");
+    vector<string>  tokens = GTokenizer().Tokenize(test, ",");
 
 
     EXPECT_EQ(tokens.size(), 9);

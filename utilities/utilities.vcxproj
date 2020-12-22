@@ -181,6 +181,8 @@
     <ClInclude Include="GSystem.h" />
     <ClInclude Include="GText.h" />
     <ClInclude Include="GTime.h" />
+    <ClInclude Include="GTimeFormat.h" />
+    <ClInclude Include="GTimeValidate.h" />
     <ClInclude Include="GTokenizer.h" />
     <ClInclude Include="GUtilities.h" />
     <ClInclude Include="MBDataTypes.h" />
@@ -213,6 +215,8 @@
     <ClCompile Include="GSystem.cpp" />
     <ClCompile Include="GText.cpp" />
     <ClCompile Include="GTime.cpp" />
+    <ClCompile Include="GTimeFormat.cpp" />
+    <ClCompile Include="GTimeValidate.cpp" />
     <ClCompile Include="GTokenizer.cpp" />
     <ClCompile Include="GUtilities.cpp" />
   </ItemGroup>

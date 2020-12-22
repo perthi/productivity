@@ -151,7 +151,7 @@ void Val_t<T>::SetLimits(const T min, const T max)
     {
         std::stringstream buffer;
         buffer << "min cannot be bigger than max, you tried to set  min=" << min << " and max = " << max << ",.. aborting" << endl;
-        g_common()->HandleError(  GText( "%s", buffer.str().c_str()  ).str() , GLOCATION, THROW_EXCEPTION ) ;
+        GCommon().HandleError(  GText( "%s", buffer.str().c_str()  ).str() , GLOCATION, THROW_EXCEPTION ) ;
     }
     else
     {
@@ -246,7 +246,7 @@ inline Val_t<T> operator  + ( const Val_t<T> &lhs,  const Val_t<T> &rhs)
     Val_t<T> tmp = lhs;
     if ( ! ( lhs.GetName() == rhs.GetName() )  )
     {
-       g_common()->HandleError(GText(   "You cannot add to variables of different types, you have tried to add %s (%s = %f) and %s ( %s = %f) which is forbidden", 
+       GCommon().HandleError(GText(   "You cannot add to variables of different types, you have tried to add %s (%s = %f) and %s ( %s = %f) which is forbidden", 
                   lhs.GetName().c_str(), lhs.GetSubscript().c_str(), 
                   lhs.GetValue(), rhs.GetName().c_str(), rhs.GetSubscript().c_str(), rhs.GetValue() ).str(), GLOCATION, THROW_EXCEPTION  ); 
 
@@ -283,7 +283,7 @@ inline Val_t<T1> operator  - (const Val_t<T1> &lhs, const Val_t<T2> &rhs)
 
     if (!(lhs.GetName() == rhs.GetName()))
     {
-         g_common()->HandleError(GText(   "You cannot subtract to variables of different types, you have tried to subtract   %s (%s = %f) and %s ( %s = %f) which is forbidden", 
+         GCommon().HandleError(GText(   "You cannot subtract to variables of different types, you have tried to subtract   %s (%s = %f) and %s ( %s = %f) which is forbidden", 
                                           lhs.GetName().c_str(), lhs.GetSubscript().c_str(), lhs.GetValue(), 
                                           rhs.GetName().c_str(), rhs.GetSubscript().c_str(), rhs.GetValue() ).str(), GLOCATION, THROW_EXCEPTION ); 
     }
@@ -342,7 +342,7 @@ inline double operator /  (const Val_t<T> &lhs, const Val_t<T2> & rhs)
 {
     if (rhs.GetValue() == 0)
     {
-        g_common()->HandleError(GText(   "Attempt to divide by ZERO !  %f / %f = inf", lhs.GetValue(), rhs.GetValue()).str(),   GLOCATION, THROW_EXCEPTION  ); 
+        GCommon().HandleError(GText(   "Attempt to divide by ZERO !  %f / %f = inf", lhs.GetValue(), rhs.GetValue()).str(),   GLOCATION, THROW_EXCEPTION  ); 
     }
 
 
@@ -355,7 +355,7 @@ inline double operator /  (int lhs, const Val_t<T> & rhs)
 {
     if (rhs.GetValue() == 0)
     {
-        g_common()->HandleError(GText(   "Attempt to divide by ZERO !  %d / %f = inf", lhs, rhs.GetValue()).str() , GLOCATION, THROW_EXCEPTION  ); 
+        GCommon().HandleError(GText(   "Attempt to divide by ZERO !  %d / %f = inf", lhs, rhs.GetValue()).str() , GLOCATION, THROW_EXCEPTION  ); 
     }
     return (double)lhs / (double)rhs.GetValue();
 }

@@ -2,7 +2,6 @@
 
 PROGRAM:=utilities-unit-tests
 
-
 SRCCPP += utilities-unit-tests.cpp \
 	TestGMath.cpp \
 	TestGRandom.cpp \
@@ -16,7 +15,7 @@ SRCCPP += utilities-unit-tests.cpp \
 	TestGNumbers.cpp \
 	TestGEnum.cpp \
 	TestDataTypesT.cpp  \
-        TestGCrc.cpp \
+    TestGCrc.cpp \
 	TestGSystem.cpp
 
 

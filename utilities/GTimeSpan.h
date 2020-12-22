@@ -1,4 +1,5 @@
 // -*- mode: c++ -*-
+
 #pragma once
 
 /***************************************************************************
@@ -12,40 +13,22 @@
 *** General Public License(LGPL) V3 or later.See.cpp file for details     ***
 *****************************************************************************/
 
-/* @class GCommon  Helper class for the other utilities classes */
+#include <stdint.h>
 
 
-#include <string>
-using std::string;
-
-
-class GCommon;
-class GLocation;
-
-//GCommon * g_common();
-
-#define DISABLE_EXCEPTION true
-#define THROW_EXCEPTION  false
-
-
-/** @brief Some common global defines and functions */
-class GCommon
+/** @brief Convert a time duration in micro seconds  to seconds, minutes, hours etc..*/
+class GTimeSpan
 {
-	//friend    GCommon * g_common();
-
-
 public:
-	GCommon() {};
-	~GCommon() {};
-	void  HandleError(const string message, const GLocation l, const bool disable_error = false );
-	void  DisableOutput()  {  fDisableOuput = true; };
-	void  EnableOutput()   {  fDisableOuput = false; };
-
+    GTimeSpan(const int64_t usTimeSpan) : fTimespan(usTimeSpan)  {  }
+    int64_t GetMicroSeconds() { return(fTimespan); }
+    int64_t GetMilliSeconds() { return(fTimespan / 1000); }
+    int64_t GetSeconds() { return(fTimespan / 1000000); }
+    int64_t GetMinutes() { return(fTimespan / 60000000); }
+    int64_t GetHours() { return(fTimespan / 3600000000); }
+    int64_t GetDays() { return(fTimespan / 86400000000); }
 private:
-	bool fDisableOuput = false;
-	// GCommon() {};
-	// ~GCommon() {};
-
+    int64_t fTimespan;
 };
 
 

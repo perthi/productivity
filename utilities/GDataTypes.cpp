@@ -47,7 +47,7 @@ Val::CheckIsInteger(double t)
 {
     if( g_numbers()->IsInteger((long double )t) == false )
     {
-        g_common()->HandleError( GText( "Number (%f) is NOT an integer, the sensor ID must be an integer between ZERO and %d", t, 16).str(), 
+        GCommon().HandleError( GText( "Number (%f) is NOT an integer, the sensor ID must be an integer between ZERO and %d", t, 16).str(), 
                                          GLOCATION, THROW_EXCEPTION  );
     }
 }
@@ -61,7 +61,7 @@ Val::GeneratStackFrames()
     msg <<"The allowed range for parameter: "<< fName <<"\tis  [min, max] = "<< "["<< fMinValue <<", "<< fMaxValue <<"]  " << fSubscript;	
     msg << ":\tYou attempted to set the value to " << fVal;  
     string s = stack + msg.str() ;
-    g_common()->HandleError( s, GLOCATION, THROW_EXCEPTION );
+    GCommon().HandleError( s, GLOCATION, THROW_EXCEPTION );
 }
 
 

@@ -74,7 +74,12 @@ GFileIOHandler::Append(const string fname, const char * fmt, ...)
         if (CheckFile(fname, "a"))
         {
             FILE* fp = OpenFile( fname, "a", GLOCATION );
-            /// @todo fp: Check on return value
+            
+            if(fp == nullptr)
+            {
+               throw( std::runtime_error( GText("failed to open file %s", fname.c_str()).c_str() ));  
+            }
+
             va_list ap;
             va_start(ap, fmt);
             static char txt[65536];
@@ -105,7 +110,7 @@ bool GFileIOHandler::Delete(const string fname)
 
     if (fp == nullptr)
     {
-        g_common()->HandleError(  GText(  "could not remove file: \"%s\"", fname.c_str()   ) .str(), GLOCATION, true  ); 
+        GCommon().HandleError(  GText(  "could not remove file: \"%s\"", fname.c_str()   ) .str(), GLOCATION, true  ); 
         return false;
     }
     else
@@ -116,7 +121,7 @@ bool GFileIOHandler::Delete(const string fname)
         if( ret != 0 )
         {
             string errmsg = Errno2String(errno, fname, "r" );
-            g_common()->HandleError(  GText(  "could not remove file: \"%s\"", errmsg.c_str()  ) .str(), GLOCATION, true  );
+            GCommon().HandleError(  GText(  "could not remove file: \"%s\"", errmsg.c_str()  ) .str(), GLOCATION, true  );
             return false;
         }
         
@@ -158,7 +163,7 @@ GFileIOHandler::ReadLastLine(const string fname, const unsigned int offset)
     
     if (CheckFile(fname) == false)
     {
-        g_common()->HandleError(  GText( "Cannot open file: %s", fname.c_str() ) .str(), GLOCATION, DISABLE_EXCEPTION  );
+        GCommon().HandleError(  GText( "Cannot open file: %s", fname.c_str() ) .str(), GLOCATION, DISABLE_EXCEPTION  );
         return "";
     }
   
@@ -166,12 +171,12 @@ GFileIOHandler::ReadLastLine(const string fname, const unsigned int offset)
 
     if (CheckFile(fname) == false)
     {
-        g_common()->HandleError(  GText( "Cannot open file: %s", fname.c_str() ) .str(), GLOCATION,  DISABLE_EXCEPTION   );
+        GCommon().HandleError(  GText( "Cannot open file: %s", fname.c_str() ) .str(), GLOCATION,  DISABLE_EXCEPTION   );
         return "";
     }  
     if (content.size() == 0)
     {
-        g_common()->HandleError(  GText(  "The file \"%s\" is empty", fname.c_str()   ) .str(), GLOCATION, DISABLE_EXCEPTION  );
+        GCommon().HandleError(  GText(  "The file \"%s\" is empty", fname.c_str()   ) .str(), GLOCATION, DISABLE_EXCEPTION  );
         return "";
     }
     else
@@ -181,7 +186,7 @@ GFileIOHandler::ReadLastLine(const string fname, const unsigned int offset)
 #endif
         if ( offset > content.size() )
         {
-            g_common()->HandleError(  GText(    "Invalid array subscript, offset = %d lines from the end of the file, \
+            GCommon().HandleError(  GText(    "Invalid array subscript, offset = %d lines from the end of the file, \
                                                 but thhere are only %d lines in the file", offset, content.size()    ) .str(), GLOCATION,  DISABLE_EXCEPTION   );
 
 
@@ -251,7 +256,7 @@ GFileIOHandler::CheckFileEx(const string fname, const char *opt)
 {
     if (CheckFile(fname, opt) == false)
     {
-        g_common()->HandleError( GText(  "could not open file %s in %c mode)", fname.c_str(), opt).str() , GLOCATION, THROW_EXCEPTION  );
+        GCommon().HandleError( GText(  "could not open file %s in %c mode)", fname.c_str(), opt).str() , GLOCATION, THROW_EXCEPTION  );
     }
 
     else
@@ -267,11 +272,11 @@ GFileIOHandler::CheckFileEx(const string fname, const char *opt)
 string 
 GFileIOHandler::ReadConfigFile(int argc, const char ** argv, const string path)
 {
-    vector<string> tokens = g_tokenizer()->Tokenize(string(argv[0]), ".");
+    vector<string> tokens =  GTokenizer().Tokenize(string(argv[0]), ".");
     string fname = "";
     string dir = "";
     
-    g_tokenizer()->StripPath( tokens.at(0),  dir, fname, false  );
+     GTokenizer().StripPath( tokens.at(0),  dir, fname, false  );
     
     if (tokens.size() > 0)
     {
@@ -280,7 +285,7 @@ GFileIOHandler::ReadConfigFile(int argc, const char ** argv, const string path)
 
     if (argc != 1 && argc != 3)
     {
-        g_common()->HandleError(  GText( "When reading commanline argumenst from file you must specifiy either no arguments,\
+        GCommon().HandleError(  GText( "When reading commanline argumenst from file you must specifiy either no arguments,\
 			or exacty two arguments.\ncase1: If no argumenst are given, the command line arguments are read from\
 			 %s\ncase: the arguments must be on the form -file [filename] in which case the command line is read from [filename]"    ) .str(), GLOCATION, THROW_EXCEPTION  );
 
@@ -290,7 +295,7 @@ GFileIOHandler::ReadConfigFile(int argc, const char ** argv, const string path)
     {
         if (string(argv[1]) != "-file")
         {
-            g_common()->HandleError(  GText( "Expected the first argumet to be  \"-file\""  ) .str(), GLOCATION, THROW_EXCEPTION  );
+            GCommon().HandleError(  GText( "Expected the first argumet to be  \"-file\""  ) .str(), GLOCATION, THROW_EXCEPTION  );
             return "";
         }
         else
@@ -301,7 +306,7 @@ GFileIOHandler::ReadConfigFile(int argc, const char ** argv, const string path)
 	
     if ( DoExists(fname) == false)
     {
-        g_common()->HandleError(  GText(  "The file \"%s\" does not exist", fname.c_str() ) .str(), GLOCATION, THROW_EXCEPTION  );
+        GCommon().HandleError(  GText(  "The file \"%s\" does not exist", fname.c_str() ) .str(), GLOCATION, THROW_EXCEPTION  );
         return "";
     }
     else
@@ -360,7 +365,7 @@ GFileIOHandler::OpenFile(const string fname, const string opt, const GLocation l
     if (fp == nullptr)
     {
         string errmsg = Errno2String(  errno, fname, opt );
-        g_common()->HandleError(GText("fopen(%s, %c) failed: %s",
+        GCommon().HandleError(GText("fopen(%s, %c) failed: %s",
             fname.c_str(), opt[0], errmsg.c_str() ).str(), l, DISABLE_EXCEPTION);
     }
 
@@ -381,7 +386,7 @@ GFileIOHandler::CheckFile(const string fname, const char *opt)
 	string tmp = string(opt);
 	if (!(tmp == "w" || tmp == "w+" || tmp == "a" || tmp == "a+" || tmp == "r" || tmp == "r+"))
 	{
-		g_common()->HandleError(GText("Invalid option %c", opt[0]).str(), GLOCATION, DISABLE_EXCEPTION);
+		GCommon().HandleError(GText("Invalid option %c", opt[0]).str(), GLOCATION, DISABLE_EXCEPTION);
 		return false;
 	}
 	else
@@ -393,7 +398,7 @@ GFileIOHandler::CheckFile(const string fname, const char *opt)
        //     bool ret = false;
 			if (tmp == "w" || tmp == "w+")
 			{
-				g_common()->HandleError(GText("The file %s exists, opening it with the %c option will discard existing content",
+				GCommon().HandleError(GText("The file %s exists, opening it with the %c option will discard existing content",
 					fname.c_str(), opt[0]).str(), GLOCATION, DISABLE_EXCEPTION);
 		        fclose(fp);
 				return  false;
@@ -468,7 +473,7 @@ GFileIOHandler::CheckFile(const string fname, const char *opt)
  vector<string>
 GFileIOHandler::ReadAll(const string fname, bool * status)
  {  
-    static mutex tmp_mutex;
+    static std::mutex tmp_mutex;
     std::lock_guard<std::mutex> guard(tmp_mutex);	
     static int cnt = 0;
     cnt ++;
@@ -526,7 +531,7 @@ GFileIOHandler::Recreate(const string fname)
     {
         if( Delete(fname) == false )
         {
-            g_common()->HandleError(  GText( "Failed to delete file: %s", fname.c_str()  ) .str(), GLOCATION, DISABLE_EXCEPTION  );  
+            GCommon().HandleError(  GText( "Failed to delete file: %s", fname.c_str()  ) .str(), GLOCATION, DISABLE_EXCEPTION  );  
             return false;
         } 
     }  
@@ -537,7 +542,7 @@ GFileIOHandler::Recreate(const string fname)
     }
     else
     {
-        g_common()->HandleError(  GText(   "Failed to create file: %s", fname.c_str()   ) .str(), GLOCATION, DISABLE_EXCEPTION  );  
+        GCommon().HandleError(  GText(   "Failed to create file: %s", fname.c_str()   ) .str(), GLOCATION, DISABLE_EXCEPTION  );  
         return  false;
     } 
 }
@@ -552,7 +557,7 @@ GFileIOHandler::Recreate(const string fname)
 
 	 if (ret == false)
 	 {
-        g_common()->HandleError(  GText(    "could not remove file: \"fname\"", fname.c_str()   ) .str(), GLOCATION, DISABLE_EXCEPTION  );  
+        GCommon().HandleError(  GText(    "could not remove file: \"fname\"", fname.c_str()   ) .str(), GLOCATION, DISABLE_EXCEPTION  );  
      }
 
 	 return ret;

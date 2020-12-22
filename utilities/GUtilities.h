@@ -1,7 +1,5 @@
 // -*- mode: c++ -*-
 
-// #ifndef GUtilities_HPP
-// #define GUtilities_HPP
 
 #pragma once
 
@@ -12,14 +10,6 @@
 *** General Public License (LGPL) V3 or later. See .cpp file for details ***
 ***
 **************************************************************************/
-
-//#define  G_STANDALONE
-
-//#ifndef G_STANDALONE
-//#include <logging/LLogApi.h>
-//#include "GException.h"
-//using namespace LOGMASTER;
-//#endif
 
 
 #include "GDefinitions.h"
@@ -42,8 +32,6 @@
 #include <set>
 #include <time.h>
 
-
-//using std::stringstream;
 using std::ostream;
 using std::ostringstream;
 using std::vector;
@@ -52,7 +40,6 @@ using std::dec;
 using std::map;
 using std::set;
 
-using namespace std; // CRAP PTH
 
 #define PRINT( array ) g_utilities()->Print( array, __FILE__, __func__,  __LINE__ )
 #define ABS(a) g_utilities()->Abs(a)
@@ -69,7 +56,7 @@ class  GUtilities
 {
     friend GUtilities * g_utilities();
 public:
-    string		        API     Copy(const char *buffer, const int length, string *in = nullptr);  
+    string		        API     CopyToString (const char *buffer, const int length, string *in = nullptr);  
 //#ifndef ARM
     string				API		QueryInput( const string prompt);
  //#endif   
@@ -80,7 +67,7 @@ public:
     void				API		DisableError();
     void				API		EnableError();
     bool				API		IsDisabledError() const;
-    bool		 	    API     IsEmpty(const string &in) const;
+    bool		 	    API     IsSpacesOnly(const string &in) const;
     string              API     TrueOrFalse( const bool val ) const;
     string              API     TabAlign(const string &in,  int max_tabs = 4, int *n_tabs = nullptr ) const;
     bool                API     IsValidIPV4Address(const string ipv4_address) const;
@@ -88,13 +75,18 @@ public:
     template <typename T >   void ResetArray( T *arr, const size_t size ) const;
     template < typename T >  void               Print(const T &array, const string file, const string func, const int line ) const;
     template < typename T >  void               Print(vector<T> in) const;
-    template < typename T >  vector<string>     Append(vector<T> &original, const vector<T> appendix ) const;
+ //   template < typename T >  vector<string>     Append(vector<T> &original, const vector<T> appendix ) const;
    
     template < typename T >   bool               IsInRange(const T value, const T lower, const T upper) const;
-    template < typename T1, typename T2> bool    Contains(map<T1, T2> *, T1) const;
+    
+    template < typename T1, typename T2> bool    Contains( const std::map<T1, T2> * const, T1) const;
+    template < typename T1, typename T2> bool    Contains( const std::map<T1, T2> * const, T2) const;
+
     template < typename T>    bool               Contains(const vector<T> vect, const T element) const;
     template < typename T >   string             Vec2String(const vector<T>, const string sep =  "\n") const;
+    
     template < typename T>    string             Hash2String( const map< string, T>   *m, const int ncols = 8, const string sep = "") const;
+
     template < typename T1,	  typename T2> vector< T1> Hash2StringV(const map< T1, T2>  *m) const;
 	template < typename T1,   typename T2> vector< T2> Hash2SContentV(const map< T1, T2>* m) const;
     template < typename T >   bool               HasElement(const T element, const vector<T> &in) const;
@@ -107,9 +99,12 @@ public:
                                                                const char *varname, const char * filename, 
                                                                const  int linenumber, const char * functionname, bool *status = nullptr) const;
 
-private:
     GUtilities() {};
     virtual ~GUtilities() {};   
+
+private:
+   // GUtilities() {};
+   // virtual ~GUtilities() {};   
     bool fIsDisabledError = false;
     char fCurDir[1024] = "";
 };
@@ -132,12 +127,12 @@ GUtilities::ResetArray( T *arr, const size_t size ) const
 
 
 
-template<typename T>  vector<string>  
-GUtilities::Append(vector<T> &original, const vector<T> appendix ) const
-{
-    original.insert(original.end(), appendix.begin(), appendix.end() );
-    return original;
-}
+// template<typename T>  vector<string>  
+// GUtilities::Append(vector<T> &original, const vector<T> appendix ) const
+// {
+//     original.insert(original.end(), appendix.begin(), appendix.end() );
+//     return original;
+// }
 
 
 /**  Check if a values (val) is
@@ -160,7 +155,7 @@ GUtilities::CheckLimits(const T val, const T low, const T up,
             *status = ret;
         }
 
-        g_common()->HandleError(l_msg.str(), GLocation(filename, linenumber, functionname), IsDisabledError());
+        GCommon().HandleError(l_msg.str(), GLocation(filename, linenumber, functionname), IsDisabledError());
     }
     else
     {
@@ -203,11 +198,30 @@ GUtilities::Print(vector<T> in) const
 /* Check wether or not the element T1 is contained in the map m */
 template<typename T1, typename T2>
 bool  
-GUtilities::Contains(map<T1, T2> *m , T1 name) const
+GUtilities::Contains( const  map<T1, T2> *const m , T1 name) const
 {
     // typename std::map<T1, T2>::iterator it;
     auto it = m->find(name);
     return it == m->end() ? false : true;
+}
+
+
+/* Check wether or not the element T2 is contained in the map m */
+template<typename T1, typename T2>
+bool  
+GUtilities::Contains( const  map<T1, T2> *const m , T2 name) const
+{
+    bool is_valid = false;
+    auto it = m->begin();
+    while ( it != m->end() )
+    {
+        if (it->second == name )
+        {
+            is_valid = true;
+        }
+        it ++;
+    }
+    return is_valid;
 }
 
 
@@ -244,8 +258,14 @@ GUtilities::Vec2String(const vector<T> data, const string sep) const
  *   @return a vector of hash codes/entries */
 template <typename T>
 string 
-GUtilities::Hash2String(const map<string, T> *m, const int ncols, const string sep) const
+GUtilities::Hash2String(const map<string, T>  *m, const int ncols, const string sep) const
 {
+
+    if( m == nullptr )
+    {
+        CERR << "ZERO POINTER !!!" << endl;
+        return "";
+    }
     std::stringstream buffer;
 
     int i = 0;
@@ -271,6 +291,7 @@ GUtilities::Hash2String(const map<string, T> *m, const int ncols, const string s
 
     return buffer.str();
 }
+
 
 
 /** Takes as input a hasmap and extracts the
@@ -372,6 +393,8 @@ bool GUtilities::Contains(const vector<T> vect, const T element) const
 }
 
 
+
+
 template<typename T1, typename T2>
 bool GUtilities::CheckMinMax(const T1 min, const T2 max) const
 {
@@ -380,13 +403,12 @@ bool GUtilities::CheckMinMax(const T1 min, const T2 max) const
     if (min > max)
     {
         buffer << "min value is bigger than max value [min, max] = [" << min << ", " << max << " ]" << endl;
-        g_common()->HandleError(buffer.str(), GLOCATION, IsDisabledError() );
+        GCommon().HandleError(buffer.str(), GLOCATION, IsDisabledError() );
         return false;
     }
     else
     {
         buffer << "[min, max] = [" << min << ", " << max << " ]" << endl;
-        //G_DEBUG("%s", buffer.str().c_str());
         return true;
     }
 }
@@ -397,7 +419,6 @@ template<typename T>
 inline void 
 GUtilities::FilterOut(vector<T>& in, const vector<T> &filter) const
 {
-    /// CRAP PTH, bubble search
     for (size_t i = 0; i < filter.size() ; i++)
     {
         for ( size_t j = 0; j < in.size(); j++ )
@@ -428,7 +449,7 @@ inline void GUtilities::Print(const T &array, const string file, const string fu
  * in[in] The input string to check
  * @return true if the string is empty, false othervise */
 bool
-inline GUtilities::IsEmpty(const string &in) const
+inline GUtilities::IsSpacesOnly(const string &in) const
 {
     for (uint16_t i = 0; i < in.size(); i++)
     {
@@ -508,7 +529,7 @@ inline vector<T1> operator /  (const vector<T1> &lhs,  const T2 &rhs )
     
     if(rhs == 0 )
     {
-        g_common()->HandleError(  "ATTEMP ON ZERO DIVISION", GLOCATION, THROW_EXCEPTION  );
+        GCommon().HandleError(  "ATTEMP ON ZERO DIVISION", GLOCATION, THROW_EXCEPTION  );
     return lhs;
     }
     else

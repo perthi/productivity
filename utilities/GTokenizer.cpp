@@ -31,13 +31,14 @@
 #include "GUtilities.h"
 #include "GString.h"
 
+#include <mutex>
 
 
-GTokenizer* g_tokenizer()
-{
-	static GTokenizer* instance = new GTokenizer();
-	return  instance;
-}
+// GTokenizer* g_tokenizer()
+// {
+// 	static GTokenizer* instance = new GTokenizer();
+// 	return  instance;
+// }
 
 
 
@@ -49,6 +50,8 @@ GTokenizer* g_tokenizer()
 vector<string>
 GTokenizer::TokenizeCommandline(string line)
 {
+//	static std::mutex mtx;
+//	std::lock_guard<std::mutex> guard( mtx );
 	//    vector<string> tmptokens;
 
 	char quote = '"';
@@ -116,7 +119,8 @@ GTokenizer::TokenizeCommandline(string line)
 void
 GTokenizer::StripPath(const string fin, string& dir, string& fout, const bool keep_trailing_slahs)
 {
-
+//	static std::mutex mtx;
+//	std::lock_guard<std::mutex> guard( mtx );
 	vector<string> separators = { "\\", "/" };
 	auto tokens = Tokenize(fin, separators, DISCARD_EMPTY, KEEP_SEPARATOR);
 	dir.clear();
@@ -184,6 +188,8 @@ GTokenizer::StripPath(const string fin, string& dir, string& fout, const bool ke
 vector<string>
 GTokenizer::Tokenize(const vector<string>& source, const string sep, const bool keep_empty, const bool keep_sep)
 {
+//	static std::mutex mtx;
+//	std::lock_guard<std::mutex> guard( mtx );
 	vector<string> tout;
 
 	for (uint16_t i = 0; i < source.size(); i++)
@@ -203,9 +209,8 @@ GTokenizer::Tokenize(const vector<string>& source, const string sep, const bool 
 vector<string>
 GTokenizer::Tokenize(const string source, const string sep, const bool keep_empty, const bool keep_sep)
 {
-	//	std::lock_guard<std::mutex> guard(tokenizer_mutex);
-	//	tokenizer_mutex.lock();
-
+//	static std::mutex mtx;
+//	std::lock_guard<std::mutex> guard( mtx );
 	std::vector<std::string> results;
 
 	size_t prev = 0;
@@ -236,7 +241,7 @@ GTokenizer::Tokenize(const string source, const string sep, const bool keep_empt
 		if (keep_empty || (next - prev != 0))
 		{
 			string sub = source.substr(prev, next - prev);
-			if (!(g_utilities()->IsEmpty(source.substr(prev, next - prev)) && keep_empty == false))
+			if (!(g_utilities()->IsSpacesOnly(source.substr(prev, next - prev)) && keep_empty == false))
 			{
 				if (keep_sep == false)
 				{
@@ -272,6 +277,8 @@ GTokenizer::Tokenize(const string source, const string sep, const bool keep_empt
 vector<string>
 GTokenizer::Tokenize(const string source, const vector<string> sep, bool keep_empty, bool keep_sep)
 {
+//	static std::mutex mtx;
+//	std::lock_guard<std::mutex> guard( mtx );
 	//	tokenizer_mutex.lock();
 
 	if (sep.size() == 0)
@@ -296,6 +303,8 @@ GTokenizer::Tokenize(const string source, const vector<string> sep, bool keep_em
 vector<string>
 GTokenizer::Tokenize(const int argc, const char** argv)
 {
+//	static std::mutex mtx;
+//	std::lock_guard<std::mutex> guard( mtx );
 	//	tokenizer_mutex.lock();
 	vector<string> tmp;
 

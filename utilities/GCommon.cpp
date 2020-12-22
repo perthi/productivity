@@ -44,11 +44,11 @@ using std::cerr;
 
 
 
-GCommon * g_common()
-{
-	static GCommon *instance = new GCommon();
-	return instance;
-}
+// GCommon * g_common()
+// {
+// 	static GCommon *instance = new GCommon();
+// 	return instance;
+// }
 
 
 

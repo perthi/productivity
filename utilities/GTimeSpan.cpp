@@ -1,6 +1,5 @@
 // -*- mode: c++ -*-
 
-
 /*****************************************************************************
 ***          Author: Per Thomas Hille <pth@embc.no>                       ****
 ******************************************************************************/
@@ -8,7 +7,7 @@
 /*****************************************************************************
 ******************************************************************************
 *** This file is part of logmaster.                                        ***
-*** Copyright (C) Per Thomas Hille <pth@embc.no>  http:///www.embc.no      ***
+*** Copyright (C) 2018 Per Thomas Hille <pth@embc.no> http:///www.embc.no  ***
 *** all rights reserved                                                    ***
 ***                                                                        ***
 *** logmaster is free software: you can redistribute it and/or modify      ***
@@ -27,89 +26,13 @@
 ******************************************************************************
 ******************************************************************************/
 
-#include "GText.h"
-#include <cstdarg>
-
-#define GTEXT_MAX_SIZE 4096
-
-
-GText::GText(const char * fmt, ...) : fText("")
-{
-    va_list ap;
-    va_start(ap, fmt);
-    SetGText(fmt, ap);
-    va_end(ap);
- }
-
-
-GText::GText(char *message, const int n, const char * fmt, ...) : fText("")
-{
-    va_list ap;
-    va_start(ap, fmt);
-    vsnprintf(message, n-1 , fmt, ap);
-    SetGText(fmt, ap);
-    va_end(ap);
-}
-
-
-GText::GText(const string s ) : fText("")
-{   
-   fText = s;
-}
-
-
-void
-GText::SetGText(const char *fmt, va_list ap)
-{
-    static char msg[GTEXT_MAX_SIZE];
-    vsnprintf(msg, sizeof(msg) -1, fmt, ap);
-    fText = string(msg);
-}
-
-
-
-GText & 
-GText::operator  = (const char *rhs)
-{
-    this->SetGText(rhs);
-    return *this;
-}
-
-
-void 
-GText::SetGText(const char *txt)
-{
-    fText =  string(txt);
-}
+#include "GTime.h"
+#include "GTimeFormat.h"
 
 
 
 
-string    
-GText::str() const 
-{ 
-    return fText; 
-
-}
+#include <utilities/GTimeSpan.h>
 
 
-int64_t  
-GText::size() const
-{
-    return fText.size();
-}
-
-
-const char *  
-GText::c_str() const 
-{ 
-    return fText.c_str(); 
-}
-
-
-const char *
-GText::what() const
-{ 
-    return fText.c_str(); 
-}
 
