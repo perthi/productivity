@@ -46,14 +46,16 @@
 using namespace std::chrono;
 
 
-GTimeValidate::GTimeValidate() :   fTimeFormat(),  
+
+GTimeValidate::GTimeValidate() :
     ValidDayFunct(    std::bind( &GTimeValidate::IsValidDay,    this,  std::placeholders::_1  ) ),
     ValidDateFunct(   std::bind( &GTimeValidate::IsValidDate,   this,  std::placeholders::_1  ) ),
     ValidMonthFunct(  std::bind( &GTimeValidate::IsValidMonth,  this,  std::placeholders::_1  ) ),
     ValidYearFunct(   std::bind( &GTimeValidate::IsValidYear,   this,  std::placeholders::_1  ) ),
     ValidHourFunct(   std::bind( &GTimeValidate::IsValidHour,   this,  std::placeholders::_1  ) ),
     ValidMinuteFunct( std::bind( &GTimeValidate::IsValidMinute, this,  std::placeholders::_1  ) ),
-    ValidSecondFunct( std::bind( &GTimeValidate::IsValidSecond, this,  std::placeholders::_1  ) )
+    ValidSecondFunct( std::bind( &GTimeValidate::IsValidSecond, this,  std::placeholders::_1  ) ),
+    fTimeVal(0), fTimeFormat()
 {
 
 }
