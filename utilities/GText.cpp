@@ -42,14 +42,14 @@ GText::GText(const char * fmt, ...) : fText("")
  }
 
 
-GText::GText(char *message, const int n, const char * fmt, ...) : fText("")
-{
-    va_list ap;
-    va_start(ap, fmt);
-    vsnprintf(message, n-1 , fmt, ap);
-    SetGText(fmt, ap);
-    va_end(ap);
-}
+// GText::GText(char *message, const int n, const char * fmt, ...) : fText("")
+// {
+//     va_list ap;
+//     va_start(ap, fmt);
+//     vsnprintf(message, n-1 , fmt, ap);
+//     SetGText(fmt, ap);
+//     va_end(ap);
+// }
 
 
 GText::GText(const string s ) : fText("")

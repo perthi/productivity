@@ -44,13 +44,6 @@ using std::cerr;
 
 
 
-// GCommon * g_common()
-// {
-// 	static GCommon *instance = new GCommon();
-// 	return instance;
-// }
-
-
 
 #ifdef HAS_LOGGING
 #include <exception/GException.h>

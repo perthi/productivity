@@ -53,7 +53,7 @@ LIBS= -L $(CURDIR)/build/$(TARGET)/lib  -lm
 
 
 export SUPPORT_LIBS:= -lutilities  
-export UNIT_TEST_LIBS:=  $(SUPPORT_LIBS) -ltestlib -lgtest -lpthread 
+export UNIT_TEST_LIBS:=  $(SUPPORT_LIBS) -ltestlib -lgtest-embc -lpthread 
 
 
 gtest-linux:=             gtest-linux/$(TARGET)

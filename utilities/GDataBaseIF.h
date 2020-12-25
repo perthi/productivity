@@ -11,7 +11,8 @@
 
 
 #include  "GLocation.h"
-#include "GFormatting.h"
+#include  "GFormatting.h"
+#include  "GCommon.h"
 #ifdef HAS_LOGGING
 #include  <logging/LEnums.h>
 #include  <logging/LMessage.h>
