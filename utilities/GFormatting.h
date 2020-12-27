@@ -76,7 +76,10 @@ namespace GFormatting
                  std::enable_if_t<!std::is_enum<T>::value, bool> = true,
                  std::enable_if_t<!std::is_floating_point<T>::value, bool> = true,
                  std::enable_if_t<!std::is_pointer<T>::value, bool> = true>
-        Arg(T) : type(Type::INVALID) { static_assert(always_false_v<T>, "Invalid argument type for printf style formatting."); }
+        Arg(T) : type(Type::INVALID) 
+        { 
+            static_assert(always_false_v<T>, "Invalid argument type for printf style formatting."); 
+        }
 #endif
     };
     extern std::pair<bool, std::string> doCheckFormat(const char *filename, int lineno, const char *function,

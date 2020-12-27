@@ -48,7 +48,7 @@ TestGFormatting:: SetUpTestCase()
 
 
 
-#ifdef HAS_LOGING
+#ifdef HAS_LOGGING
 TEST_F(TestGFormatting,  format1 )
 {
     int t1 = 1;
@@ -65,7 +65,7 @@ TEST_F(TestGFormatting,  format1 )
 #endif
 
 
-#ifdef HAS_LOGING
+#ifdef HAS_LOGGING
 TEST_F(TestGFormatting,  unnecessary_check )
 {
     int t1 = 1;
@@ -76,7 +76,7 @@ TEST_F(TestGFormatting,  unnecessary_check )
 #endif
 
 
-#ifdef HAS_LOGING
+#ifdef HAS_LOGGING
 TEST_F(TestGFormatting,  format2 )
 {
     unsigned long long test = 123456;
@@ -90,7 +90,7 @@ TEST_F(TestGFormatting,  format2 )
 #endif
 
 
-#ifdef HAS_LOGING
+#ifdef HAS_LOGGING
 TEST_F(TestGFormatting, ESCORE_1253 )
 {
     int t1 = 1;
