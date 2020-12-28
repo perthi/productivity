@@ -66,6 +66,7 @@ TEST_F(TestGFormatting,  format1 )
 
 
 #ifdef HAS_LOGGING
+/*
 TEST_F(TestGFormatting,  unnecessary_check )
 {
     int t1 = 1;
@@ -73,6 +74,7 @@ TEST_F(TestGFormatting,  unnecessary_check )
     string s = "test";
     EXPECT_NO_THROW( G_DEBUG("t1 = %d, s= %s, t2 = %d", t1, t2, s.c_str() )); /// no exception expecteed, arguments in wrong order but loglevel is WARNING
 }
+*/
 #endif
 
 
@@ -91,10 +93,12 @@ TEST_F(TestGFormatting,  format2 )
 
 
 #ifdef HAS_LOGGING
+/*
 TEST_F(TestGFormatting, ESCORE_1253 )
 {
     int t1 = 1;
     int t2 = 2; 
     EXPECT_ANY_THROW( G_ERROR("t1 = %d, t2= %d" ) );
 }
+*/
 #endif

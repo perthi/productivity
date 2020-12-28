@@ -34,6 +34,8 @@ run_test ()
 {
     testname=$2
     testname=${testname/*\//};
+
+
     
     case $1 in
         x86)
@@ -47,9 +49,12 @@ run_test ()
         arm)
             echo "Running arm emulation unit test for "$testname "for" $1
             OLD=$LD_LIBRARY_PATH
-            export LD_LIBRARY_PATH=$PWD/build/arm/lib:$PWD/arm-extras:/usr/arm-linux-gnueabihf/lib/ 
+             export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/arm-linux-gnueabi/libhf/ 
+             export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/arm-linux-gnueabihf/lib/
+            #      export LD_LIBRARY_PATH=$PWD/build/arm/lib:$PWD/arm-extras:/usr/arm-linux-gnueabihf/lib/ 
       #      qemu-system-arm -machine virt-2.10 ,format=raw  $arm_dir/$testname $2 $3 $4 $5
-            qemu-arm   $arm_dir/$testname $2 $3 $4 $5
+             qemu-arm   $arm_dir/$testname  $3 $4 $5
+#            qemu-arm   $arm_dir/$testname 
             ret=$?
             export LD_LIBRARY_PATH=$OLD
             ;;
