@@ -536,3 +536,25 @@ GSystem::mv(const string src, const string dest)
     cp(src, dest);
     rm(src);
 }
+
+
+/** @return Returns the name of rootdir */
+
+#ifdef _WIN32
+char*
+GSystem::GetHomeDir()
+{
+    static char* buf;
+    buf = GetExePath();
+    PathRemoveFileSpecA(buf);
+    string path = string(buf);
+    static string dir;
+    static string fout;
+    GTokenizer().StripPath(path, dir, fout);
+    static string homedir = fout + "\\..\\..\\";
+    return  (char*)homedir.c_str();
+    // inline  void API StripPath(const string fin, string &dir, string &fout, const bool keep_trailing_slash = KEEP_TRAILING_SEPARATOR ); 	
+    SPRINTF(buf, 1024, "%s\\..\\..\\", buf); // CRAP PTH
+    return buf;
+}
+#endif
