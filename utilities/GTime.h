@@ -40,20 +40,21 @@ public:
     GTime();
 	API GTime(int year, int month, int dayInMonth, int hour24 = 0, int minute = 0, int second = 0, int us = 0);
     ~GTime() {};
-  
-    void            API   SetTime(int year, int month, int dayInMonth, int hour24 = 0, int minute = 0, int second = 0, int us = 0);
     
+
+
+    void            API   SetTime(int year, int month, int dayInMonth, int hour24 = 0, int minute = 0, int second = 0, int us = 0);
     long double		API   AccessDate();
     long double		API   AccessDate(const string date);
-    
     string			API   TimeStamp(struct std::tm *tout = 0, const char * format = 0, struct std::tm *tin = 0, int64_t *us = 0);
     string			API   TimeStamp(const char * format, int64_t *us = 0 );
-  //  void			API   GetRawTime(time_t *seconds, int64_t  *us = nullptr);
+    
     double          API   GetEpochTime( time_t * sec = nullptr, int64_t * us = nullptr );
     string			API   GetTime_ISO8601( bool use_microseconds = true );
     time_t			API   DateString2Time(const string date, const string format, std::tm *t = 0, int64_t *us = 0);
-    string		TimeStampShort(struct std::tm *tout = 0, struct std::tm *tin = 0, int64_t *us = 0);
-    
+    string		    TimeStampShort(struct std::tm *tout = 0, struct std::tm *tin = 0, int64_t *us = 0);
+    static  void            SetExternalTimeSource(  std::function<double()>  funct ); 
+
 
 #ifdef _WIN32
 	static GTime API Now();
@@ -75,6 +76,7 @@ private:
     int64_t fTimeVal;
     GTimeFormat  fTimeFormat;
     GTimeValidate fTimeValidate; 
+    static std::function<double()>  fExternalTimeSource; ///! External time source for epoch time
 };
 
 
