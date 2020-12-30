@@ -6,7 +6,7 @@
 
 QT       -= core gui
 
-TARGET = gtest-linux
+TARGET = gtest-embc
 TEMPLATE = lib
 
 DEFINES += SRC_LIBRARY

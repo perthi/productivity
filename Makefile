@@ -56,7 +56,7 @@ export SUPPORT_LIBS:= -lutilities
 export UNIT_TEST_LIBS:=  $(SUPPORT_LIBS) -ltestlib -lgtest-embc -lpthread 
 
 
-gtest-linux:=             gtest-linux/$(TARGET)
+gtest-embc:=             gtest-embc/$(TARGET)
 utilities:=  	  	  utilities/$(TARGET)
 sqlite:=		  sqlite/$(TARGET)	
 testlib:=  	  	  testlib/$(TARGET)
@@ -65,7 +65,7 @@ utilities-unittest:=      utilities/unit-tests/commit/$(TARGET)
 unittests:= 	$(utilities-unittest)
 support-modules:= 	$(utilities) 
 
-src-lib:= $(support-modules) $(testlib)  $(gtest-linux)  $(sqlite)
+src-lib:= $(support-modules) $(testlib)  $(gtest-embc)  $(sqlite)
 src-exe:= $(unittests)
 
 
@@ -109,7 +109,7 @@ export
 all: $(all-src)
 
 all-clean:=$(x86-src)
-unittest-common =  $(testlib)  $(support-modules)  $(gtest-linux)
+unittest-common =  $(testlib)  $(support-modules)  $(gtest-embc)
 
 $(src-exe) : $(src-lib)
 
