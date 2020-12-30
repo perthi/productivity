@@ -30,7 +30,7 @@ using std::string;
 #ifdef _WIN32
 #include <gtest/gtest.h>
 #else
-#include <gtest-linux/gtest.h>
+#include <gtest-embc/gtest.h>
 #endif
 
 #define CATCH_GTEST_EXEPTION                                  \

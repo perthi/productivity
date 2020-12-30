@@ -1,0 +1,4 @@
+
+include ../gtest-embc.mk
+
+
