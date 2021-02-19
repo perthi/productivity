@@ -90,8 +90,7 @@ bool actuallyCheckFormat( const char *file, int line, const char *func, const ch
                 {
                 case '\0':
                     // Too few arguments
-                   ThrowException<GMissingArgumentException>( GText( "Too few arguments, got %d, expected at least %d", 
-                   numArgs, numArgs+1 ).c_str(), file, func, line );
+                   ThrowException<GMissingArgumentException>("Missing format specifier.", file, func, line );
                     return false;
                 case '.':
                 case '-':

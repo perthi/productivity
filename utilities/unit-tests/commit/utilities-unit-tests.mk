@@ -28,7 +28,7 @@ LIBS+=   -lutilities
 
 
 ifdef HAS_LOGGING
-LIBS+=  -lexception -llogmaster	  -lsqlite-embc -ldl -lpthread
+LIBS+=  -lexception -llogmaster	  -lsqlite-embc -ldl -lpthread -ldso
 endif
 
 LIBS+= -lreadline -lhistory -lncurses 

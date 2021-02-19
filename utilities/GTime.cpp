@@ -42,6 +42,7 @@
 #include <sstream>
 #include <chrono>
 #include <thread>
+#include <mutex>
 
 #include <mutex>
 
@@ -321,7 +322,7 @@ GTime::TimeStamp(struct std::tm *tout, const char *format, struct std::tm *tin, 
                    
            if(us != nullptr )
            {
-                *us  =  (t_ext -now)*1000000000; 
+                *us  = (int64_t)((t_ext -now)*1000000000); 
            }
        }
        else

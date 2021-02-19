@@ -1,12 +1,8 @@
 // -*- mode: c++ -*-
-/***************************************************
-* @copyright Kongsberg Ferrotech                   *
-* @author Per Thomas Hille <pth@embc.no>           *
-*                                                  *
-* SW developed by Embedded Consulting AS           *
-* for Semcon Norge AS                              *
-***************************************************/
 
+/***************************************************
+* @author Per Thomas Hille <pth@embc.no>           *
+***************************************************/
 
 #include "TestGCrc.h"
 #include <utilities/GCrc.h>

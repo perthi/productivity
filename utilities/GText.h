@@ -26,7 +26,8 @@ public:
    API GText (const char * fmt, ... );
   // API GText (char *message, const int n, const char * fmt, ...);
    API GText (const string s );
-   string             API    str() const  override;
+ //  string             API    str() const  override;
+   string             API    str() const ; 
    int64_t            API    size() const;
    const              API    char *    what() const;
    const char         API  * c_str() const;
