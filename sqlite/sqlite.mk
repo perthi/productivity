@@ -4,7 +4,7 @@ LIBNAME_A:=   libsqlite-embc.a
 
 #CFLAGS+=-fpermissive
 
-CFLAGS+=-DSQLITE_ENABLE_JSON1  -fPIC
+CFLAGS+=-DSQLITE_ENABLE_JSON1  -fPIC -lpthread
 
 
 SRC+=sqlite3.c 

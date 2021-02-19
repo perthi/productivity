@@ -26,8 +26,7 @@
 // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-//
-// Author: wan@google.com (Zhanyong Wan)
+
 //
 // Google C++ Mocking Framework (Google Mock)
 //
@@ -37,11 +36,11 @@
 
 // This line ensures that gmock.h can be compiled on its own, even
 // when it's fused.
-#include "gmock-embc/gmock.h"
+#include  <gmock-embc/gmock.h>
 
 // The following lines pull in the real gmock *.cc files.
-#include "gmock-cardinalities.cpp"
-#include "gmock-internal-utils.cpp"
-#include "gmock-matchers.cpp"
-#include "gmock-spec-builders.cpp"
-#include "gmock.cpp"
+#include <gmock-embc/gmock-cardinalities.cpp>
+#include <gmock-embc/gmock-internal-utils.cpp>
+#include <gmock-embc/gmock-matchers.cpp>
+#include <gmock-embc/gmock-spec-builders.cpp>
+#include <gmock-embc/gmock.cpp>

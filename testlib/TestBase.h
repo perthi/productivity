@@ -90,8 +90,9 @@ private:
 inline TestBase::TestBase()
 {
 	SET_LOGTARGET("--target-off --target-file");
-	g = new GLogApplication(argc_, (const char **)argv_, nullptr, true);
-	Init();
+        //g = new GLogApplication(argc_, (const char **)argv_, nullptr, true);
+        g = new GLogApplication(1, (const char **)argv_, nullptr, true); // Temp fix, see ESCORE-1327
+        Init();
 }
 
 inline TestBase::~TestBase()
@@ -104,7 +105,7 @@ TestBase::Init()
 {
 	fOldLogFileName = LLogging::Instance()->GetLogFileName(eMSGTARGET::TARGET_FILE);
 	SET_LOGFILENAME(fTestLogFileName);
-	g_cmdscan()->SetIgnoreStrayArgument(false);
+	g_cmdscan()->SetIgnoreStrayArgument(true);
 	GException::DisableStackTrace();
 }
 

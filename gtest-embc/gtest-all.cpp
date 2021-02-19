@@ -26,22 +26,22 @@
 // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
 //
-// Author: mheule@google.com (Markus Heule)
-//
-// Google C++ Testing Framework (Google Test)
+// Google C++ Testing and Mocking Framework (Google Test)
 //
 // Sometimes it's desirable to build Google Test by compiling a single file.
 // This file serves this purpose.
 
 // This line ensures that gtest.h can be compiled on its own, even
 // when it's fused.
-#include "gtest-embc/gtest.h"
+#include "gtest.h"
 
 // The following lines pull in the real gtest *.cc files.
 #include "gtest.cpp"
 #include "gtest-death-test.cpp"
 #include "gtest-filepath.cpp"
+#include "gtest-matchers.cpp"
 #include "gtest-port.cpp"
 #include "gtest-printers.cpp"
 #include "gtest-test-part.cpp"
