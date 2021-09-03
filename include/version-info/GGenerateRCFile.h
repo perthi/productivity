@@ -1,0 +1,1 @@
+../../utilities/version-info/GGenerateRCFile.h

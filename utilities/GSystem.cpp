@@ -272,6 +272,8 @@ GSystem::exec(const char* cmd)
             result += buffer;
         }
     }
+
+   // COUT << "result = !!!!!" <<  result << endl;
     return result;
 }
 

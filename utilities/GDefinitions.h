@@ -13,8 +13,6 @@
 *** General Public License(LGPL) V3 or later.See.cpp file for details     ***
 *****************************************************************************/
 
-//#include <stdint.h>
-//#include <cstdint>
 #include <iostream>
 using std::cout;
 using std::endl;

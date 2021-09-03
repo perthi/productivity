@@ -270,19 +270,6 @@ GTime::TimeStamp(const char * format, int64_t *us)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 string
 GTime::TimeStamp(struct std::tm *tout, const char *format, struct std::tm *tin, int64_t *us)
 {

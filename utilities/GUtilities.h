@@ -31,6 +31,7 @@
 #include <typeinfo>
 #include <set>
 #include <time.h>
+#include <thread>
 
 using std::ostream;
 using std::ostringstream;
@@ -72,6 +73,8 @@ public:
     string              API     TabAlign(const string &in,  int max_tabs = 4, int *n_tabs = nullptr ) const;
     bool                API     IsValidIPV4Address(const string ipv4_address) const;
 
+    bool                API     StopThread( std::thread *th, GLocation l );    
+
     template <typename T >   void ResetArray( T *arr, const size_t size ) const;
     template < typename T >  void               Print(const T &array, const string file, const string func, const int line ) const;
     template < typename T >  void               Print(vector<T> in) const;
@@ -99,6 +102,8 @@ public:
                                                                const char *varname, const char * filename, 
                                                                const  int linenumber, const char * functionname, bool *status = nullptr) const;
 
+    
+    
     GUtilities() {};
     virtual ~GUtilities() {};   
 
@@ -124,15 +129,6 @@ GUtilities::ResetArray( T *arr, const size_t size ) const
 }
 
 
-
-
-
-// template<typename T>  vector<string>  
-// GUtilities::Append(vector<T> &original, const vector<T> appendix ) const
-// {
-//     original.insert(original.end(), appendix.begin(), appendix.end() );
-//     return original;
-// }
 
 
 /**  Check if a values (val) is
@@ -394,6 +390,7 @@ bool GUtilities::Contains(const vector<T> vect, const T element) const
 
 
 
+//GCommon::HandleError(const GLocation  l, eMSGLEVEL  lvl,  const bool  throw_ex, const char *  fmt, const Args... args)
 
 template<typename T1, typename T2>
 bool GUtilities::CheckMinMax(const T1 min, const T2 max) const

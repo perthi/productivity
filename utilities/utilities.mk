@@ -33,7 +33,8 @@ SRCCPP+=GCommon.cpp \
 	GCrc.cpp \
 	GStackTrace.cpp \
 	GDataBaseIF.cpp \
-	GFormatting.cpp
+	GFormatting.cpp \
+	GMenu.cpp
 
 
 include ../../common.mk
