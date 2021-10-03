@@ -60,8 +60,8 @@ case $i in
 	fi
 
 	# replace variables in man page
-	if test ! -f /home/root/ExternalLibraries/logmaster/submodules/productivity/3rd-party/arm/ncurses/man_alias.sed ; then
-cat >>/home/root/ExternalLibraries/logmaster/submodules/productivity/3rd-party/arm/ncurses/man_alias.sed <<-CF_EOF2
+	if test ! -f /home/root/firmware/fec-linux/support-modules/logmaster/3rd-party/arm/ncurses/man_alias.sed ; then
+cat >>/home/root/firmware/fec-linux/support-modules/logmaster/3rd-party/arm/ncurses/man_alias.sed <<-CF_EOF2
 		s,@DATADIR@,$datadir,g
 		s,@TERMINFO@,${TERMINFO:="no default value"},g
 		s,@TERMINFO_DIRS@,${TERMINFO_DIRS:="no default value"},g
@@ -80,7 +80,7 @@ s,@TOE@,arm-linux-toe,g
 s,@TPUT@,arm-linux-tput,g
 s,@TSET@,arm-linux-tset,g
 CF_EOF2
-		echo "...made /home/root/ExternalLibraries/logmaster/submodules/productivity/3rd-party/arm/ncurses/man_alias.sed"
+		echo "...made /home/root/firmware/fec-linux/support-modules/logmaster/3rd-party/arm/ncurses/man_alias.sed"
 	fi
 
 	aliases=
@@ -93,16 +93,16 @@ CF_EOF2
 	fi
 	nCurses=ignore.3x
 	test yes = yes && nCurses=ncurses.3x
-	aliases=`sed -f $top_srcdir/man/manlinks.sed $inalias |sed -f /home/root/ExternalLibraries/logmaster/submodules/productivity/3rd-party/arm/ncurses/man_alias.sed | sort -u; test $inalias = $nCurses && echo curses`
-	cf_target=`grep "^$cf_source" /home/root/ExternalLibraries/logmaster/submodules/productivity/3rd-party/arm/ncurses/man/man_db.renames | mawk '{print $2}'`
+	aliases=`sed -f $top_srcdir/man/manlinks.sed $inalias |sed -f /home/root/firmware/fec-linux/support-modules/logmaster/3rd-party/arm/ncurses/man_alias.sed | sort -u; test $inalias = $nCurses && echo curses`
+	cf_target=`grep "^$cf_source" /home/root/firmware/fec-linux/support-modules/logmaster/3rd-party/arm/ncurses/man/man_db.renames | mawk '{print $2}'`
 	if test -z "$cf_target" ; then
 		echo '? missing rename for '$cf_source
 		cf_target="$cf_source"
 	fi
 	cf_target="$cf_subdir${section}/${cf_target}"
 
-	sed	-f /home/root/ExternalLibraries/logmaster/submodules/productivity/3rd-party/arm/ncurses/man_alias.sed \
-		< $i | sed -f /home/root/ExternalLibraries/logmaster/submodules/productivity/3rd-party/arm/ncurses/edit_man.sed >$TMP
+	sed	-f /home/root/firmware/fec-linux/support-modules/logmaster/3rd-party/arm/ncurses/man_alias.sed \
+		< $i | sed -f /home/root/firmware/fec-linux/support-modules/logmaster/3rd-party/arm/ncurses/edit_man.sed >$TMP
 if test $cf_tables = yes ; then
 	tbl $TMP >$TMP.out
 	mv $TMP.out $TMP

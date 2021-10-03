@@ -105,8 +105,33 @@ typedef  unsigned char    DBCHAR;
 #define  SECONDS_MIN 0
 #define  SECONDS_MAX 60
 
+#define ARG_OK true
+#define ARG_ERROR false
 
- // Temp fix for ESCORe-1327, argc has been hardcoded to 1
+
+
+#define CHECK_ARGS(type, cmd, parameter, lower, upper, status, msg)    \
+    status = ARG_OK;                                                    \
+    try                                                                 \
+    {                                                                   \
+        msg = g_utilities()->CheckLimits<type>((type)parameter.size(), lower, upper, #parameter, __FILE__, __LINE__, __FUNCTION__, &status); \
+    }                                                                   \
+    catch (...)                                                         \
+    {                                                                   \
+        if (status == ARG_ERROR)                                        \
+        {    \
+                if (lower == upper)                                         \
+            {                                                           \
+                RANGE_EXCEPTION("%s:\t%s invalid number of parameters(%d): %s takes exactly %d parameter", cmd.c_str(),msg.c_str(),  parameter.size(),   cmd.c_str(), upper); \
+            }                                                           \
+            else                                                        \
+            {   \
+                RANGE_EXCEPTION("%s:\t%s invalid number of parameters(%d): %s takes between %d and %d parameters", cmd.c_str(), msg.c_str(),  parameter.size(),  cmd.c_str(), lower, upper); \
+            }                                                           \
+                                                                        \
+        } \
+    }
+ // Temp fix for ESCORE-1327, argc has been hardcoded to 1
 #ifdef HAS_LOGGING
 #include <cmdline/GLogApplication.h>
 #define MAIN_UNITTEST() \

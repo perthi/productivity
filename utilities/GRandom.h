@@ -131,11 +131,11 @@ public:
 inline string
 GRandom::Name(const string prefix, const string postfix)
 {
-	static char name[4096];
-	unsigned short num = Uniform<unsigned short>(0, USHRT_MAX);
-	SPRINTF(name, 4096 - 1, "%s%05d%s", prefix.c_str(), num, postfix.c_str());
-	//    sprintf(name, "%s%05d%s", prefix.c_str(), num, postfix.c_str() );
-	return string(name);
+    static char name[4096];
+    unsigned short num = Uniform<unsigned short>(0, USHRT_MAX);
+    SPRINTF(name, 4096 - 1, "%s%05d%s", prefix.c_str(), num, postfix.c_str());
+    //    sprintf(name, "%s%05d%s", prefix.c_str(), num, postfix.c_str() );
+    return string(name);
 }
 //#endif
 
@@ -147,7 +147,8 @@ GRandom::RandomString( const size_t size  )
 
     for(size_t i = 0; i <  size; i++ )
     {
-        char c = Uniform<int>(0, 255);
+       // char c = Uniform<int>(1, 255);
+        char c = Uniform<int>(64, 90);
         tmp.push_back(c);
     }
     return tmp;
@@ -156,7 +157,7 @@ GRandom::RandomString( const size_t size  )
 
 inline  GRandom  * g_random()
 {
-	static GRandom *instance = new GRandom();
-	return instance;
+    static GRandom *instance = new GRandom();
+    return instance;
 }
 

@@ -36,15 +36,15 @@
 
 GSemaphore * g_semaphore()
 {
- 	return GSemaphore::Instance();    	
+     return GSemaphore::Instance();        
 }
 
 
 GSemaphore * 
 GSemaphore::Instance()
 {
- 	static GSemaphore *instance = new  GSemaphore();
-    return instance;	
+     static GSemaphore *instance = new  GSemaphore();
+    return instance;    
 }
 
 
@@ -87,9 +87,9 @@ GSemaphore::HandleSemaphoreError( const int ret, const double time ) const
 }
 
 
-/** The sem_timedwait function takes an absoluet epoch time
- * as input, however what we want is to wait a sepcific time duration.
- * @param[in]  s  The semaphor to wait for
+/** The sem_timedwait function takes an absolute epoch time
+ * as input, however what we want is to wait a specific time duration.
+ * @param[in]  s  The semaphore to wait for
  * @param[in]  timetowait_sec The time in seconds to wait for the semaphore
  * @return the return value of sem_trywait.*/
 int 
@@ -116,7 +116,7 @@ GSemaphore::TimedWait(sem_t *s, const double timetowait_sec)
 
     return 0;
 #else
-	return 0;
+    return 0;
 #endif
 }
 
@@ -134,7 +134,7 @@ GSemaphore::Wait(sem_t *s)
 
     return ret;
 #else
-	return 0;
+    return 0;
 #endif
 }
 
@@ -157,6 +157,6 @@ GSemaphore::Post( sem_t *s)
         return sem_post(s);
     }
 #else
-	return 0;
+    return 0;
 #endif
 }

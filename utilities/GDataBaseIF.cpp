@@ -1,6 +1,6 @@
 // -*- mode: c++ -*-
 /**************************************************************************
- * This file is property of and copyright by Embedded Cosnulting  2020    *
+ * This file is property of and copyright by Embedded Consulting'  2020    *
  *                                                                        *
  * Author: Per Thomas Hille <pth@embc.no>                                 *
  * Contributors are mentioned in the code where appropriate.              *
@@ -39,7 +39,7 @@ using namespace LOGMASTER;
 GDataBaseIF::GDataBaseIF()
 {
     #ifdef HAS_LOGGING
-	fMessageGenerator =  std::make_shared< LMessageGenerator >();
+    fMessageGenerator =  std::make_shared< LMessageGenerator >();
     #endif
 }
 
@@ -85,17 +85,14 @@ GDataBaseIF::SQLType2String(const int sql_type) const
 
 
 
-
-
-
 /**  Opens the database 
- *   @param[in]   db_path The fulle path to hte database
- *   @return      TRUE if the databse was opened sucessfullt, false othervise */
+ *   @param[in]   db_path The full path to hte database
+ *   @return      TRUE if the database was opened successfully, false othervise */
 bool 
 GDataBaseIF::OpenDatabase(const char *db_path)
 {
     #ifdef HAS_LOGGING
-          HandleError(GLOCATION, eMSGLEVEL::LOG_INFO, DISABLE_EXCEPTION, "opening database \"%s\"",    db_path  );
+          HandleError(GLOCATION, eMSGLEVEL::LOG_DEBUG, DISABLE_EXCEPTION, "opening database \"%s\"",    db_path  );
     #else
         HandleError(GLOCATION, DISABLE_EXCEPTION, "opening database \"%s\"",    db_path  );
     #endif 

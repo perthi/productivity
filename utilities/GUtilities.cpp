@@ -78,21 +78,21 @@ GUtilities::Sizes() const
 void
 GUtilities::DisableError()
 {
-	fIsDisabledError = true;
+    fIsDisabledError = true;
 }
 
 
 void
 GUtilities::EnableError()
 {
-	fIsDisabledError = false;
+    fIsDisabledError = false;
 }
 
 
 bool
 GUtilities::IsDisabledError() const
 {
-	return fIsDisabledError;
+    return fIsDisabledError;
 }
 
 
@@ -123,7 +123,7 @@ GUtilities::IsBigEndian() const
 string 
 GUtilities::QueryInput( const string prompt)
 {
-    cout << prompt;	
+    cout << prompt;    
     string user_input;
     std::getline(std::cin,  user_input);
     return user_input;
@@ -204,7 +204,6 @@ GUtilities::AutoClause( string addendum, FILE *fp)
     if( fp != nullptr )
     {
         fprintf( fp, "%s", tmp2.c_str()  );
-      //  fprintf(fp, "/*** Generated at: %s  ***/\n\n", tmp2.c_str()  );
     }
 
     return buffer.str();
@@ -222,7 +221,6 @@ GUtilities::TrueOrFalse( const bool val ) const
     {
         return "FALSE";
     }
-
 }
 
 
@@ -231,15 +229,13 @@ GUtilities::StopThread(std::thread *th, GLocation l )
 {
     if (th->joinable() == false)
     {
-         //GCommon().HandleError("Could not joing thread", l, IsDisabledError() );
-        GCommon().HandleError("Could not joing thread", l, true );
+        GCommon().HandleError("Could not join thread", l, true );
          return false;
     }
     else
     {
         if (std::this_thread::get_id() == th->get_id())
         {
-         //  GCommon().HandleError("You are attempting to joining yourself", l, IsDisabledError() );
            GCommon().HandleError("You are attempting to joining yourself", l, true );
            return false; 
         }

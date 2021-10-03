@@ -125,26 +125,19 @@ GStackTrace::str()
     if (strings == NULL)
     {
         return string(strerror(errno));
-        // perror("backtrace_symbols");
-        // exit(EXIT_FAILURE);
     }
 
     std::ostringstream buffer_s;
     for (j = 0; j < nptrs; j++)
     {
         buffer_s << j << "::::" << string(strings[j]) << endl;
-        // printf("%s\n", strings[j]);
     }
 
     free(strings);
-
     return buffer_s.str();
 }
 
 #endif
-
-
-
 
 
 
@@ -153,5 +146,4 @@ GStackTrace::c_str()
 {
     return str().c_str();
 }
-
 

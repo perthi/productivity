@@ -40,13 +40,13 @@ GString  * g_string()
 
 /** Count the number of times the character "c" occurs in the input string
 *  @param[in] str  The input string to scan
-*  @param[in] c    The character to count occurences of
+*  @param[in] c    The character to count occurrences of
 *  @param[in]  ignore_case  Wether or not to ignore case when counting characters. If set to true, then both the input string
 *  and the character will be converted to lower case before doing the comparison. Please not that this flag only applies to letters
-*  A-Z for all other charcters the flag is ignored.
+*  A-Z for all other characters the flag is ignored.
 *  @return  The number of times "c" occurs in "str" */
 int
-GString::CountOccurences(const string str, const char c, const bool ignore_case)
+GString::CountOccurrences(const string str, const char c, const bool ignore_case)
 {
     int cnt = 0;
     string l_str = str;
@@ -70,7 +70,7 @@ GString::CountOccurences(const string str, const char c, const bool ignore_case)
 
 
 /** Check if the string "str" the begins with "substring"
-*   @param str The array to check for occurences of "token"
+*   @param str The array to check for occurrences of "token"
 *   @param substring   The token to search for in "str"
 *   @param ignore_case Wether or not to ignore case
 *   @return true if "str" begins with "substring", false othervise" */
@@ -91,42 +91,42 @@ GString::BeginsWith(const string &str, const string &substring, const bool ignor
 
 
 /** Check if any of the strings in the vector "arr"  begins with the token "token"
-*   @param[in] arr The array to check for occurences of "token"
+*   @param[in] arr The array to check for occurrences of "token"
 *   @param[in] token   The token to search for in the vector "arr"
 *   @param[in] ignore_case wether or not the text search should be case sensitive.
 *   @return true if "arr" has any element that begins with "token, false othervise" */
 bool GString::BeginsWith(const vector<string> *const arr, const string token, const bool ignore_case)
 {
-	if (arr == nullptr)
-	{
-		//CERR << "ZERO POINTER" << endl;
-		return false;
-	}
-	else
-	{
-		for (size_t i = 0; i < arr->size(); i++)
-		{
-			if (BeginsWith(arr->at(i), token, ignore_case) == true)
-			{
-				return true;
-			}
-		}
-	}
-	return false;
+    if (arr == nullptr)
+    {
+        //CERR << "ZERO POINTER" << endl;
+        return false;
+    }
+    else
+    {
+        for (size_t i = 0; i < arr->size(); i++)
+        {
+            if (BeginsWith(arr->at(i), token, ignore_case) == true)
+            {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
  bool GString::EndsWith(const string& str, const string& substring, const bool ignore_case)
 {
-	long long int pos = 0;
-	long long int expected_pos = (long long int)str.size() - (long long int)substring.size();
-	if ((expected_pos >= 0) && Contains(str, substring, ignore_case, &pos) == true && (pos == expected_pos))
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+    long long int pos = 0;
+    long long int expected_pos = (long long int)str.size() - (long long int)substring.size();
+    if ((expected_pos >= 0) && Contains(str, substring, ignore_case, &pos) == true && (pos == expected_pos))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 
@@ -283,7 +283,6 @@ string& GString::ToLower(string& s)
 
 
 
-
  /**  Converts string to uppercase. Handles both UTF-8 and ANSI, both will not convert ANSI to UTF-8.
   *  @param[in, out] s  String to be converted. The content is not altered.
   *  @return  uppercase of s.  */
@@ -324,10 +323,6 @@ string& GString::ToUpper(string& s)
 
 
 
-
-
-
-
 #define GET_SAFE_CHAR(str,ptr,len) (ptr<len?str[ptr]:'\0')
 
 
@@ -337,48 +332,48 @@ string& GString::ToUpper(string& s)
 bool 
 GString::IsAnsi(string& s)
 {
-	size_t len = s.size();
-	const char* str = s.c_str();
-	// IF UTF-8 BOM return false
-	if ((GET_SAFE_CHAR(str, 0, len) == 0xEF) && (GET_SAFE_CHAR(str, 1, len) == 0xBB) && (GET_SAFE_CHAR(str, 2, len) == 0xBF))
-	{
-		return(false);
-	}
+    size_t len = s.size();
+    const char* str = s.c_str();
+    // IF UTF-8 BOM return false
+    if ((GET_SAFE_CHAR(str, 0, len) == 0xEF) && (GET_SAFE_CHAR(str, 1, len) == 0xBB) && (GET_SAFE_CHAR(str, 2, len) == 0xBF))
+    {
+        return(false);
+    }
 
-	// OK, no BOM. Lets check for UTF-8 pattern......
-	for (size_t n = 0; n < len; n++)
-	{
-		char ch = GET_SAFE_CHAR(str, n, len);
-		if ((ch & 0xE0) == 0xC0)
-		{
-			char ch2 = GET_SAFE_CHAR(str, n + 1, len);
-			if ((ch2 & 0xC0) == 0x80)
-			{
-				return(false);
-			}
-		}
-		if ((ch & 0xF0) == 0xE0)
-		{
-			char ch2 = GET_SAFE_CHAR(str, n + 1, len);
-			char ch3 = GET_SAFE_CHAR(str, n + 2, len);
-			if (((ch2 & 0xC0) == 0x80) && ((ch3 & 0xC0) == 0x80))
-			{
-				return(false);
-			}
-		}
-		if ((ch & 0xF8) == 0xF0)
-		{
-			char ch2 = GET_SAFE_CHAR(str, n + 1, len);
-			char ch3 = GET_SAFE_CHAR(str, n + 2, len);
-			char ch4 = GET_SAFE_CHAR(str, n + 3, len);
-			if (((ch2 & 0xC0) == 0x80) && ((ch3 & 0xC0) == 0x80) && ((ch4 & 0xC0) == 0x80))
-			{
-				return(false);
-			}
-		}
-	}
+    // OK, no BOM. Lets check for UTF-8 pattern......
+    for (size_t n = 0; n < len; n++)
+    {
+        char ch = GET_SAFE_CHAR(str, n, len);
+        if ((ch & 0xE0) == 0xC0)
+        {
+            char ch2 = GET_SAFE_CHAR(str, n + 1, len);
+            if ((ch2 & 0xC0) == 0x80)
+            {
+                return(false);
+            }
+        }
+        if ((ch & 0xF0) == 0xE0)
+        {
+            char ch2 = GET_SAFE_CHAR(str, n + 1, len);
+            char ch3 = GET_SAFE_CHAR(str, n + 2, len);
+            if (((ch2 & 0xC0) == 0x80) && ((ch3 & 0xC0) == 0x80))
+            {
+                return(false);
+            }
+        }
+        if ((ch & 0xF8) == 0xF0)
+        {
+            char ch2 = GET_SAFE_CHAR(str, n + 1, len);
+            char ch3 = GET_SAFE_CHAR(str, n + 2, len);
+            char ch4 = GET_SAFE_CHAR(str, n + 3, len);
+            if (((ch2 & 0xC0) == 0x80) && ((ch3 & 0xC0) == 0x80) && ((ch4 & 0xC0) == 0x80))
+            {
+                return(false);
+            }
+        }
+    }
 
-	return(true);
+    return(true);
 }
 
 
@@ -495,25 +490,26 @@ GString::IsMatch(const string pattern, const string val, bool require_exact_matc
     return false;
 }
 
+
 /**@{*/
 /**   @brief Check if the string "str" contains "substring"
-  *   @param[in] str The array to check for occurences of "token"
+  *   @param[in] str The array to check for occurrences of "token"
   *   @param[in] substring   The token to search for in "str"
-  *   @param[in] ignore_case Wether or not to ignor case when comparing strings
-  *   @param[out] pos  The position of the first occurence of "str"
+  *   @param[in] ignore_case Wether or not to ignore case when comparing strings
+  *   @param[out] pos  The position of the first occurrence of "str"
   *   @return true if "str" contains "substring", false othervise" */
 bool
 GString::Contains(const vector<string>& str, const string& substring, const bool ignore_case, long long int* pos)
 {
-	for (size_t i = 0; i < str.size(); i++)
-	{
-		if (Contains(str[i], substring, ignore_case, pos) == true)
-		{
-			return true;
-		}
-	}
+    for (size_t i = 0; i < str.size(); i++)
+    {
+        if (Contains(str[i], substring, ignore_case, pos) == true)
+        {
+            return true;
+        }
+    }
 
-	return false;
+    return false;
 
 }
 
@@ -521,32 +517,32 @@ GString::Contains(const vector<string>& str, const string& substring, const bool
 bool
 GString::Contains(const string& str, const string& substring, const bool  ignore_case, long long int* pos)
 {
-	string l_str = str;
-	string l_substr = substring;
+    string l_str = str;
+    string l_substr = substring;
 
 
-	if (ignore_case == true)
-	{
-		std::transform(l_str.begin(), l_str.end(), l_str.begin(), ::tolower);
-		std::transform(l_substr.begin(), l_substr.end(), l_substr.begin(), ::tolower);
-	}
+    if (ignore_case == true)
+    {
+        std::transform(l_str.begin(), l_str.end(), l_str.begin(), ::tolower);
+        std::transform(l_substr.begin(), l_substr.end(), l_substr.begin(), ::tolower);
+    }
 
 
-	unsigned long long int lpos = l_str.find(l_substr);
+    unsigned long long int lpos = l_str.find(l_substr);
 
-	if (pos != 0)
-	{
-		*pos = lpos;
-	}
+    if (pos != 0)
+    {
+        *pos = lpos;
+    }
 
-	if (lpos != std::string::npos)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+    if (lpos != std::string::npos)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 /**@}*/
 
@@ -560,11 +556,18 @@ GString::Contains(const string& str, const string& substring, const bool  ignore
 string
 GString::Replace(const string original, const string substring, const string replacement)
 {
-	string tmp = original;
-    if (replacement.size() == 0)
+    string tmp = original;
+    
+    if( substring.size() == 0 )
     {
         return tmp;
     }
+
+    if( (substring.size() == 0 ) &&  ( replacement.size() == 0 ) )
+    {
+         return tmp;
+    }
+
     size_t start_pos = 0;
     
     while ((start_pos = tmp.find(substring, start_pos)) != std::string::npos) 
@@ -577,20 +580,19 @@ GString::Replace(const string original, const string substring, const string rep
 
 
 /**@{
- *  Replacing bad/unwanted characters in the input string, bad charcters ar characters such as for instance (,),{,},%# etc..
+ *  Replacing bad/unwanted characters in the input string, bad characters ar characters such as for instance (,),{,},%# etc..
  *  @param[in,out] inputstring  The input string/character array that will be modified
- *  @param[in] delimeter  bad charcters will be replaced
- *  @param[in] suspicious  array of characters to be replaced, if it is a zero pointer then a default set of bad charcters will be used.
+ *  @param[in] delimeter  bad characters will be replaced
+ *  @param[in] suspicious  array of characters to be replaced, if it is a zero pointer then a default set of bad characters will be used.
  *  @return  The modified string with all "bad" characters replaced with the delimeter. */
 string
 GString::ReplaceBadChar(string& inputstring, const char delimeter, const char* suspicious)
 {
-	static char tmp[1023];
-	//SPRINTF(tmp, 1023, "%s", inputstring.c_str());
-	SPRINTF_S(tmp, inputstring);
-	ReplaceBadChar(tmp, delimeter, suspicious);
-	inputstring = tmp;
-	return inputstring;
+    static char tmp[1023];
+    SPRINTF_S(tmp, inputstring);
+    ReplaceBadChar(tmp, delimeter, suspicious);
+    inputstring = tmp;
+    return inputstring;
 }
 
 
@@ -598,36 +600,36 @@ GString::ReplaceBadChar(string& inputstring, const char delimeter, const char* s
 char*
 GString::ReplaceBadChar(char* inputstring, const char delimeter, const char* suspicious)
 {
-	static char souspiciouscharacters[1023];
-	if (suspicious == 0)
-	{
-		SPRINTF_S(souspiciouscharacters, string(" \\,:()/{}#!*-^~?+=[]`??$&% "));
-	}
-	else
-	{
-		SPRINTF_S(souspiciouscharacters, string(suspicious));
-	}
+    static char souspiciouscharacters[1023];
+    if (suspicious == 0)
+    {
+        SPRINTF_S(souspiciouscharacters, string(" \\,:()/{}#!*-^~?+=[]`??$&% "));
+    }
+    else
+    {
+        SPRINTF_S(souspiciouscharacters, string(suspicious));
+    }
 
 
-	long  long int length = strlen(inputstring);
+    long  long int length = strlen(inputstring);
 
-	for (int i = 0; i < length; i++)
-	{
-		//  bool foundsuspicious = false;
-		long long int badcharlength = strlen(souspiciouscharacters);
-		for (int j = 0; j < badcharlength; j++)
-		{
-			if (inputstring[i] == souspiciouscharacters[j])
-			{
-				inputstring[i] = delimeter;
-				//      foundsuspicious = true;
-			}
-		}
-	}
+    for (int i = 0; i < length; i++)
+    {
+        //  bool foundsuspicious = false;
+        long long int badcharlength = strlen(souspiciouscharacters);
+        for (int j = 0; j < badcharlength; j++)
+        {
+            if (inputstring[i] == souspiciouscharacters[j])
+            {
+                inputstring[i] = delimeter;
+                //      foundsuspicious = true;
+            }
+        }
+    }
 
-	static char out[1023];
-	SPRINTF_S(out, string(inputstring));
-	return out;
+    static char out[1023];
+    SPRINTF_S(out, string(inputstring));
+    return out;
 }
 /**@}*/
 
@@ -665,215 +667,4 @@ GString::ToLowerCase(const string in) const
      string copy = in;  
      std::transform( copy.begin(), copy.end(),  copy.begin(), ::tolower );    
      return copy;   
-}
-
-
-
-string
-GString::ReplaceBackSlash(const string /*input*/ )
-{
-	string out = ""; 
-
-/*
-	
-	for (auto c : input)
-	{
-		switch (c)
-		{
-		case '\a':
-			out += "\\a";
-			break;
-		case '\b':
-			out + "\\b";
-			break;
-		case '\c':
-			out + "\\c";
-			break;
-		case '\d':
-			out + "\\d";
-			break;
-		case '\e':
-			out + "\\e";
-			break;
-		case '\f':
-			out + "\\f";
-			break;
-		case '\g':
-			out + "\\g";
-			break;
-		case '\h':
-			out + "\\h";
-			break;
-		case '\i':
-			out + "\\i";
-			break;
-		case '\j':
-			out + "\\j";
-			break;
-		case '\k':
-			out + "\\k";
-			break;
-		case '\l':
-			out + "\\l";
-			break;
-		case '\m':
-			out + "\\m";
-			break;
-		case '\n':
-			out + "\\n";
-			break;
-		case '\o':
-			out + "\\o";
-			break;
-		case '\p':
-			out + "\\p";
-			break;
-		case '\q':
-			out + "\\q";
-			break;
-		case '\r':
-			out + "\\r";
-			break;
-		case '\s':
-			out + "\\s";
-			break;
-		case '\t':
-			out + "\\t";
-			break;
-		case '\u':
-			out + "\\u";
-			break;
-		case '\v':
-			out + "\\v";
-			break;
-		case '\w':
-			out + "\\w";
-			break;
-		case '\x':
-			out + "\\x";
-			break;
-		case '\y':
-			out + "\\y";
-			break;
-		case '\z':
-			out + "\\z";
-			break;
-		case '\A':
-			out + "\\A";
-			break;
-		case '\B':
-			out + "\\B";
-			break;
-		case '\C':
-			out + "\\C";
-			break;
-		case '\D':
-			out + "\\D";
-			break;
-		case '\E':
-			out + "\\E";
-			break;
-		case '\F':
-			out + "\\F";
-			break;
-		case '\G':
-			out + "\\G";
-			break;
-		case '\H':
-			out + "\\H";
-			break;
-		case '\I':
-			out + "\\I";
-			break;
-		case '\J':
-			out + "\\J";
-			break;
-		case '\K':
-			out + "\\K";
-			break;
-		case '\L':
-			out + "\\L";
-			break;
-		case '\M':
-			out + "\\M";
-			break;
-		case '\N':
-			out + "\\N";
-			break;
-		case '\O':
-			out + "\\O";
-			break;
-		case '\P':
-			out + "\\P";
-			break;
-		case '\Q':
-			out + "\\Q";
-			break;
-		case '\R':
-			out + "\\R";
-			break;
-		case '\S':
-			out + "\\S";
-			break;
-		case '\T':
-			out + "\\T";
-			break;
-		case '\U':
-			out + "\\U";
-			break;
-		case '\V':
-			out + "\\V";
-			break;
-		case '\W':
-			out + "\\W";
-			break;
-		case '\X':
-			out + "\\X";
-			break;
-		case '\Y':
-			out + "\\Y";
-			break;
-		case '\Z':
-			out + "\\Z";
-			break;
-		case '\0':
-			out + "\\0";
-			break;
-		case '\1':
-			out + "\\1";
-			break;
-		case '\2':
-			out + "\\2";
-			break;
-		case '\3':
-			out + "\\3";
-			break;
-		case '\4':
-			out + "\\4";
-			break;
-		case '\5':
-			out + "\\5";
-			break;
-		case '\6':
-			out + "\\6";
-			break;
-		case '\7':
-			out + "\\7";
-			break;
-		case '\8':
-			out += "\\8";
-			break;
-		case '\9':
-			out += "\\9";
-			break;
-
-		default:
-			out.push_back(c);
-			break;
-
-		}
-	}
-*/
-
-	return out;
 }

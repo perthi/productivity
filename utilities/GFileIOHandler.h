@@ -45,26 +45,26 @@ class GFileIOHandler
 
 public:
 
-    //	static GFileIOHandler API * Instance();
+    //    static GFileIOHandler API * Instance();
     string           API  ReadConfigFile(int argc, const char** argv, const string path);
     bool             API  CheckFile(const string fname, const char* opt = "r");    // checking if file exists
     bool             API  DoExists(const string fname, const char* opt = "r");    // checking if file exists
     bool             API  CheckFileEx(const string fname, const char* opt = "r");    // checking if file exists
     bool             API  Append(const string fname, const char* fmt, ...);
     bool             API  Delete(const string fname);
-    bool             API  CreateFileLocal(const string fname);
-    bool             API  CreateFolder(const string fname);
+    bool             API  CreateFileLocal(const string fname, const bool print_error= true );
+    bool             API  CreateFolder(const string fname, const bool print_error= true );
     vector<string>   API  ReadAll(const string fname, bool* status = nullptr);
     string           API  ReadFirstLine(const string fname);
     string           API  ReadLastLine(const string fname, const unsigned int offset = 0);
     string           API  ReadEntireASCIIFile(const string fname);
     string           API  GetAbsolutePath(const string fname);
     string           API  GetExtention(const string fname);
-    bool             API  Recreate(const string fname);
+    bool             API  Recreate(const string fname, const bool print_error= true);
 
     bool             API  DeleteAll(const string fname);
     void             API  CreateDirIfNeeded(const std::string& filename);
-    FILE             API* OpenFile(const string fname, const string opt, const GLocation loc);
+    FILE             API* OpenFile(const string fname, const string opt, const GLocation loc, const bool print_error = true );
 
 #ifdef _WIN32
     string           API  Errno2String(const  errno_t code, const string fname, const string  opt);
@@ -73,8 +73,8 @@ public:
 #endif
 
 #ifdef _WIN32
-    void	     SetAttribute(const string fname, unsigned long attr);
-    void	     ClearAttribute(const string fname, unsigned long attr);
+    void         SetAttribute(const string fname, unsigned long attr);
+    void         ClearAttribute(const string fname, unsigned long attr);
 #endif
 private:
 

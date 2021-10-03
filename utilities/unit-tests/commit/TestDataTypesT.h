@@ -22,7 +22,7 @@
 
 using std::vector;
 
-/** Type paremetrized test for the the data type class. Ie all Data types that inherits form Val_t */
+/** Type parametrized test for the the data type class. Ie all Data types that inherits form Val_t */
 template <typename T>
 class TestDataTypesT : public  TestBase
 {
@@ -54,7 +54,7 @@ template<typename T>
 void TestDataTypesT<T>::SetUp()
 {
     #ifdef HAS_LOGGING
-	SET_LOGTARGET("--target-off --target-file");
+    SET_LOGTARGET("--target-off --target-file");
     #endif
 
     fMin1 = fPar1.GetMin();
@@ -111,10 +111,9 @@ TYPED_TEST_P(TestDataTypesT, Values)
 
 /** Here we want to verify that the basic operators  "+" "-" "*" "/" behaves as expected
 *  if both operand and the result is inside range, and that an exception is thrown if they are outside of range
-*  We test them on a somewhat arbritrary set of values */
+*  We test them on a somewhat arbritray set of values */
 TYPED_TEST_P(TestDataTypesT, Operators)
 {
-    /*
     vector<double> val1 = { 1,   2, 33,  4.5,  65,  112.3,  1000 };
     vector<double> val2 = { 3, -22, 12, 88.9,  65,  -2,  -220 };
     
@@ -142,12 +141,12 @@ TYPED_TEST_P(TestDataTypesT, Operators)
                EXPECT_FALSE( checkOperator ("blahh") );
             }
     }
-    */
+
 }
 
 
 
-/** Here we reigister testst for the TestDataTypesP parametrized test class
+/** Here we register tests for the TestDataTypesP parametrized test class
  *  In order to run parametrized test the following 3 things must be done 
  *  1) Register test cases - That is done with the  REGISTER_TYPED_TEST_CASE_P macro as shown below
  *  2) Make a list of types you want to run the tests for for instance something like  
@@ -156,13 +155,13 @@ TYPED_TEST_P(TestDataTypesT, Operators)
  *  3) Instantiate a typed test case using the INSTANTIATE_TYPED_TEST_CASE_P  macro i.e
  *     INSTANTIATE_TYPED_TEST_CASE_P("Test Case", ClasssName, impl); (See TestKDataTypes.cpp / h for examples )
  *  
- *  Only tetst registered with the REGISTER_TYPED_TEST_CASE_P macro will actually be performed by the Google test 
+ *  Only tests registered with the REGISTER_TYPED_TEST_CASE_P macro will actually be performed by the Google test 
  *  framework (The others will still be compiled).
 **/
 REGISTER_TYPED_TEST_CASE_P(TestDataTypesT, Limits, Values, Operators);
 
 
-/** Check if an oprator is any of the four valid ones, "+", "-", "*", "/"
+/** Check if an operator is any of the four valid ones, "+", "-", "*", "/"
 * @return true for a valid operator, false othervise */
 bool checkOperator(const string op)
 {
@@ -182,7 +181,7 @@ bool checkOperator(const string op)
 * That is, that "comp" is less than the max value of both par1, and par2 and more than both par1 and par2
 * @tparam T1 Type of first parameter
 * @tparam T2 Type of second parameter
-* @tparam par1 Lower limite
+* @tparam par1 Lower limit
 * @tparam par2  Upper limit
 * @param comp  The value to check
 * @return true if "comp is within range of par1 and par2 and false othervise" */
@@ -213,8 +212,8 @@ bool checkRange(const T1 par1, const T2 par2, const double compare )
 *   @param  val1  value of left operand
 *   @param  val2  value right operand
 *   @param  val3  The return value
-*   @param  d1    arbritrary double value to use for operator check
-*   @param  d2    arbritrary double value to use for operator check
+*   @param  d1    arbritray double value to use for operator check
+*   @param  d2    arbritray double value to use for operator check
 *   @param  op    The operator to test, must be any of {+, -, *, / }
 *   The purpose of "d1" and "d2" is to test the regular +, -, * and / opearators against the corresponding operators
 *   for the user defined types that inherits from Val_t. We use long double for this since all operations on long doubles is also valid
@@ -294,10 +293,6 @@ void testOperators(const T1 val1, const T2 val2,  T3 val3, const double d1, cons
 template <typename T1, typename T2, typename T3, typename T4 >
 void operatorSanityCheck()
 {
-  //  SET_LOGLEVEL("--all-off");
-   // SET_LOGTARGET( eMSGTARGET::TARGET_FILE);
-  //   SET_LOGTARGET( "--target-file");
-
     vector<T1> t1(4);
     vector<T2> t2(3);
     T3 t3;
@@ -315,10 +310,7 @@ void operatorSanityCheck()
     t3 = 0.0;
     t4 = 0.0;
 
-
-
     EXPECT_ANY_THROW(t1[0] + t3);
-
     EXPECT_ANY_THROW(t4 = t2[0] + t3);
     EXPECT_ANY_THROW(t4 = t2[0] - t4);
  //   EXPECT_ANY_THROW(t2[0] + t3);

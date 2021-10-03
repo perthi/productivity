@@ -61,7 +61,7 @@
 #endif // !_WIN32
 
 //#include <ftw.h>
-
+ #include <errno.h>
 
 GSystem * g_system()
 {
@@ -101,13 +101,13 @@ GSystem::getenv(const string  var  )
 
 /** mkdir =   Make Directory (that is a folder in Windows terms), Unix/bash style
 *   @param    dirname The directory to create
-*   @return   true if the directory exists, or if it doesnt allready exists, but was
+*   @return   true if the directory exists, or if it doesn't allready exists, but was
 *   successfully created
-*   @return false if the directory doesnt exist, and it also cannot be created (for instance if
-*   the program is running under a user that doesnt have write access to the currnt directory)
-*   @throw Exception if the directory doesnt exist and it cannot be created.*/
+*   @return false if the directory doesn't exist, and it also cannot be created (for instance if
+*   the program is running under a user that doesn't have write access to the current directory)
+*   @throw Exception if the directory doesn't exist and it cannot be created.*/
 bool
-GSystem::mkdir(const string dirname)
+GSystem::mkdir(const string dirname, const bool print_error)
 {
 //    FORCE_DEBUG("creating directory %s", dirname.c_str()  );
 
@@ -124,24 +124,28 @@ GSystem::mkdir(const string dirname)
     else
     {
         string errmsg = g_file()->Errno2String(errno, dirname, "");
-       GCommon().HandleError(  GText(  "The directory \"%s\" could not be created (%s),.. please check that \
-                    you have write + exce permissions to the directory", \
-                    dirname.c_str( ), errmsg.c_str() ).str(), GLOCATION, THROW_EXCEPTION  );  
-        return false;
+       if( print_error == true)
+       {
+            GCommon().HandleError(  GText(  "The directory \"%s\" could not be created (%s),.. please check that you have write + exec permissions to the directory", \
+                                           dirname.c_str( ), errmsg.c_str() ).str(), GLOCATION,  DISABLE_EXCEPTION  );  
+       }
+
+             return false;
     }
 }
+
 
 /**@{*/ 
 /** mkdir =   Make Directory (that is a folder in Windows terms), Unix/bash style
 *   @param    dirname The directory to create
-*   @param    l The location  wher this function was called from
-*   @param    opt Acess settings (typically 755)
-*   @param    overwrite wheter or not tor overwriet/replace exisiting directory of it allready exists 
-*   @return   true if the directory exists, or if it doesnt allready exists, but was
+*   @param    l The location  where this function was called from
+*   @param    opt Access settings (typically 755)
+*   @param    overwrite whether or not tor overwrite/replace existing directory of it allready exists 
+*   @return   true if the directory exists, or if it doesn't allready exists, but was
 *   successfully created
-*   @return false if the directory doesnt exist, and it also cannot be created (for instance if
-*   the program is running under a user that doesnt have write access to the currnt directory)
-*   @throw Exception if the directory doesnt exist and it cannot be created.*/
+*   @return false if the directory doesn't exist, and it also cannot be created (for instance if
+*   the program is running under a user that doesn't have write access to the currant directory)
+*   @throw Exception if the directory doesn't exist and it cannot be created.*/
 bool
 #ifndef _WIN32
 GSystem::mkdir(const string dirname, GLocation l, const int  opt, bool overwrite)
@@ -157,7 +161,7 @@ GSystem::mkdir(const string dirname, GLocation l, bool overwrite)
     
     switch (status)
     {
-    /// abort if any of the below non recoverable erros are encountered
+    /// abort if any of the below non recoverable errors are encountered
     case EACCES:       // Search permission denied
     case ELOOP:        // Loop in symbolic link
     case EMLINK:       // Link count too high
@@ -208,22 +212,22 @@ GSystem::Exists(const string filepath)
 string
 GSystem::GetDirectory(const string filepath)
 {
-	const char* filepathCp = filepath.c_str();
-	const char* charPtr = filepathCp + filepath.length() - 1;
-	if ((*charPtr == '/') || (*charPtr == '\\'))
-	{
-		--charPtr;
-	}
-	while ((charPtr > filepathCp) && (*charPtr != '/') && (*charPtr != '\\'))
-	{
-		--charPtr;
-	}
-	if (charPtr > filepathCp)
-	{
-		size_t returnLen = charPtr - filepathCp;
-		return filepath.substr(0, returnLen);
-	}
-	return "";
+    const char* filepathCp = filepath.c_str();
+    const char* charPtr = filepathCp + filepath.length() - 1;
+    if ((*charPtr == '/') || (*charPtr == '\\'))
+    {
+        --charPtr;
+    }
+    while ((charPtr > filepathCp) && (*charPtr != '/') && (*charPtr != '\\'))
+    {
+        --charPtr;
+    }
+    if (charPtr > filepathCp)
+    {
+        size_t returnLen = charPtr - filepathCp;
+        return filepath.substr(0, returnLen);
+    }
+    return "";
 }
 
 
@@ -232,7 +236,7 @@ GSystem::GetProcessID()
 {
     std::stringstream buffer;
 #ifdef _WIN32
-	buffer << GetCurrentProcessId();
+    buffer << GetCurrentProcessId();
 #else
     buffer << getpid();
 #endif
@@ -266,17 +270,14 @@ GSystem::exec(const char* cmd)
 
     while (!feof(pipe.get()))
     {
-    //    FORCE_DEBUG("TP 0 ");
         if (fgets(buffer, 256, pipe.get()) != NULL)
         {
             result += buffer;
         }
     }
 
-   // COUT << "result = !!!!!" <<  result << endl;
     return result;
 }
-
 
 
 
@@ -471,26 +472,32 @@ GSystem::ls(const string dir)
 
 
 bool
-GSystem::mkfile(const string filepath)
+GSystem::mkfile(const string filepath,const bool print_error )
 {
     string dir, file;
     GTokenizer().StripPath(filepath, dir, file, false);
 
     if (dir != "")
     {
-        mkdir(dir);
+        mkdir(dir, print_error );
     }
     
-    FILE *fp = g_file()->OpenFile( filepath, "r", GLOCATION );
+    FILE *fp = g_file()->OpenFile( filepath, "r", GLOCATION, false );
+
     if (fp !=  nullptr)
     {
-        GCommon().HandleError( GText("File \"%s\" allready exists, will not be recreated", filepath.c_str()  ).str(), GLOCATION, DISABLE_EXCEPTION ) ;
+        if(print_error == true )
+        {
+          GCommon().HandleError( GText("File \"%s\" allready exists, will not be recreated", filepath.c_str()  ).str(), GLOCATION, DISABLE_EXCEPTION ) ;
+        }
         fclose(fp);
-        return false;
+       // return false;
+        return  true;
     }
     else
     {
         fp = g_file()->OpenFile(filepath, "w", GLOCATION);
+
         if (fp !=  nullptr)
         {
             fclose(fp);
@@ -498,12 +505,15 @@ GSystem::mkfile(const string filepath)
         }
         else
         {
-            GCommon().HandleError(  GText(  "Could not create file \"%s\" Please check your write permissions for this directory", \
-                                               filepath.c_str()   ).str(), GLOCATION, THROW_EXCEPTION  );      
+            if(print_error == true )
+            {
+              GCommon().HandleError(  GText(  "Could not create file \"%s\" Please check your write permissions for this directory", \
+                                               filepath.c_str()   ).str(), GLOCATION,  DISABLE_EXCEPTION  );
+            }
+            
+            return false;      
         }
     }
-   
-
     return true;
 }
 
@@ -555,7 +565,7 @@ GSystem::GetHomeDir()
     GTokenizer().StripPath(path, dir, fout);
     static string homedir = fout + "\\..\\..\\";
     return  (char*)homedir.c_str();
-    // inline  void API StripPath(const string fin, string &dir, string &fout, const bool keep_trailing_slash = KEEP_TRAILING_SEPARATOR ); 	
+    // inline  void API StripPath(const string fin, string &dir, string &fout, const bool keep_trailing_slash = KEEP_TRAILING_SEPARATOR );     
     SPRINTF(buf, 1024, "%s\\..\\..\\", buf); // CRAP PTH
     return buf;
 }

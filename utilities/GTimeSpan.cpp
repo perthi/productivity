@@ -28,11 +28,5 @@
 
 #include "GTime.h"
 #include "GTimeFormat.h"
-
-
-
-
 #include <utilities/GTimeSpan.h>
-
-
 

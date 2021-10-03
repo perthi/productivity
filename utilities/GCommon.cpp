@@ -45,6 +45,8 @@ using std::cerr;
 
 
 
+
+
 #ifdef HAS_LOGGING
 #include <exception/GException.h>
 void
@@ -56,7 +58,8 @@ GCommon::HandleError(const string message, const GLocation  l,   const bool   di
     }
     else
     {
-        G_WARNING(message.c_str());
+        //FORCE_DEBUG("loc = %s", l.str().c_str());
+        G_WARNING( (message + l.str()).c_str());
     }
 }
 #else
@@ -67,10 +70,10 @@ GCommon::HandleError(const string message, const GLocation l, const bool   disab
     if ( disable_exception == false)
     {
     #ifdef _WIN32
-		throw( std::exception(message.c_str() ) );
-	#else
-		throw(std::invalid_argument( message.c_str() ));
-	#endif
+        throw( std::exception(message.c_str() ) );
+    #else
+        throw(std::invalid_argument( message.c_str() ));
+    #endif
     }
     else
     {

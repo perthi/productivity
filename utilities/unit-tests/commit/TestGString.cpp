@@ -63,10 +63,10 @@ TEST_F(TestGString, Replace)
 
 TEST_F(TestGString, Replace2)
 {
-	string original = "*ipsum*";
-	string modified =  g_string()->Replace(original, "*",  "(.*)" );
+    string original = "*ipsum*";
+    string modified =  g_string()->Replace(original, "*",  "(.*)" );
 
-	EXPECT_EQ("(.*)ipsum(.*)", modified);
+    EXPECT_EQ("(.*)ipsum(.*)", modified);
 }
 
 TEST_F(TestGString, Trim)
@@ -87,7 +87,7 @@ TEST_F(TestGString, Trim)
     EXPECT_EQ("�",       g_string()->Rtrim(tmp) );
     tmp = "-0x7FFFFFFFFFFFFFFF";
     const char token = '-'; 
-	EXPECT_EQ("0x7FFFFFFFFFFFFFFF", g_string()->Trim(tmp, '-' ));
+    EXPECT_EQ("0x7FFFFFFFFFFFFFFF", g_string()->Trim(tmp, '-' ));
     tmp = "-0xadef123"; 
     EXPECT_EQ("0xadef123", g_string()->Trim( tmp, token ));
 }
@@ -180,6 +180,13 @@ TEST_F(TestGString, substringReplacementNSR387)
     in = R"(Path: C:\work\knts)";
     modified =  g_string()->Replace(in, "", "");
     EXPECT_EQ("Path: C:\\work\\knts", modified);
+
+    in = "Hello Dolly";
+    modified =  g_string()->Replace(in, "Hello", "");
+    EXPECT_EQ(" Dolly", modified);
+    modified =  g_string()->Replace(in, " Dolly", "");
+    EXPECT_EQ("Hello", modified);
+
 }
 
 
@@ -191,9 +198,9 @@ TEST_F(TestGString, ToString)
     EXPECT_EQ("123",  g_string()->ToString(123));
     EXPECT_EQ("000123",  g_string()->ToString(123, 6 ));
     EXPECT_EQ("12345678",  g_string()->ToString(12345678, 4));
-	vector<int> tmp{ 1,2,3,4,5,6 };
-	EXPECT_EQ("123456",  g_string()->ToString(tmp, string("")));
-	EXPECT_EQ("1\n2\n3\n4\n5\n6",  g_string()->ToString(tmp));
+    vector<int> tmp{ 1,2,3,4,5,6 };
+    EXPECT_EQ("123456",  g_string()->ToString(tmp, string("")));
+    EXPECT_EQ("1\n2\n3\n4\n5\n6",  g_string()->ToString(tmp));
     vector<double> d{ 1.2,2.3777 ,3.4};
     EXPECT_EQ("1.2\n2.3777\n3.4",  g_string()->ToString(d));
     vector<string> s = {"ole", "dole", "doff"};
@@ -227,22 +234,22 @@ TEST_F(TestGString, Contains)
 
 
 
-TEST_F(TestGString, CountOccurences)
+TEST_F(TestGString, CountOccurrences)
 {
     const string lorem = "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores";
-     EXPECT_EQ(2,   g_string()->CountOccurences(lorem, 'V',fgkIGNORE_CASE));
-     EXPECT_EQ(0,  g_string()->CountOccurences(lorem, 'V', fgkCASE_SENSITIVE ));
-     EXPECT_EQ(10,  g_string()->CountOccurences(lorem, 'e', fgkIGNORE_CASE));
-     EXPECT_EQ(10,  g_string()->CountOccurences(lorem, 'E', fgkIGNORE_CASE));
+     EXPECT_EQ(2,   g_string()->CountOccurrences(lorem, 'V',fgkIGNORE_CASE));
+     EXPECT_EQ(0,  g_string()->CountOccurrences(lorem, 'V', fgkCASE_SENSITIVE ));
+     EXPECT_EQ(10,  g_string()->CountOccurrences(lorem, 'e', fgkIGNORE_CASE));
+     EXPECT_EQ(10,  g_string()->CountOccurrences(lorem, 'E', fgkIGNORE_CASE));
      
-     EXPECT_EQ(0,  g_string()->CountOccurences(lorem, 'E', fgkCASE_SENSITIVE));
-     EXPECT_EQ(14,  g_string()->CountOccurences(lorem, 'i', fgkIGNORE_CASE));
+     EXPECT_EQ(0,  g_string()->CountOccurrences(lorem, 'E', fgkCASE_SENSITIVE));
+     EXPECT_EQ(14,  g_string()->CountOccurrences(lorem, 'i', fgkIGNORE_CASE));
 
-     EXPECT_EQ(1,  g_string()->CountOccurences(lorem, 'A', fgkCASE_SENSITIVE));
-     EXPECT_EQ(7,  g_string()->CountOccurences(lorem, 'A', fgkIGNORE_CASE));
+     EXPECT_EQ(1,  g_string()->CountOccurrences(lorem, 'A', fgkCASE_SENSITIVE));
+     EXPECT_EQ(7,  g_string()->CountOccurrences(lorem, 'A', fgkIGNORE_CASE));
     
-     EXPECT_EQ(6,  g_string()->CountOccurences(lorem, 'a', fgkCASE_SENSITIVE));
-     EXPECT_EQ(7,  g_string()->CountOccurences(lorem, 'a', fgkIGNORE_CASE));
+     EXPECT_EQ(6,  g_string()->CountOccurrences(lorem, 'a', fgkCASE_SENSITIVE));
+     EXPECT_EQ(7,  g_string()->CountOccurrences(lorem, 'a', fgkIGNORE_CASE));
 }
 
 
@@ -253,46 +260,46 @@ TEST_F(TestGString, ToStringBUG_NSR1049)
     EXPECT_EQ("1300.1231234500001",  g_string()->ToString(1300.12312345)); 
     EXPECT_EQ("1300.12345678",  g_string()->ToString<long double>(1300.12345678));
     EXPECT_EQ("13000.12345678",  g_string()->ToString<long double>(13000.12345678));
-	EXPECT_EQ(  "130000.1234567123",  g_string()->ToString<long double>((long double)130000.1234567123));
+    EXPECT_EQ(  "130000.1234567123",  g_string()->ToString<long double>((long double)130000.1234567123));
 }
 #endif
 
 
 TEST_F(TestGString, Utf8ToAnsi)
 {
-	string s = "ABC \xC2\xA2 123";
+    string s = "ABC \xC2\xA2 123";
 
-	EXPECT_EQ("ABC \xA2 123",  g_string()->Utf8ToAnsi(s));
-	EXPECT_EQ("ABC \xA2 123", s);
+    EXPECT_EQ("ABC \xA2 123",  g_string()->Utf8ToAnsi(s));
+    EXPECT_EQ("ABC \xA2 123", s);
 }
 
 
 
-//#ifdef _WIN32
-//TEST_F(TestGString, AnsiToUtf8)
-//{
-//	const std::string makeNoChanges = "A sentence without special characters";
-//	const std::string norwegianAnsi = "� � � � � �";
-//	const std::string norwegianUtf8 = "\xC3\xA6 \xC3\xb8 \xC3\xA5 \xC3\x86 \xC3\x98 \xC3\x85";
-//
-//	EXPECT_EQ(makeNoChanges,  g_string()->AnsiToUtf8(makeNoChanges));
-//	EXPECT_EQ(norwegianUtf8,  g_string()->AnsiToUtf8(norwegianAnsi));
-//}
-//#endif
+#ifdef _WIN32
+TEST_F(TestGString, AnsiToUtf8)
+{
+   const std::string makeNoChanges = "A sentence without special characters";
+   const std::string norwegianAnsi = "� � � � � �";
+   const std::string norwegianUtf8 = "\xC3\xA6 \xC3\xb8 \xC3\xA5 \xC3\x86 \xC3\x98 \xC3\x85";
+
+   EXPECT_EQ(makeNoChanges,  g_string()->AnsiToUtf8(makeNoChanges));
+   EXPECT_EQ(norwegianUtf8,  g_string()->AnsiToUtf8(norwegianAnsi));
+}
+#endif
 
 
 #ifdef _WIN32
 TEST_F(TestGString, ToLower)
 {
-	string s = "ABC \xC2\xA2 123";
-	EXPECT_EQ("abc \xC2\xA2 123",  g_string()->ToLower(s));
-	EXPECT_EQ("ABC \xC2\xA2 123", s);
-	s = "ABC \xA2 123";
-	EXPECT_EQ("abc \xA2 123",  g_string()->ToLower(s));
-	s = "ABC \xC5 123";
-	EXPECT_EQ("abc \xE5 123",  g_string()->ToLower(s));
-	s = "ABC \xC3\x85 123";
-	EXPECT_EQ("abc \xC3\xA5 123",  g_string()->ToLower(s));
+    string s = "ABC \xC2\xA2 123";
+    EXPECT_EQ("abc \xC2\xA2 123",  g_string()->ToLower(s));
+    EXPECT_EQ("ABC \xC2\xA2 123", s);
+    s = "ABC \xA2 123";
+    EXPECT_EQ("abc \xA2 123",  g_string()->ToLower(s));
+    s = "ABC \xC5 123";
+    EXPECT_EQ("abc \xE5 123",  g_string()->ToLower(s));
+    s = "ABC \xC3\x85 123";
+    EXPECT_EQ("abc \xC3\xA5 123",  g_string()->ToLower(s));
 }
 #endif
 
@@ -300,36 +307,36 @@ TEST_F(TestGString, ToLower)
 #ifdef _WIN32
 TEST_F(TestGString, ToUpper)
 {
-	string s = "abc \xC2\xA2 123";
+    string s = "abc \xC2\xA2 123";
 
-	EXPECT_EQ("ABC \xC2\xA2 123",  g_string()->ToUpper(s));
-	EXPECT_EQ("abc \xC2\xA2 123", s);
+    EXPECT_EQ("ABC \xC2\xA2 123",  g_string()->ToUpper(s));
+    EXPECT_EQ("abc \xC2\xA2 123", s);
 
-	s = "abc \xA2 123";
-	EXPECT_EQ("ABC \xA2 123",  g_string()->ToUpper(s));
+    s = "abc \xA2 123";
+    EXPECT_EQ("ABC \xA2 123",  g_string()->ToUpper(s));
 
-	s = "abc \xE5 123";
-	EXPECT_EQ("ABC \xC5 123",  g_string()->ToUpper(s));
+    s = "abc \xE5 123";
+    EXPECT_EQ("ABC \xC5 123",  g_string()->ToUpper(s));
 
-	s = "abc \xC3\xA5 123";
-	EXPECT_EQ("ABC \xC3\x85 123",  g_string()->ToUpper(s));
+    s = "abc \xC3\xA5 123";
+    EXPECT_EQ("ABC \xC3\x85 123",  g_string()->ToUpper(s));
 }
 #endif
 
 
 TEST_F(TestGString, is_match)
 {
-	string pattern = "123";
-	string val = "123456";
+    string pattern = "123";
+    string val = "123456";
 
-	EXPECT_TRUE(  g_string()->IsMatch(pattern, val) );
-	EXPECT_FALSE(  g_string()->IsMatch(pattern, val, true ));
+    EXPECT_TRUE(  g_string()->IsMatch(pattern, val) );
+    EXPECT_FALSE(  g_string()->IsMatch(pattern, val, true ));
 
 }
 
 
 TEST_F(TestGString, beginswidth_empty)
 {
-	string s = "lorem ipsum";
-	EXPECT_TRUE( g_string()->BeginsWith( s, "" ));
+    string s = "lorem ipsum";
+    EXPECT_TRUE( g_string()->BeginsWith( s, "" ));
 }

@@ -56,16 +56,13 @@ class GString
      template <typename T>
      string    ToString(const T in, const int w = -1, const char pad = '0');
      
-     int          CountOccurences(const string input, const char c, const bool ignore_case);
+     int          CountOccurrences(const string input, const char c, const bool ignore_case);
      bool         Contains(const vector<string> &str, const string &substring, const bool ignore_case = true, long long int *pos = 0);
      bool         Contains(const string &str, const string &substring, const bool ignore_case = true, long long int *pos = 0);
-     
      bool         BeginsWith(const string &str, const string &substring, const bool ignore_case = true);
-     
      bool         BeginsWith(const vector<string> * const arr, const string token, const bool ignore_case = true);
-     
      bool         EndsWith(const string &str, const string &substring, const bool ignore_case = true);
-     
+
      bool         CompareNoCase(string lhs, string rhs) { return (ToUpper(lhs) == ToUpper(rhs)); }
      string       &Ltrim(string &s, const char c = ' ');
      string       &Rtrim(string &s, const char c = ' ');
@@ -80,7 +77,7 @@ class GString
      string       &ToLower(string &s);
      string       &ToUpper(string &s);
      bool API      IsMatch(const string pattern, const string val, bool require_exact_match = false);
-     string ReplaceBackSlash(const string input);
+
  private:
      GString(){};
      virtual ~GString(){};
@@ -94,17 +91,17 @@ string
 GString::ToString(const vector<T> in, const string sep)
 {
     std::stringstream buffer;
-	buffer.str("");
+    buffer.str("");
 
     for (uint16_t i = 0; i< in.size(); i++)
     {
-		buffer << in[i] ;
-		if (i < (in.size() - 1))
-		{
-			buffer << sep;
-		}
+        buffer << in[i] ;
+        if (i < (in.size() - 1))
+        {
+            buffer << sep;
+        }
 
-	}
+    }
     return buffer.str();
 }
 
@@ -113,10 +110,10 @@ template<typename T>
 string
 GString::ToString(const T in, const int w, const char pad) 
 {
-	std::stringstream buffer;
-	buffer.str(std::string());
+    std::stringstream buffer;
+    buffer.str(std::string());
 
-	if (w > 0)
+    if (w > 0)
     {
         buffer.width(w);
         buffer.fill(pad);

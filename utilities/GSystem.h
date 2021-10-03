@@ -41,15 +41,15 @@ public:
     ~GSystem(){};
     string         API      pwd(const bool print = false);
     vector<string> API      ls(const string dir = ".");
-    bool           API      mkdir(const string dirname);
+    bool           API      mkdir(const string dirname, const bool print_error = true);
     
 #ifndef _WIN32
-    bool           API      mkdir(const string dirname, const GLocation l, const int opt = S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH, bool overwrite = true);
+    bool           API      mkdir(const string dirname, const GLocation l,  const int opt = S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH, bool overwrite = true);
 #else
-    bool           API      mkdir(const string dirname, const GLocation l,  bool overwrite = true);
+    bool           API      mkdir(const string dirname, const GLocation l, const bool print_error = true, bool overwrite = true);
 #endif // !_WIN32
 
-    bool           API      mkfile(const string filepath);
+    bool           API      mkfile(const string filepath,  const bool print_error = true );
     void           API      cp(string src, string dest);
     bool           API      rm(const string filename);
     void           API      mv(const string src, const string dest);

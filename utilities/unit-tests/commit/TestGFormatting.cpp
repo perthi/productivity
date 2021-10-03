@@ -40,7 +40,7 @@ TestGFormatting:: SetUpTestCase()
 {
    #ifdef HAS_LOGING 
     SET_LOGTARGET("--target-stdout");
-    SET_LOGLEVEL("--all-off --all-debug");
+   // SET_LOGLEVEL("--all-off --all-debug");
     LPublisher::Instance()->SetMode(ePUBLISH_MODE::SYNCHRONOUS );
     #endif
 }
@@ -56,8 +56,8 @@ TEST_F(TestGFormatting,  format1 )
     string s = "test";
     EXPECT_NO_THROW( G_ERROR("t1 = %d, t2= %d", t1, t2 ) );
     EXPECT_NO_THROW( G_ERROR("t1 = %d, s= %s, t2 = %d", t1,  s.c_str(), t2 ) ); /// arguments in correct order
-    EXPECT_THROW( G_ERROR("t1 = %d, t2= %s", t1, t2),  GInvalidArgumentException  ); /// last argumen of wrong type
-    EXPECT_THROW( G_ERROR("t1 = %d", t1, t2 ),GInvalidArgumentException  ); /// too many arguements
+    EXPECT_THROW( G_ERROR("t1 = %d, t2= %s", t1, t2),  GInvalidArgumentException  ); /// last argument of wrong type
+    EXPECT_THROW( G_ERROR("t1 = %d", t1, t2 ),GInvalidArgumentException  ); /// too many arguments
     EXPECT_THROW( G_ERROR("t1 = %d, s= %s, t2 = %d", t1, t2, s.c_str() ), GInvalidArgumentException  ); /// arguments in wrong order
     EXPECT_THROW( G_ERROR("t1 = %d, s= %s, t2 = %d", t1,  s.c_str() ),  GMissingArgumentException); /// Missing argument
 
@@ -66,15 +66,14 @@ TEST_F(TestGFormatting,  format1 )
 
 
 #ifdef HAS_LOGGING
-/*
 TEST_F(TestGFormatting,  unnecessary_check )
 {
     int t1 = 1;
     int t2 = 2;
     string s = "test";
-    EXPECT_NO_THROW( G_DEBUG("t1 = %d, s= %s, t2 = %d", t1, t2, s.c_str() )); /// no exception expecteed, arguments in wrong order but loglevel is WARNING
+    EXPECT_ANY_THROW( G_DEBUG("t1 = %d, s= %s, t2 = %d", t1, t2, s.c_str() )); /// no exception expecteed, arguments in wrong order but loglevel is WARNING
 }
-*/
+
 #endif
 
 
@@ -93,12 +92,12 @@ TEST_F(TestGFormatting,  format2 )
 
 
 #ifdef HAS_LOGGING
-/*
 TEST_F(TestGFormatting, ESCORE_1253 )
 {
-    int t1 = 1;
-    int t2 = 2; 
-    EXPECT_ANY_THROW( G_ERROR("t1 = %d, t2= %d" ) );
+   // int t1 = 1;
+   // int t2 = 2; 
+    EXPECT_ANY_THROW( G_ERROR("t1 = %d, t2= %d", 10 ) );
 }
-*/
+
+
 #endif

@@ -29,8 +29,9 @@
 
 
 /** @defgroup datatype_test Structs for testing of the datatype library. 
-*   Here we decalere a couple of tests classes (structs actually) in order to test basic operatiosn such as 
-*   addition, subtrartion, multiplication and division. In particluar we want to cross check that addiation and subtraction of different types is disallowed, and that
+*   Here we decalere a couple of tests classes (structs actually) in order to test basic operations such as 
+*   addition, subtraction, multiplication and division. In particular we want to cross check that addition and 
+*   subtraction of different types is disallowed, and that
 *   we get an exception on such attempts, as this is almost certainly a user error. 
 *   We would also like to check that the Get and Set function works as expected and that the max/min range check is enforced correctly
 *  @{
@@ -119,7 +120,7 @@ TEST( Memberfunctions,  GettersAndAssignement )
     EXPECT_EQ("Lorem ipsum dolor sit amet", d3->GetHelpText());
  
     // Check that the assignment operator works correctly
-    // If its does then all values should be set back to the orginal ones
+    // If its does then all values should be set back to the original ones
     d1 = d2;
     EXPECT_EQ("Mass", d1.GetName());
     EXPECT_EQ("m", d1.GetSubscript());
@@ -145,27 +146,25 @@ typedef Types< Time_t, Distance_t, Mass_t, Dummy_t > impl;
 
 /* Bug in google test !! it seems that calling INSTANTIATE_TYPED_TEST_CASE_P only for the first test, also instantiate them for the other also
 *  we therofr only need to call it once for the same test. */
-//INSTANTIATE_TYPED_TEST_CASE_P(Limits, TestDataTypesP, impl);
-//INSTANTIATE_TYPED_TEST_CASE_P(Values, TestDataTypesP, impl);
 INSTANTIATE_TYPED_TEST_CASE_P(Operators, TestDataTypesT, impl);
 
 
-/* We also want to check the operators apllied between different data types. 
+/* We also want to check the operators applied between different data types. 
 * For those tests we cannot use typed unit tests which only applies to a single class type. */
 TEST(Datatypes, OperatorSanityCheck1)
 {
-//	SET_LOGTARGET("--target-off --target-file");
-	operatorSanityCheck<Time_t, Distance_t, Mass_t, Dummy_t>();
+//    SET_LOGTARGET("--target-off --target-file");
+    operatorSanityCheck<Time_t, Distance_t, Mass_t, Dummy_t>();
 }
 
 
 /** We make sure that 
  * 1) Adding or subtracting different SI units are disallowed
  * 2) Adding or subtracting different SI units are allowed
- * 3) Multiplying or dividng different SI units are ok */
+ * 3) Multiplying or dividing different SI units are ok */
 TEST(Operator, NSR796)
 {
-//	SET_LOGTARGET("--target-off --target-file");
+//    SET_LOGTARGET("--target-off --target-file");
     Distance_t d1, d2, d3;
     Mass_t m1, m2, m3;
     Time_t t1, t2, t3;
@@ -176,9 +175,7 @@ TEST(Operator, NSR796)
     EXPECT_ANY_THROW( m1 =  t1 + d1 );  
     EXPECT_NO_THROW(t3 = t1 + t2);
     EXPECT_NO_THROW(m3 = m1 + m2);
-   
 }
-
 
 
 #endif

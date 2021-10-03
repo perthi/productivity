@@ -33,8 +33,8 @@ class GTimeFormat;
 //GTimeFormat * g_time_format();
 
 
-/** @brief various utility for acess to system time which is can be availabel on a user specifed format
- *  @details Also contains function for leap-year checks and validtiy check for days, months etc.. */
+/** @brief various utility for access to system time which is can be availabel on a user specifed format
+ *  @details Also contains function for leap-year checks and validity check for days, months etc.. */
 class GTimeFormat 
 {
   //  friend  GTimeFormat * g_time_format();
@@ -52,12 +52,9 @@ public:
 
 
 private:
-  
-
     vector<string> s_validMonths;
     vector<string> s_validDays ;
     map<string, string> s_validFormat; 
-
     vector<string>  s_format_specifiers;
 };
 

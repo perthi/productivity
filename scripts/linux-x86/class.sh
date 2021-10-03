@@ -9,7 +9,7 @@ classfilename_cpp=$classfilename.cpp
 function licence
 {
     printf "/**************************************************************************\n"  >> $1
-    printf " * This file is property of and copyright by Embedded Cosnulting  2020    *\n"  >> $1
+    printf " * This file is property of and copyright by Embedded Consulting'  2020    *\n"  >> $1
     printf " *                                                                        *\n"  >> $1
     printf " * Author: Per Thomas Hille <pth@embc.no>                                 *\n"  >> $1
     printf " * Contributors are mentioned in the code where appropriate.              *\n"  >> $1

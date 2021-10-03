@@ -42,68 +42,83 @@ GTokenizer* g_tokenizer()
 
 
 
-/** Tokenizing of C style command line (argc argv etc...) It does basically the same as the regular tokinezer, exept that
- *   aguments enclosed in quotes are considered a single argument (for instance if you have an argument containing spaces).
+void   
+GTokenizer::TokenizeCommandline(const string line,  int *argc, const char **argv, const int max_size )
+{
+    static  thread_local vector<string> tokens; 
+
+    tokens = TokenizeCommandline(line);
+    size_t n = tokens.size() < (size_t)max_size ? tokens.size() : (size_t)max_size;
+    
+    *argc = n + 1;
+
+     for ( size_t i = 0; i < n +1; i++)
+     {    
+          argv[i + 1] = tokens[i].c_str();
+     }
+}
+
+
+
+/** Tokenizing of C style command line (argc argv etc...) It does basically the same as the regular tokenizer, except that
+ *   augments enclosed in quotes are considered a single argument (for instance if you have an argument containing spaces).
  *   In addition  space is assumed to be the separator.
  *   @param line The input command line string to tokenize
  *   @return a vector of command line tokens. */
 vector<string>
 GTokenizer::TokenizeCommandline(string line)
 {
+    char quote = '"';
+    int n = g_string()->CountOccurrences(line, quote, true);
+    if (n % 2 != 0)
+    {
+        throw(std::runtime_error("Undterminated string (closing quote was not found)"));
+    }
 
-	char quote = '"';
-	int n = g_string()->CountOccurences(line, quote, true);
-	if (n % 2 != 0)
-	{
-		throw(std::runtime_error("Undterminated string (closing quote was not found)"));
-	}
+    const vector<string> tokens = Tokenize(line, " ", fgkIGNORE_CASE);
+    vector<string> tmptokens;
+    string tmp;
+    bool qstartfound = false;
+    bool qendfound = false;
 
-	const vector<string> tokens = Tokenize(line, " ", fgkIGNORE_CASE);
-	vector<string> tmptokens;
-	string tmp;
-	bool qstartfound = false;
-	bool qendfound = false;
+    for (uint16_t i = 0; i < tokens.size(); i++)
+    {
+        long long int length = tokens[i].size();
 
-	for (uint16_t i = 0; i < tokens.size(); i++)
-	{
-		long long int length = tokens[i].size();
+        if (tokens[i].c_str()[0] == '\"')
+        {
+            qstartfound = true;
+        }
+        if (tokens[i].c_str()[length - 1] == '\"')
+        {
+            qendfound = true;
+        }
 
-		if (tokens[i].c_str()[0] == '\"')
-		{
-			qstartfound = true;
-		}
-		if (tokens[i].c_str()[length - 1] == '\"')
-		{
-			qendfound = true;
-		}
+        if (qstartfound == false && qendfound == false)
+        {
+            if (tokens[i] != "")
+            {
+                tmptokens.push_back(tokens[i]);
+            }
+        }
 
-		if (qstartfound == false && qendfound == false)
-		{
-			if (tokens[i] != "")
-			{
-				tmptokens.push_back(tokens[i]);
-			}
-		}
+        if (qstartfound == true)
+        {
+            tmp += tokens[i] + " ";
+        }
 
-		if (qstartfound == true)
-		{
-			tmp += tokens[i] + " ";
-		}
+        if (qstartfound == true && qendfound == true)
+        {
+            string substring = tmp.substr(1, tmp.size() - 3);
+            tmptokens.push_back(substring);
+            qstartfound = false;
+            qendfound = false;
+            tmp.erase();
+        }
+    }
 
-		if (qstartfound == true && qendfound == true)
-		{
-			string substring = tmp.substr(1, tmp.size() - 3);
-			tmptokens.push_back(substring);
-			qstartfound = false;
-			qendfound = false;
-			tmp.erase();
-		}
-	}
-
-	return tmptokens;
+    return tmptokens;
 }
-
-
 
 
 
@@ -112,57 +127,55 @@ GTokenizer::TokenizeCommandline(string line)
  *  @param[in]      fin    The input filename
  *  @param[in,out]  dir    The resulting directory, without the filename is stored in this variable
  *  @param[in,out]  fout   The resulting filename, without the directory is stored in this variable
- *  @param[in]      keep_trailing_slahs Wether or not to keep the trailing slash on the directory path after the path has been stripped */
+ *  @param[in]      keep_trailing_slash Wether or not to keep the trailing slash on the directory path after the path has been stripped */
 void
 GTokenizer::StripPath(const string fin, string& dir, string& fout, const bool keep_trailing_slahs)
 {
-//	static std::mutex mtx;
-//	std::lock_guard<std::mutex> guard( mtx );
-	vector<string> separators = { "\\", "/" };
-	auto tokens = Tokenize(fin, separators, DISCARD_EMPTY, KEEP_SEPARATOR);
-	dir.clear();
-	fout.clear();
+    vector<string> separators = { "\\", "/" };
+    auto tokens = Tokenize(fin, separators, DISCARD_EMPTY, KEEP_SEPARATOR);
+    dir.clear();
+    fout.clear();
 
-	dir =  g_string()->Rtrim( dir, '/' );
+    dir =  g_string()->Rtrim( dir, '/' );
 
-	size_t n = fin.size();
+    size_t n = fin.size();
 
 
-	if (fin[n - 1] == '/' || fin[n - 1] == '\\')
-	{
-		dir = fin;
-		fout = "";
-		return;
-	}
-	else if (tokens.size() == 1)
-	{
-		fout = tokens[0];
-		dir = "";
-		return;
-	}
+    if (fin[n - 1] == '/' || fin[n - 1] == '\\')
+    {
+        dir = fin;
+        fout = "";
+        return;
+    }
+    else if (tokens.size() == 1)
+    {
+        fout = tokens[0];
+        dir = "";
+        return;
+    }
 
 
-	for (uint16_t i = 0; i < tokens.size() - 1; i++)
-	{
-		dir += tokens[i];
-	}
+    for (uint16_t i = 0; i < tokens.size() - 1; i++)
+    {
+        dir += tokens[i];
+    }
 
-	if (tokens.size() > 1)
-	{
-		fout = tokens[tokens.size() - 1];
-	}
+    if (tokens.size() > 1)
+    {
+        fout = tokens[tokens.size() - 1];
+    }
 
 
-	if (keep_trailing_slahs == false)
-	{
-		tokens = Tokenize(dir, separators, DISCARD_EMPTY, DISCAR_SEPARATOR);
+    if (keep_trailing_slahs == false)
+    {
+        tokens = Tokenize(dir, separators, DISCARD_EMPTY, DISCAR_SEPARATOR);
 
-		if (tokens.size() == 1)
-		{
-			dir = tokens[0];
-			dir = g_string()->Rtrim(dir, '/');
-		}
-	}
+        if (tokens.size() == 1)
+        {
+            dir = tokens[0];
+            dir = g_string()->Rtrim(dir, '/');
+        }
+    }
 
 }
 
@@ -185,20 +198,18 @@ GTokenizer::StripPath(const string fin, string& dir, string& fout, const bool ke
 vector<string>
 GTokenizer::Tokenize(const vector<string>& source, const string sep, const bool keep_empty, const bool keep_sep)
 {
-//	static std::mutex mtx;
-//	std::lock_guard<std::mutex> guard( mtx );
-	vector<string> tout;
+    vector<string> tout;
 
-	for (uint16_t i = 0; i < source.size(); i++)
-	{
-		vector<string> tmp = Tokenize(source[i], sep, keep_empty, keep_sep);
-		for (uint16_t j = 0; j < tmp.size(); j++)
-		{
-			tout.push_back(tmp[j]);
-		}
-	}
+    for (uint16_t i = 0; i < source.size(); i++)
+    {
+        vector<string> tmp = Tokenize(source[i], sep, keep_empty, keep_sep);
+        for (uint16_t j = 0; j < tmp.size(); j++)
+        {
+            tout.push_back(tmp[j]);
+        }
+    }
 
-	return tout;
+    return tout;
 }
 
 
@@ -206,92 +217,83 @@ GTokenizer::Tokenize(const vector<string>& source, const string sep, const bool 
 vector<string>
 GTokenizer::Tokenize(const string source, const string sep, const bool keep_empty, const bool keep_sep)
 {
-//	static std::mutex mtx;
-//	std::lock_guard<std::mutex> guard( mtx );
-	std::vector<std::string> results;
+    std::vector<std::string> results;
 
-	size_t prev = 0;
-	size_t next = 0;
+    size_t prev = 0;
+    size_t next = 0;
 
-	if (sep == "")
-	{
-		//	static char tmp[2];
-		char tmp[2];
-		for (uint16_t i = 0; i < source.size(); i++)
-		{
-			SPRINTF(tmp, 2, "%c", source[i]);
-			results.push_back(tmp);
+    if (sep == "")
+    {
+        //    static char tmp[2];
+        char tmp[2];
+        for (uint16_t i = 0; i < source.size(); i++)
+        {
+            SPRINTF(tmp, 2, "%c", source[i]);
+            results.push_back(tmp);
 
-		}
+        }
 
-		return results;
-	}
+        return results;
+    }
 
-	while ((next = source.find(sep, prev)) != std::string::npos)
-	{
-		/// We need to check against empty separators, othervise we get stucked in the while loop
-		if (sep == "")
-		{
-			continue;
-		}
+    while ((next = source.find(sep, prev)) != std::string::npos)
+    {
+        /// We need to check against empty separators, othervise we get stuck in the while loop
+        if (sep == "")
+        {
+            continue;
+        }
 
-		if (keep_empty || (next - prev != 0))
-		{
-			string sub = source.substr(prev, next - prev);
-			if (!(g_utilities()->IsSpacesOnly(source.substr(prev, next - prev)) && keep_empty == false))
-			{
-				if (keep_sep == false)
-				{
-					results.push_back(source.substr(prev, next - prev));
-				}
-				else
-				{
-					results.push_back(source.substr(prev, next - prev) + sep);
-				}
-			}
-		}
-		prev = next + sep.size();
-	}
+        if (keep_empty || (next - prev != 0))
+        {
+            string sub = source.substr(prev, next - prev);
+            if (!(g_utilities()->IsSpacesOnly(source.substr(prev, next - prev)) && keep_empty == false))
+            {
+                if (keep_sep == false)
+                {
+                    results.push_back(source.substr(prev, next - prev));
+                }
+                else
+                {
+                    results.push_back(source.substr(prev, next - prev) + sep);
+                }
+            }
+        }
+        prev = next + sep.size();
+    }
 
-	if (prev < source.size())
-	{
-		if (keep_sep == false)
-		{
-			results.push_back(source.substr(prev));
-		}
-		else
-		{
-			results.push_back(source.substr(prev));
-		}
-	}
+    if (prev < source.size())
+    {
+        if (keep_sep == false)
+        {
+            results.push_back(source.substr(prev));
+        }
+        else
+        {
+            results.push_back(source.substr(prev));
+        }
+    }
 
-	//	tokenizer_mutex.unlock();
-
-	return results;
+    return results;
 }
 
 
 vector<string>
 GTokenizer::Tokenize(const string source, const vector<string> sep, bool keep_empty, bool keep_sep)
 {
-//	static std::mutex mtx;
-//	std::lock_guard<std::mutex> guard( mtx );
-	//	tokenizer_mutex.lock();
+    if (sep.size() == 0)
+    {
+        return Tokenize(source, "\t", keep_empty, keep_sep);
+    }
 
-	if (sep.size() == 0)
-	{
-		return Tokenize(source, "\t", keep_empty, keep_sep);
-	}
+    vector<string> tokens_out;
+    tokens_out = Tokenize(source, sep[0], keep_empty, keep_sep);
 
-	vector<string> tokens_out;
-	tokens_out = Tokenize(source, sep[0], keep_empty, keep_sep);
-
-	for (uint16_t i = 1; i < sep.size(); i++)
-	{
-		tokens_out = Tokenize(tokens_out, sep[i], keep_empty, keep_sep);
-	}
-	//	tokenizer_mutex.unlock();
-	return tokens_out;
+    for (uint16_t i = 1; i < sep.size(); i++)
+    {
+        tokens_out = Tokenize(tokens_out, sep[i], keep_empty, keep_sep);
+    }
+    return tokens_out;
 
 }
 /**@}*/
@@ -300,26 +302,14 @@ GTokenizer::Tokenize(const string source, const vector<string> sep, bool keep_em
 vector<string>
 GTokenizer::Tokenize(const int argc, const char** argv)
 {
-//	static std::mutex mtx;
-//	std::lock_guard<std::mutex> guard( mtx );
-	//	tokenizer_mutex.lock();
-	vector<string> tmp;
+    vector<string> tmp;
 
-	for (int i = 0; i < argc; i++)
-	{
-		tmp.push_back(string(argv[i]));
-	}
-	//	tokenizer_mutex.unlock();
-	return tmp;
+    for (int i = 0; i < argc; i++)
+    {
+        tmp.push_back(string(argv[i]));
+    }
+
+    return tmp;
 }
-
-
-
-
-
-
-
-
-
 
 

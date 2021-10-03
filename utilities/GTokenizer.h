@@ -16,9 +16,9 @@
 
 
 /** @class GTokenizer
-*   @brief Class for tokenizing strings based on an arbritrary set of separators 
+*   @brief Class for tokenizing strings based on an arbritray set of separators 
 *
-*   The class also tokenizes C style command lines (e,g int argc const char **argv) */
+*   The class also tokenize C style command lines (e,g int argc const char **argv) */
 
 
 #include "GConstants.h"
@@ -63,6 +63,7 @@ public:
      vector<string>    API   Tokenize(const string source,  const vector<string> sep,  const bool keep_empty = DISCARD_EMPTY,  const bool keep_sep = DISCAR_SEPARATOR );
      vector<string>    API   Tokenize(const int argc, const char** argv);
      vector<string>    API   TokenizeCommandline(const string line);
+     void              API   TokenizeCommandline(const string line,  int *argc,  const char **argv, const int max_size);
 
 private:
      vector<string>   API   Tokenize(const vector<string> &source, const string sep = "\t", const  bool keep_empty = DISCARD_EMPTY, const bool keep_sep = DISCAR_SEPARATOR);

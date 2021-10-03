@@ -62,33 +62,34 @@ TestGSystem::TearDownTestCase()
 
  
 
-/*
 TEST_F(TestGSystem, mkfile)
 {
     try
     {
        g_system()->rm( "testdir2"); 
-     //  g_system()->mkfile("testdir2/testfile2.txt");
-       //EXPECT_EQ(0, g_system()->rm( "testdir2/testfile2.txt") ) ;
-
+       g_system()->mkfile("testdir2/testfile2.txt");
+       EXPECT_TRUE( g_system()->rm( "testdir2/testfile2.txt") ) ;
+       g_system()->rm( "testdir2"); 
     }
     catch( std::exception &e  )
     {
         GCommon().HandleError( e.what(), GLOCATION, DISABLE_EXCEPTION );
-
+        FAIL();    
     }
     #ifdef HAS_LOGGING
     catch (GException &e)
     {
         cerr << e.what() << endl;
+        FAIL();
     }
     #endif
     catch(...)
     {
-        GCommon().HandleError( "Unknown exception caucht", GLOCATION, DISABLE_EXCEPTION );
+        GCommon().HandleError( "Unknown exception caught", GLOCATION, DISABLE_EXCEPTION );
+        FAIL();
     }
 }
-*/
+
 
 
 TEST_F(TestGSystem,  cp)

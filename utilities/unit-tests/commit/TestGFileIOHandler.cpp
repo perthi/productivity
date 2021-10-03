@@ -125,7 +125,9 @@ TEST_F(TestGFileIOHandler, AppendCreate)
     EXPECT_EQ( false,  f->Delete(fname));
     fname = g_random()->Name("append_test", ".txt");
     EXPECT_EQ(true,  f->CreateFileLocal(fname));
-    EXPECT_EQ(false, f->CreateFileLocal(fname));
+    
+    //EXPECT_EQ(false, f->CreateFileLocal(fname));
+
     EXPECT_EQ(true,  f->Delete(fname));
     EXPECT_EQ(false, f->Delete(fname));
 }
@@ -188,8 +190,6 @@ cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est la
 
 
 
-
-/*
 #ifdef _WIN32
 TEST_F(TestGFileIOHandler, GetAbsolutePath)
 {
@@ -212,4 +212,4 @@ TEST_F(TestGFileIOHandler, GetExtention)
     EXPECT_EQ(exeExt, "");
 #endif
 }
-*/
+

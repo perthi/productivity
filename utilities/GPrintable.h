@@ -30,7 +30,8 @@ public:
 
     inline   virtual ~GPrintable( ) {};
    // virtual  string str() const = 0;
-     string str() const { return "not implemented"; };
+   // virtual string str() const { return "not implemented"; };
+    virtual string str() const = 0;
 
 };
 

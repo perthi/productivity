@@ -36,14 +36,10 @@ public:
        return str().c_str();
    }
     
-    
     inline string str() const
     {
-        typeid(this).name();
-
         static char loc[4096];
         SPRINTF(loc, 4096, "%s[line%d]: %s", fFileName.c_str() , fLineNo, fFunctName.c_str() );
-       // CERR << "returning " << string(loc) << endl;
         return  string(loc);
     }
 

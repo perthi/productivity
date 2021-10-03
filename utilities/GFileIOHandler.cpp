@@ -65,10 +65,16 @@ GFileIOHandler* g_file()
  * @param  fmt Format string for the input
  * @param ...  Variable GArgument list
  * The input is on the same format as when using printf/sprintf/fprintf
- * @return true if the input string was sucessfully written to the file, false othervise */
+ * @return true if the input string was successfully written to the file, false othervise */
 bool
 GFileIOHandler::Append(const string fname, const char* fmt, ...)
 {
+    if( fname == "")
+    {
+        CERR << "filename is empty, aborting" << endl; 
+        return false;
+    }
+
     try
     {
         if (CheckFile(fname, "a"))
@@ -92,6 +98,7 @@ GFileIOHandler::Append(const string fname, const char* fmt, ...)
         }
         else
         {
+            CERR << "filename = " << fname << endl;
             //EXCEPTION("fopen(%s, %c) failed, please check that the file exists, and that you have write permissions to it", fname.c_str(), 'a');
             throw(std::runtime_error(GText("fopen(%s, %c) failed, please check that the file exists, and that you have write permissions to it", fname.c_str(), 'a').c_str()));
         }
@@ -133,17 +140,18 @@ bool GFileIOHandler::Delete(const string fname)
 
 
 bool
-GFileIOHandler::CreateFileLocal(const string fname)
+GFileIOHandler::CreateFileLocal(const string fname, const bool print_error)
 {
-    return g_system()->mkfile(fname);
+
+    return g_system()->mkfile(fname, print_error );
 }
 
 
 
 bool
-GFileIOHandler::CreateFolder(const string fname)
+GFileIOHandler::CreateFolder(const string fname,  const bool print_error)
 {
-    return g_system()->mkdir(fname);
+    return g_system()->mkdir(fname, print_error);
 }
 
 
@@ -154,7 +162,7 @@ GFileIOHandler::CreateFolder(const string fname)
  *  @param[in] offset The line number, counting from the end, of the line to return. For example offset = 1 return the second last line, offset = 2 the third last etc.
  *  The default is zero which means that the last line is returned.
  *  @return The last line if offset is zero, or the the line at "offset" lines from the end. If offset is larger than the number of lines in the file, then the first line is returned.
- *  Also an error message is written to the logging system in this case. If the file does not exist tnen an empty string is returned, and a message written to the logging system
+ *  Also an error message is written to the logging system in this case. If the file does not exist then an empty string is returned, and a message written to the logging system
  *  @exception GException offset must be between zero and the array size. If the offset value is negative, then an exception is thrown  */
 string
 GFileIOHandler::ReadLastLine(const string fname, const unsigned int offset)
@@ -187,7 +195,7 @@ GFileIOHandler::ReadLastLine(const string fname, const unsigned int offset)
         if (offset > content.size())
         {
             GCommon().HandleError(GText("Invalid array subscript, offset = %d lines from the end of the file, \
-                                                but thhere are only %d lines in the file", offset, content.size()).str(), GLOCATION, DISABLE_EXCEPTION);
+                                                but there are only %d lines in the file", offset, content.size()).str(), GLOCATION, DISABLE_EXCEPTION);
 
 
             return content.at(0);
@@ -268,10 +276,11 @@ GFileIOHandler::CheckFileEx(const string fname, const char* opt)
 }
 
 
-
+/** @todo move somewhere else */
 string
 GFileIOHandler::ReadConfigFile(int argc, const char** argv, const string path)
 {
+
     vector<string> tokens = GTokenizer().Tokenize(string(argv[0]), ".");
     string fname = "";
     string dir = "";
@@ -283,11 +292,19 @@ GFileIOHandler::ReadConfigFile(int argc, const char** argv, const string path)
         fname = path + "/" + fname + ".cfg";
     }
 
+    if (  DoExists( fname ) == false )
+    {
+        GCommon().HandleError(GText("The file \"%s\" does not exist", fname.c_str()).str(), GLOCATION, THROW_EXCEPTION);
+        return "";
+    }
+
+    COUT << "fname = " << fname << endl;
+
     if (argc != 1 && argc != 3)
     {
-        GCommon().HandleError(GText("When reading commanline argumenst from file you must specifiy either no arguments,\
-			or exacty two arguments.\ncase1: If no argumenst are given, the command line arguments are read from\
-			 %s\ncase: the arguments must be on the form -file [filename] in which case the command line is read from [filename]").str(), GLOCATION, THROW_EXCEPTION);
+        GCommon().HandleError(GText("When reading commanline argumenst from file you must specify either no arguments,\
+            or exactly two arguments.\ncase1: If no argumenst are given, the command line arguments are read from\
+             %s\ncase: the arguments must be on the form -file [filename] in which case the command line is read from [filename]").str(), GLOCATION, THROW_EXCEPTION);
 
     }
 
@@ -295,7 +312,7 @@ GFileIOHandler::ReadConfigFile(int argc, const char** argv, const string path)
     {
         if (string(argv[1]) != "-file")
         {
-            GCommon().HandleError(GText("Expected the first argumet to be  \"-file\"").str(), GLOCATION, THROW_EXCEPTION);
+            GCommon().HandleError(GText("Expected the first argument to be  \"-file\"").str(), GLOCATION, THROW_EXCEPTION);
             return "";
         }
         else
@@ -352,7 +369,7 @@ GFileIOHandler::Errno2String(const  error_t code, const string fname, const stri
 
 
 FILE*
-GFileIOHandler::OpenFile(const string fname, const string opt, const GLocation l)
+GFileIOHandler::OpenFile(const string fname, const string opt, const GLocation l, const bool print_error )
 {
     FILE* fp = nullptr;
 
@@ -364,9 +381,12 @@ GFileIOHandler::OpenFile(const string fname, const string opt, const GLocation l
 
     if (fp == nullptr)
     {
+        if(print_error == true )
+        {
         string errmsg = Errno2String(errno, fname, opt);
         GCommon().HandleError(GText("fopen(%s, %c) failed: %s",
             fname.c_str(), opt[0], errmsg.c_str()).str(), l, DISABLE_EXCEPTION);
+        }
     }
 
     return fp;
@@ -378,7 +398,7 @@ GFileIOHandler::OpenFile(const string fname, const string opt, const GLocation l
  *   @param opt The access option which must be either w, w+, r, r+, a, a+
  *   @return false: if 1) an existing file is attempted opened with the w or w+ option 2) The file does not exist and cannot be
  *   opened with the w, w+ option. 3) The file exists and cannot be opened with the a, a+, r, r+ option. 4) if the option parameter is invalid
- *   @return true: If 1) the file does not exists and can be sucessfully opened with the w or w+ option. 2) the file exists and can be sucessfully
+ *   @return true: If 1) the file does not exists and can be successfully opened with the w or w+ option. 2) the file exists and can be successfully
  *   opened with the a, a+, r, r+ options */
 bool
 GFileIOHandler::CheckFile(const string fname, const char* opt)
@@ -468,7 +488,7 @@ GFileIOHandler::SetAttribute(const string fname, unsigned long attr)
 
 /** Read the content of a file into a vector
 *  @param fname  The file to read
-*  @param[in,out] status: wheter or not the file was successfully read. ZERO = OK, ONE = NOT_OK
+*  @param[in,out] status: whether or not the file was successfully read. ZERO = OK, ONE = NOT_OK
 *  @return A vector of data, with on element for each line in the file */
 vector<string>
 GFileIOHandler::ReadAll(const string fname, bool* status)
@@ -522,25 +542,34 @@ GFileIOHandler::ReadFirstLine(const string fname)
 }
 
 
+
+
+
 bool
-GFileIOHandler::Recreate(const string fname)
+GFileIOHandler::Recreate(const string fname,  const bool print_error)
 {
-    if (DoExists(fname))
+    if (DoExists(fname) == true)
     {
         if (Delete(fname) == false)
         {
-            GCommon().HandleError(GText("Failed to delete file: %s", fname.c_str()).str(), GLOCATION, DISABLE_EXCEPTION);
+            if(print_error  == true )
+            {
+               GCommon().HandleError(GText("Failed to delete file: %s", fname.c_str()).str(), GLOCATION, DISABLE_EXCEPTION);
+            }
             return false;
         }
     }
 
-    if (CreateFileLocal(fname) == true)
-    {
+    if (CreateFileLocal(fname, print_error ) == true)
+    {  
         return true;
     }
     else
     {
-        GCommon().HandleError(GText("Failed to create file: %s", fname.c_str()).str(), GLOCATION, DISABLE_EXCEPTION);
+        if(print_error  == true )
+        {
+           GCommon().HandleError(GText("Failed to create file: %s", fname.c_str()).str(), GLOCATION, DISABLE_EXCEPTION);
+        }
         return  false;
     }
 }

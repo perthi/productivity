@@ -37,12 +37,12 @@
 
 TEST_F(TestGNumbers, count_ones)
 {
-	EXPECT_EQ( 0, g_numbers()->CountBits(0) );
-	EXPECT_EQ( 1, g_numbers()->CountBits(0x1) );
-	EXPECT_EQ( 1, g_numbers()->CountBits(0x2) );
-	EXPECT_EQ( 2, g_numbers()->CountBits(0x3) );
-	EXPECT_EQ( 5, g_numbers()->CountBits(181) );
-	EXPECT_EQ( 9, g_numbers()->CountBits(14579) );
+    EXPECT_EQ( 0, g_numbers()->CountBits(0) );
+    EXPECT_EQ( 1, g_numbers()->CountBits(0x1) );
+    EXPECT_EQ( 1, g_numbers()->CountBits(0x2) );
+    EXPECT_EQ( 2, g_numbers()->CountBits(0x3) );
+    EXPECT_EQ( 5, g_numbers()->CountBits(181) );
+    EXPECT_EQ( 9, g_numbers()->CountBits(14579) );
 }
 
 
@@ -190,9 +190,9 @@ TEST_F(TestGNumbers, IsNumber)
     EXPECT_TRUE(  g_numbers()->IsNumber("QXC678") );
     EXPECT_TRUE(  g_numbers()->IsNumber("0xabcd"));
     EXPECT_TRUE(  g_numbers()->IsNumber("   0xdef"));
-	EXPECT_TRUE(g_numbers()->IsNumber("   0xdead   "));
-	EXPECT_TRUE(g_numbers()->IsNumber("   NaN   "));
-	EXPECT_FALSE( g_numbers()->IsNumber("lorem ipsum") );
+    EXPECT_TRUE(g_numbers()->IsNumber("   0xdead   "));
+    EXPECT_TRUE(g_numbers()->IsNumber("   NaN   "));
+    EXPECT_FALSE( g_numbers()->IsNumber("lorem ipsum") );
 
     string tmp = "   0xffff   ";
     EXPECT_TRUE(g_numbers()->IsNumber(tmp));
@@ -258,7 +258,7 @@ TEST_F(TestGNumbers, IsFloat)
     EXPECT_TRUE(g_numbers()->IsFloat("   3.14159265359   "));
     EXPECT_TRUE(g_numbers()->IsFloat("-3.14159265359      "));
     EXPECT_TRUE(g_numbers()->IsFloat("   -3.14159265359   "));
-	EXPECT_TRUE(g_numbers()->IsFloat("nan"));
+    EXPECT_TRUE(g_numbers()->IsFloat("nan"));
 
     string goldencut = "  1.618033989   ";
     EXPECT_TRUE(g_numbers()->IsFloat(goldencut));
@@ -273,9 +273,9 @@ TEST_F(TestGNumbers, IsFloat)
     EXPECT_TRUE(g_numbers()->IsFloat( string("3.14159265359      ")));
     EXPECT_TRUE(g_numbers()->IsFloat( string("   3.14159265359   ")));
     EXPECT_TRUE(g_numbers()->IsFloat( string("-3.14159265359      ")));
-	EXPECT_TRUE(g_numbers()->IsFloat(string("   -3.14159265359   ")));
-///	EXPECT_TRUE(g_numbers()->IsFloat(string("   -3,14159265359   ")));
-	EXPECT_TRUE(g_numbers()->IsFloat(string( "1.7976931348623158e+308")));
+    EXPECT_TRUE(g_numbers()->IsFloat(string("   -3.14159265359   ")));
+    EXPECT_TRUE(g_numbers()->IsFloat(string("   -3,14159265359   ")));
+    EXPECT_TRUE(g_numbers()->IsFloat(string( "1.7976931348623158e+308")));
     EXPECT_TRUE(g_numbers()->IsFloat(1.61803398875));
     EXPECT_TRUE(g_numbers()->IsFloat(-1.61803398875));
     EXPECT_TRUE(g_numbers()->IsFloat(9223372036854775807));
@@ -353,7 +353,7 @@ TEST_F(TestGNumbers, IsFundamentalType)
     int i = 0;
     EXPECT_TRUE(g_numbers()->IsFundamentalType(i));
     string t = typeid(i).name();
-	EXPECT_TRUE(g_numbers()->IsFundamentalTypeS(string(t.c_str())));
+    EXPECT_TRUE(g_numbers()->IsFundamentalTypeS(string(t.c_str())));
 }
 
 
@@ -417,35 +417,35 @@ TEST_F(TestGNumbers, IsVType)
 
 TEST_F(TestGNumbers, ToFloat)
 {
-	EXPECT_DOUBLE_EQ( 1.7976931348623158e+308, g_numbers()->ToFloat("1.7976931348623158e+308"));
+    EXPECT_DOUBLE_EQ( 1.7976931348623158e+308, g_numbers()->ToFloat("1.7976931348623158e+308"));
     EXPECT_DOUBLE_EQ( -1.7976931348623158e+308, g_numbers()->ToFloat("-1.7976931348623158e+308"));
     EXPECT_DOUBLE_EQ(3.14159265359,  g_numbers()->ToFloat("      3.14159265359"));
-	EXPECT_DOUBLE_EQ(3.14159265359,  g_numbers()->ToFloat("3.14159265359      "));
-	EXPECT_DOUBLE_EQ(3.14159265359, g_numbers()->ToFloat("   3.14159265359   "));
-	EXPECT_DOUBLE_EQ(3.14159265359, g_numbers()->ToFloat("   3,14159265359   "));
-	
-	try
-	{
-		g_numbers()->ToFloat("   3,14159265359   ");
-	}
+    EXPECT_DOUBLE_EQ(3.14159265359,  g_numbers()->ToFloat("3.14159265359      "));
+    EXPECT_DOUBLE_EQ(3.14159265359, g_numbers()->ToFloat("   3.14159265359   "));
+    EXPECT_DOUBLE_EQ(3.14159265359, g_numbers()->ToFloat("   3,14159265359   "));
+    
+    try
+    {
+        g_numbers()->ToFloat("   3,14159265359   ");
+    }
     #ifdef HAS_LOGGING
-	catch (GException &e)
-	{
-		CERR << e.what() << ENDL;
-	}
+    catch (GException &e)
+    {
+        CERR << e.what() << ENDL;
+    }
     #endif
-	catch(std::exception &e)
-	{
-		CERR << e.what() << ENDL;
-	}
-	catch (std::string s)
-	{
-		CERR << s << ENDL;
-	}
-	catch (...)
-	{
-		CERR << "Unknown exception caught" << ENDL;
-	}
+    catch(std::exception &e)
+    {
+        CERR << e.what() << ENDL;
+    }
+    catch (std::string s)
+    {
+        CERR << s << ENDL;
+    }
+    catch (...)
+    {
+        CERR << "Unknown exception caught" << ENDL;
+    }
 
 
     EXPECT_DOUBLE_EQ((long double)9223372036854775807, g_numbers()->ToFloat("9223372036854775807"));
@@ -632,27 +632,20 @@ TEST_F(TestGNumbers, PadOnes)
 }
 
 
-
 #ifdef HAS_LOGGING
-// TEST_F(TestGNumbers, NSR1988DisableError)
-// {	
+TEST_F(TestGNumbers, NSR1988DisableError)
+{    
     
-// 	#undef G_STANDALONE
-// 	EXPECT_ANY_THROW( g_numbers()->ToNumber<float>("blahhhh") );
-// 	GException::DisableException();
-// 	g_numbers()->DisableError();
-// 	EXPECT_NO_THROW(  g_numbers()->ToNumber<float>("blahhhh") );
-// 	auto m = LMessageGenerator::Instance()->GetLastMsg();
-// 	g_numbers()->DisableError();
-// 	EXPECT_NO_THROW(g_numbers()->ToNumber<float>("blahhhh"));
-// 	m = LMessageGenerator::Instance()-> GetLastMsg();
-// 	EXPECT_NO_THROW(g_numbers()->ToHex("blahhhh"));
-// 	m = LMessageGenerator::Instance()->GetLastMsg();
-// 	EXPECT_NO_THROW(g_numbers()->ToBinary("blahhhh"));
-// 	m = LMessageGenerator::Instance()->GetLastMsg();
-// 	g_numbers()->EnableError();
-// 	GException::EnableException();
-// }
+    #undef G_STANDALONE
+    EXPECT_ANY_THROW( g_numbers()->ToNumber<float>("blahhhh") );
+    GException::DisableException();
+    g_numbers()->DisableError();
+    EXPECT_NO_THROW(  g_numbers()->ToNumber<float>("blahhhh") );
+    g_numbers()->DisableError();
+    EXPECT_NO_THROW(g_numbers()->ToNumber<float>("blahhhh"));
+    EXPECT_NO_THROW(g_numbers()->ToHex("blahhhh"));
+    EXPECT_NO_THROW(g_numbers()->ToBinary("blahhhh"));
+    g_numbers()->EnableError();
+    GException::EnableException();
+}
 #endif
-
-

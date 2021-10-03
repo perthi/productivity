@@ -57,18 +57,18 @@ class  GUtilities
 {
     friend GUtilities * g_utilities();
 public:
-    string		        API     CopyToString (const char *buffer, const int length, string *in = nullptr);  
+    string                API     CopyToString (const char *buffer, const int length, string *in = nullptr);  
 //#ifndef ARM
-    string				API		QueryInput( const string prompt);
+    string                API        QueryInput( const string prompt);
  //#endif   
     string              API     AutoClause(string addendum = "", FILE *fp  = nullptr);
-    bool				API     IsLittleEndian() const;
-    bool				API     IsBigEndian() const;       
-    void				API		Sizes() const;
-    void				API		DisableError();
-    void				API		EnableError();
-    bool				API		IsDisabledError() const;
-    bool		 	    API     IsSpacesOnly(const string &in) const;
+    bool                API     IsLittleEndian() const;
+    bool                API     IsBigEndian() const;       
+    void                API        Sizes() const;
+    void                API        DisableError();
+    void                API        EnableError();
+    bool                API        IsDisabledError() const;
+    bool                 API     IsSpacesOnly(const string &in) const;
     string              API     TrueOrFalse( const bool val ) const;
     string              API     TabAlign(const string &in,  int max_tabs = 4, int *n_tabs = nullptr ) const;
     bool                API     IsValidIPV4Address(const string ipv4_address) const;
@@ -90,14 +90,14 @@ public:
     
     template < typename T>    string             Hash2String( const map< string, T>   *m, const int ncols = 8, const string sep = "") const;
 
-    template < typename T1,	  typename T2> vector< T1> Hash2StringV(const map< T1, T2>  *m) const;
-	template < typename T1,   typename T2> vector< T2> Hash2SContentV(const map< T1, T2>* m) const;
+    template < typename T1,      typename T2> vector< T1> Hash2StringV(const map< T1, T2>  *m) const;
+    template < typename T1,   typename T2> vector< T2> Hash2SContentV(const map< T1, T2>* m) const;
     template < typename T >   bool               HasElement(const T element, const vector<T> &in) const;
     template < typename T >   bool               Bits2Array(const T element, vector<T> &in) const;
-    template < typename T >	  bool               Array2Bits(T & element, const vector<T>& in) const;
+    template < typename T >      bool               Array2Bits(T & element, const vector<T>& in) const;
    
     template < typename T1, typename T2>   bool  CheckMinMax(const T1 min, const T2 max) const;
-    template < typename T>				   void FilterOut(vector<T> &in,  const vector<T> &filter) const;
+    template < typename T>                   void FilterOut(vector<T> &in,  const vector<T> &filter) const;
     template < typename T >  string             CheckLimits( const T val, const T low, const T up, 
                                                                const char *varname, const char * filename, 
                                                                const  int linenumber, const char * functionname, bool *status = nullptr) const;
@@ -246,11 +246,11 @@ GUtilities::Vec2String(const vector<T> data, const string sep) const
 /** Takes as input a hasmap and extracts the hash codes into a vector.
  *   For instance if the input is map<string, int> (i.e the hash code is a string)
  *   then the function returns a string with all the hash entries in the map. The string
- *   is formatted according to the prameters "ncols" and "sep"
+ *   is formatted according to the parameters "ncols" and "sep"
  *   @tparam T1 the type of the hash entries (not used)
  *   @param[in] m The hash map to process
- *   @param[in]  ncols The number of colums printed to the output. 
- *   @param[in] sep   The separator used between each antry in a column. Default is "tab"
+ *   @param[in]  ncols The number of columns printed to the output. 
+ *   @param[in] sep   The separator used between each entry in a column. Default is "tab"
  *   @return a vector of hash codes/entries */
 template <typename T>
 string 
@@ -312,12 +312,12 @@ inline vector<T1> GUtilities::Hash2StringV(const map<T1, T2> * table) const
 template<typename T1, typename T2>
 inline vector<T2> GUtilities::Hash2SContentV(const map<T1, T2>* table) const
 {
-	vector<T2> tmp;
-	for (auto it = table->begin(); it != table->end(); it++)
-	{
-		tmp.push_back(it->second );
-	}
-	return tmp;
+    vector<T2> tmp;
+    for (auto it = table->begin(); it != table->end(); it++)
+    {
+        tmp.push_back(it->second );
+    }
+    return tmp;
 }
 
 
@@ -389,9 +389,6 @@ bool GUtilities::Contains(const vector<T> vect, const T element) const
 }
 
 
-
-//GCommon::HandleError(const GLocation  l, eMSGLEVEL  lvl,  const bool  throw_ex, const char *  fmt, const Args... args)
-
 template<typename T1, typename T2>
 bool GUtilities::CheckMinMax(const T1 min, const T2 max) const
 {
@@ -409,7 +406,6 @@ bool GUtilities::CheckMinMax(const T1 min, const T2 max) const
         return true;
     }
 }
-
 
 
 template<typename T>
@@ -465,7 +461,6 @@ inline GUtilities::IsSpacesOnly(const string &in) const
 inline string 
 GUtilities::TabAlign( const string & in, int max_tabs, int *n  ) const
 {
-    //int n_tabs =  max_tabs - (int)(in.size() -1 )/ TAB_SIZE;
     int n_tabs =  max_tabs - (int)(in.size()  )/ TAB_SIZE;
 
     string tmp = in;
@@ -510,10 +505,10 @@ inline vector<T> operator -  (const vector<T> &lhs,  const vector<T> &rhs)
     }
     else
     {
-	for( size_t i = 0; i < lhs.size(); i ++ )
-	{
-	    tmp.push_back(lhs[i] -rhs[i]);
-	}
+    for( size_t i = 0; i < lhs.size(); i ++ )
+    {
+        tmp.push_back(lhs[i] -rhs[i]);
+    }
     }
     return tmp;
 }
@@ -531,10 +526,10 @@ inline vector<T1> operator /  (const vector<T1> &lhs,  const T2 &rhs )
     }
     else
     {
-	for(int i = 0; i < lhs.size(); i ++ )
-	{
-	    tmp.push_back(lhs[i]/rhs);
-	}
+    for(int i = 0; i < lhs.size(); i ++ )
+    {
+        tmp.push_back(lhs[i]/rhs);
+    }
     }
     return tmp;
 }
@@ -547,7 +542,7 @@ inline vector<T1> operator *  (const vector<T1> &lhs,  const T2 &rhs )
     
     for(int i = 0; i < lhs.size(); i ++ )
     {
-	    tmp.push_back(lhs[i]*rhs);
+        tmp.push_back(lhs[i]*rhs);
     }
     
     return tmp;
@@ -561,7 +556,7 @@ inline ostream& operator << ( ostream& os,  const vector<T> &in )
     
     for(size_t i=0; i < in.size(); i++)
     {
-	os << in[i] << endl;
+    os << in[i] << endl;
     }
     
     return os;
@@ -575,7 +570,7 @@ inline ostream& operator << ( ostream& os,  const vector<T *> &in )
     
     for(int i=0; i < in.size(); i++)
     {
-	os << *in[i] << endl;
+    os << *in[i] << endl;
     }
     
     return os;

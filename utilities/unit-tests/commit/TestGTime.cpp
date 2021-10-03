@@ -45,12 +45,12 @@ TestGTime::TestGTime() : TestBase(), fTime(), fTimeValidate()
 
 TEST_F(TestGTime, NSR_242)
 {
-    int iLeapYears[146] = { 1804, 1808, 1812, 1816, 1820, 1824, 1828, 1832, 1836, 1840,	1844, 1848,	1852, 1856,	1860, 1864,	1868, 1872,
-        1876, 1880, 1884, 1888, 1892, 1896, 1904, 1908, 1912, 1916, 1920, 1924, 1928, 1932, 1936, 1940,	1944, 1948,
+    int iLeapYears[146] = { 1804, 1808, 1812, 1816, 1820, 1824, 1828, 1832, 1836, 1840,    1844, 1848,    1852, 1856,    1860, 1864,    1868, 1872,
+        1876, 1880, 1884, 1888, 1892, 1896, 1904, 1908, 1912, 1916, 1920, 1924, 1928, 1932, 1936, 1940,    1944, 1948,
         1952, 1956, 1960, 1964, 1968, 1972, 1976, 1980, 1984, 1988, 1992, 1996, 2000, 2004, 2008, 2012, 2016, 2020,
         2024, 2028, 2032, 2036, 2040, 2044, 2048, 2052, 2056, 2060, 2064, 2068, 2072, 2076, 2080, 2084, 2088, 2092,
-        2096, 2104, 2108, 2112, 2116, 2120,	2124, 2128, 2132, 2136, 2140, 2144, 2148, 2152, 2156, 2160, 2164, 2168,
-        2172, 2176, 2180, 2184, 2188, 2192,	2196, 2204, 2208, 2212, 2216, 2220, 2224, 2228, 2232, 2236, 2240, 2244,
+        2096, 2104, 2108, 2112, 2116, 2120,    2124, 2128, 2132, 2136, 2140, 2144, 2148, 2152, 2156, 2160, 2164, 2168,
+        2172, 2176, 2180, 2184, 2188, 2192,    2196, 2204, 2208, 2212, 2216, 2220, 2224, 2228, 2232, 2236, 2240, 2244,
         2248, 2252, 2256, 2260, 2264, 2268, 2272, 2276, 2280, 2284, 2288, 2292, 2296, 2304, 2308, 2312, 2316, 2320,
         2324, 2328, 2332, 2336, 2340, 2344, 2348, 2352, 2356, 2360, 2364, 2368, 2372, 2376, 2380, 2384, 2388, 2392,
         2396, 2400 };
@@ -107,7 +107,7 @@ TEST_F(TestGTime, TimeStamp)
         
         size_t n = format_tokens.size();
         size_t i = g_random()->Uniform<size_t>(0, n - 1);
-	        
+            
         string s1 = format_tokens.at(i);
         i = g_random()->Uniform<size_t>(0, n - 1);
         string s2 = format_tokens.at(i);
@@ -115,9 +115,7 @@ TEST_F(TestGTime, TimeStamp)
         string s3 = format_tokens.at(i);
         string formatstring = s1 + "miney" + s2 + "moe" + s3 + "meeny";
         
-        
          fTime.TimeStamp(0, formatstring.c_str());
-
        
         //  For values less than 10 the date is padded with either zeroes or blanks for the %e and %d format tag respectively, we need to verify 
         //  that this works too by "faking" a random date between zero and 9  
@@ -126,10 +124,7 @@ TEST_F(TestGTime, TimeStamp)
         dt.tm_mday = day;
         EXPECT_TRUE( fTimeValidate.IsValidDateS( fTime.TimeStamp(0, "%e", &dt)));
         EXPECT_TRUE( fTimeValidate.IsValidDateS( fTime.TimeStamp(0, "%d", &dt)));
-        //static const  string fmt = "%a%b%J%H";
-        // Format specifier "J" is invalid 
         EXPECT_ANY_THROW( fTime.TimeStamp(0, "%a%b%J%H"));
-        // EXPECT_ANY_THROW(g_time()->TimeStamp(0, fmt.c_str() ));
     }
 #ifdef HAS_LOGGING
     catch (GException& e)
@@ -310,8 +305,8 @@ TEST_F(TestGTime, NSR279FormatString)
 
 TEST_F(TestGTime, verifyAccessDateNSR275)
 {
-    //	EXPECT_NEAR(Time::AccessDate("2016.01.26 12:00:00"),42395.50, 0.001, 001);
-    //	EXPECT_DOUBLE_EQ(Time::AccessDate("2016.07.20 10:15:30"), 42571.427430555600, 001); // 42571.427430555554, 001);
+    //    EXPECT_NEAR(Time::AccessDate("2016.01.26 12:00:00"),42395.50, 0.001, 001);
+    //    EXPECT_DOUBLE_EQ(Time::AccessDate("2016.07.20 10:15:30"), 42571.427430555600, 001); // 42571.427430555554, 001);
 
     EXPECT_NEAR(fTime.AccessDate("2016.07.20 10:15:30"), 42571.427430555600, 0.001);
     EXPECT_NEAR((float)fTime.AccessDate("2017.07.20 10:15:30"), 42936.430, 001);

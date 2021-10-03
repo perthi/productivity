@@ -201,7 +201,7 @@ TEST_PROGS = \
 	link_test$x \
 	report_hashing$x
 
-LOCAL_LIBDIR	= /home/root/ExternalLibraries/logmaster/submodules/productivity/3rd-party/arm/ncurses/lib
+LOCAL_LIBDIR	= /home/root/firmware/fec-linux/support-modules/logmaster/3rd-party/arm/ncurses/lib
 
 base	 = $(srcdir)/base
 serial	 = $(srcdir)/tty

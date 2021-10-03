@@ -53,7 +53,7 @@ TEST_F(TestGText, SimpleGTextFormatting)
 
 
 
-#ifdef _WIN32
+//#ifdef _WIN32
 //NSR-202 NSR-204
 TEST_F(TestGText, SprinfEmulator)
 {
@@ -62,12 +62,13 @@ TEST_F(TestGText, SprinfEmulator)
     GText(msg, N, "Hello Dolly");
     EXPECT_STREQ(msg, "Hello Dolly");
 
-    ///The message written to the  msg buffer will be cut of after 63  characters, but the call to Txt.c_swtr() should still yeild the full string
-    EXPECT_STREQ ("Now we check what happness if we try to create a string more than 64 charcters long", GText(msg, N, "Now we check what happness if we try to create a string more than %d charcters long",   N).c_str());
-    EXPECT_STREQ(msg, "Now we check what happness if we try to create a string more t");
+    ///The message written to the  msg buffer will be cut of after 63  characters, but the call to Txt.c_str() should still yield the full string
+    EXPECT_STREQ ("Now we check what happens if we try to create a string more than 64 characters long", GText(msg, N, "Now we check what happens if we try to create a string more than %d characters long",  (int)N).c_str());
+    EXPECT_STREQ(msg, "Now we check what happens if we try to create a string more th");
     EXPECT_STREQ(       "a simple C string with float parameters: a = 1.123, b = 2.34568", GText(msg, N, "a simple C string with float parameters: a = %0.3f, b = %0.5f", 1.123456, 2.3456789).c_str());
     EXPECT_STREQ(msg, "a simple C string with float parameters: a = 1.123, b = 2.3456");
     EXPECT_EQ("a simple C string with float parameters: a = 4.567, b = 7.89101", GText(msg, N, "a simple C string with float parameters: a = %0.3f, b = %0.5f", 4.567, 7.89101112).str());
     EXPECT_EQ(string(msg), "a simple C string with float parameters: a = 4.567, b = 7.8910");
+    
 }
-#endif
+///#endif

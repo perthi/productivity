@@ -39,18 +39,18 @@ class GSemaphore;
 
 GSemaphore  API * g_semaphore();
 
-/** @brief Simplified interface for using semaphores for inter process communicatiom under Linux */
+/** @brief Simplified interface for using semaphores for inter process communication under Linux */
 class  GSemaphore
 {
 public:
-	static GSemaphore API * Instance();
-	void HandleSemaphoreError( const int ret, const double time = 0 ) const;
-	int Wait(sem_t *s);
-	int TimedWait(sem_t *s,  const double timetowait_sec = 1 );
-	int Post(sem_t *s); 
-private:	
-	GSemaphore();
-	virtual ~GSemaphore();
+    static GSemaphore API * Instance();
+    void HandleSemaphoreError( const int ret, const double time = 0 ) const;
+    int Wait(sem_t *s);
+    int TimedWait(sem_t *s,  const double timetowait_sec = 1 );
+    int Post(sem_t *s); 
+private:    
+    GSemaphore();
+    virtual ~GSemaphore();
 };
 
 #endif

@@ -84,7 +84,7 @@ TEST_F(TestGRandom, numberGenerationNSR331)
     double mean = 100;
     double sigma = 10;
     double g1 = g_random()->Gauss<double>(mean, sigma);
-	EXPECT_GE(g1, mean - 6*sigma);
+    EXPECT_GE(g1, mean - 6*sigma);
     EXPECT_LE(g1, mean + 6*sigma);
 
     mean = -200;
@@ -116,8 +116,8 @@ TEST_F(TestGRandom, numberGenerationNSR331)
     EXPECT_ANY_THROW( g_random()->Binominal<float>(  n3, p));
 
     #ifdef HAS_LOGGING
-	SET_LOGTARGET("0000 --target-file");
-	l->Pop( );
+    SET_LOGTARGET("0000 --target-file");
+    l->Pop( );
     #endif
 
 }
@@ -143,11 +143,11 @@ TEST_F(TestGRandom, templateSubstNSR319)
 
 TEST_F(TestGRandom, sanity_checks)
 {
-	EXPECT_EQ(42, g_random()->Uniform<int>(42, 42)); // A uniform variable digtributed in the interval [42 42] must equal 42
-	EXPECT_EQ(43, g_random()->Uniform<float>(43, 43)); // A uniform variable digtributed in the interval [43 43] must equal 43
-	EXPECT_EQ(44, g_random()->Uniform<float>(44, 44)); // A uniform variable digtributed in the interval [44 44] must equal 44
-	EXPECT_EQ(200, g_random()->Binominal<long>(200, 1)); // If we toss a coin 200 times with probability of sucess at each triel == one, then we shoul get 200 heads (or coins)
-	EXPECT_EQ(200, g_random()->Binominal<long>(200, 1)); // If we toss a coin 300 times with probability of sucess at each triel == ZERO, then we shoul ZERO  heads (or coins)
+    EXPECT_EQ(42, g_random()->Uniform<int>(42, 42)); // A uniform variable distributed in the interval [42 42] must equal 42
+    EXPECT_EQ(43, g_random()->Uniform<float>(43, 43)); // A uniform variable distributed in the interval [43 43] must equal 43
+    EXPECT_EQ(44, g_random()->Uniform<float>(44, 44)); // A uniform variable distributed in the interval [44 44] must equal 44
+    EXPECT_EQ(200, g_random()->Binominal<long>(200, 1)); // If we toss a coin 200 times with probability of success at each trial == one, then we should get 200 heads (or coins)
+    EXPECT_EQ(200, g_random()->Binominal<long>(200, 1)); // If we toss a coin 300 times with probability of success at each trial == ZERO, then we should ZERO  heads (or coins)
 }
 
 
@@ -156,12 +156,5 @@ TEST_F(TestGRandom, random_string)
 {
     string r1 = g_random()->RandomString( 100 );
     string r2 = g_random()->RandomString( 100 );
-    
     EXPECT_NE(r1, r2);
-
-   // FORCE_DEBUG("r1 = %s", r1.c_str() );
-  ///  FORCE_DEBUG("r2 = %s", r2.c_str() );
-
-    ///EXPECT_TRUE(false);
-
 }

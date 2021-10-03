@@ -42,14 +42,17 @@ GText::GText(const char * fmt, ...) : fText("")
  }
 
 
-// GText::GText(char *message, const int n, const char * fmt, ...) : fText("")
-// {
-//     va_list ap;
-//     va_start(ap, fmt);
-//     vsnprintf(message, n-1 , fmt, ap);
-//     SetGText(fmt, ap);
-//     va_end(ap);
-// }
+GText::GText(char *message, const int n, const char * fmt, ...) : fText("")
+{
+    va_list ap;
+    va_start(ap, fmt);
+    vsnprintf(message, n-1 , fmt, ap);
+    static char msg[GTEXT_MAX_SIZE];
+    va_start(ap, fmt);
+    vsnprintf(msg, sizeof(msg) -1, fmt, ap);
+    fText = string(msg);
+    va_end(ap);
+}
 
 
 GText::GText(const string s ) : fText("")
@@ -63,6 +66,7 @@ GText::SetGText(const char *fmt, va_list ap)
 {
     static char msg[GTEXT_MAX_SIZE];
     vsnprintf(msg, sizeof(msg) -1, fmt, ap);
+    va_end(ap);
     fText = string(msg);
 }
 
@@ -81,8 +85,6 @@ GText::SetGText(const char *txt)
 {
     fText =  string(txt);
 }
-
-
 
 
 string    

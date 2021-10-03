@@ -232,9 +232,9 @@ TEST_F(TestGTokenizer, NSR1133)
     string dir, filename;
     GTokenizer().StripPath(path, dir, filename);
 
-	EXPECT_EQ(path, filename);
+    EXPECT_EQ(path, filename);
 
-	path = "mydir/";
+    path = "mydir/";
     GTokenizer().StripPath(path, dir, filename);
     EXPECT_EQ(path, dir);
     EXPECT_EQ("", filename );
@@ -254,50 +254,71 @@ TEST_F(TestGTokenizer, NSR1133)
 
 TEST_F(TestGTokenizer, bugNSR2152)
 {
-	string input = "Loremabcipsumabcdolorabcsitabcamet,abcconsecteturabcadipiscingabcelit.abcNullamabcfacilisisabclaoreetabcnisi,";  // Lorem ipsum separated by ABC
-	vector<string> expected_tokens = { "Lorem", "ipsum", "dolor", "sit", "amet,", "consectetur", "adipiscing", "elit.", "Nullam", "facilisis", "laoreet", "nisi," };
-	vector<string> actual_tokens =  GTokenizer().Tokenize(input, "abc");
-	EXPECT_EQ(expected_tokens, actual_tokens);
+    string input = "Loremabcipsumabcdolorabcsitabcamet,abcconsecteturabcadipiscingabcelit.abcNullamabcfacilisisabclaoreetabcnisi,";  // Lorem ipsum separated by ABC
+    vector<string> expected_tokens = { "Lorem", "ipsum", "dolor", "sit", "amet,", "consectetur", "adipiscing", "elit.", "Nullam", "facilisis", "laoreet", "nisi," };
+    vector<string> actual_tokens =  GTokenizer().Tokenize(input, "abc");
+    EXPECT_EQ(expected_tokens, actual_tokens);
 }
 
 
-//clock_t begin = clock();	
+TEST_F(TestGTokenizer, tokenize_commandline)
+{
+    string cmdline = "./application -arg1 -arg2 -arg3";
+    vector<string> tokens = GTokenizer().TokenizeCommandline(cmdline);
+    ASSERT_EQ(  tokens.size(), 4 );
+    EXPECT_EQ(  tokens.at(0),  "./application");
+    EXPECT_EQ(  tokens.at(1),  "-arg1");
+    EXPECT_EQ(  tokens.at(2),  "-arg2");
+    EXPECT_EQ(  tokens.at(3),  "-arg3");
+}
+
+
+TEST_F(TestGTokenizer, tokenize_commandline2)
+{
+    //string cmdline = "./application -arg1 -arg2 -arg2 -arg4 -arg5";
+    string cmdline = "-arg1 -arg2 -arg3 -arg4 -arg5";
+    const char *argv[10];
+    int argc;
+    GTokenizer().TokenizeCommandline( cmdline, &argc, argv, 10 );
+    ASSERT_EQ( argc, 6 );
+
+    EXPECT_STREQ( argv[1], "-arg1" );
+    EXPECT_STREQ( argv[2], "-arg2" );
+    EXPECT_STREQ( argv[3], "-arg3" );
+    EXPECT_STREQ( argv[4], "-arg4" );
+    EXPECT_STREQ( argv[5], "-arg5" );
+}
+
+
 #ifdef NDEBUG
 TEST_F(TestGTokenizer, Strip_performance )
 {
 #ifdef HAS_LOGGING
-	SET_LOGTARGET("--target-file");
-	SET_LOGLEVEL("--error");
+    SET_LOGTARGET("--target-file");
+    SET_LOGLEVEL("--error");
 #endif
-	/*
-	DRIVER_DEBUG( "A test message" );
-	DRIVER_WARNING( "A test message" );
-	DRIVER_INFO( "A test message" );
-	DRIVER_ERROR( "A test message" );
-	DRIVER_FATAL( "A test message" );
-	*/
 
-	int n = 100000;
+    int n = 100000;
 
-	string tmp1 = "dirname\\filename";
-	string tmp2 = "dirname2/filename2";
-	string tmp3 = "dirname3/filename3";
-	string tmp4 = "dir2/dir3/dir4/file.txt";
-	string dir, file;	
+    string tmp1 = "dirname\\filename";
+    string tmp2 = "dirname2/filename2";
+    string tmp3 = "dirname3/filename3";
+    string tmp4 = "dir2/dir3/dir4/file.txt";
+    string dir, file;    
 
-	clock_t begin = clock();	
-	for ( int i = 0; i < n; i++ )
-	{
-		GTokenizer().StripPath( tmp1, dir, file );
-		GTokenizer().StripPath( tmp2, dir, file );
-		GTokenizer().StripPath( tmp3, dir, file, DISCAR_TRAILING_SEPARATOR );
-		GTokenizer().StripPath( tmp4, dir, file );
-	}
+    clock_t begin = clock();    
+    for ( int i = 0; i < n; i++ )
+    {
+        GTokenizer().StripPath( tmp1, dir, file );
+        GTokenizer().StripPath( tmp2, dir, file );
+        GTokenizer().StripPath( tmp3, dir, file, DISCAR_TRAILING_SEPARATOR );
+        GTokenizer().StripPath( tmp4, dir, file );
+    }
 
-	clock_t end = clock();
-	double elapsed_secs = double( (double)end - (double)begin );
-	double average = 1000*(elapsed_secs / n);
-	//ASSERT_TRUE( average < 0.05 );
-	printf("Average time for strip is %4.8f milliseconds (elapsed sec = %f)\n", average, elapsed_secs );
+    clock_t end = clock();
+    double elapsed_secs = double( (double)end - (double)begin );
+    double average = 1000*(elapsed_secs / n);
+    //ASSERT_TRUE( average < 0.05 );
+    printf("Average time for strip is %4.8f milliseconds (elapsed sec = %f)\n", average, elapsed_secs );
  }
 #endif

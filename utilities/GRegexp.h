@@ -32,13 +32,13 @@ inline  GRegexp * g_regexp();
 class  GRegexp
 {
 public:
-	API GRegexp() {};
-	API ~GRegexp() {};
+    API GRegexp() {};
+    API ~GRegexp() {};
 
     inline  vector <string>  API  ScanNumber ( const string fname, const string digits = "1,99");
-	inline  bool				 IsMatch(const string input, const std::regex e);
-	inline bool				 IsMatch(const string input, const string to_match);
-	inline vector<string>	 API  Filter( const vector<string> input, const std::regex e, vector<string> *removed = 0);
+    inline  bool                 IsMatch(const string input, const std::regex e);
+    inline bool                 IsMatch(const string input, const string to_match);
+    inline vector<string>     API  Filter( const vector<string> input, const std::regex e, vector<string> *removed = 0);
 
 private:
     inline bool CheckFormat(const string format);
@@ -48,8 +48,8 @@ private:
 
 GRegexp * g_regexp()
 {
-	static GRegexp *instance = new GRegexp();
-	return instance;
+    static GRegexp *instance = new GRegexp();
+    return instance;
 }
 
 
@@ -68,7 +68,7 @@ GRegexp * g_regexp()
 
 /** @brief Scans number from a string
 *   @param input the input string to scan
-*   @param digits the number of digits required (written on string format for convinence since it is used directly in the
+*   @param digits the number of digits required (written on string format for convenience since it is used directly in the
 *   regular expression). For instance if digist = "4" the it is searched only for four digit numbers (for instance 1234) etc,.. whereas
 *   digits = "1,3" searches for number with 1,2 or 3 digits
 *   @return a vector of numbers written out on string format.
@@ -98,10 +98,10 @@ GRegexp::ScanNumber(const string input, const string digits)
 }
 
 
-/*  Checks wether or not a string matches a pattern wher pattern must be a valid regular expression. It is possible to
+/*  Checks wether or not a string matches a pattern where pattern must be a valid regular expression. It is possible to
 *  use wildcars (*). For instance "lorem ipsum" will match the patther "(.*)psum"
-*  and the pattern lor(.*) or the pattern (.*)em ips(.*). Furthermore the patern l(.*)sum wil also match "lorem ipsum".
-*	If the pattern string does not contain any wildcards then an exact macth between the input string and the pattern is
+*  and the pattern lor(.*) or the pattern (.*)em ips(.*). Furthermore the pattern l(.*)sum wil also match "lorem ipsum".
+*    If the pattern string does not contain any wildcards then an exact match between the input string and the pattern is
 *  required.
 *  @param input[in] The input string to check
 *  @param pattern[in] The pattern to match the input string against
@@ -186,8 +186,6 @@ GRegexp::CheckFormat(const string format)
     }
     return true;
 }
-
-
 
 
 

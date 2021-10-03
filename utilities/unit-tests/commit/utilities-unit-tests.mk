@@ -20,12 +20,10 @@ SRCCPP += utilities-unit-tests.cpp \
 	TestGFormatting.cpp
 
 
-
 include ../../../../common.mk
 include ../../../../unittest-common.mk
 
 LIBS+=   -lutilities 
-
 
 ifdef HAS_LOGGING
 LIBS+=  -lexception -llogmaster	  -lsqlite-embc -ldl -lpthread  

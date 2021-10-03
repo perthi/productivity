@@ -354,7 +354,7 @@ s,@ECHO_T@,,;t t
 s,@PATH_SEPARATOR@,:,;t t
 s,@DEFS@,-DHAVE_CONFIG_H,;t t
 s,@LIBS@,,;t t
-s,@top_builddir@,/home/root/ExternalLibraries/logmaster/submodules/productivity/3rd-party/arm/ncurses,;t t
+s,@top_builddir@,/home/root/firmware/fec-linux/support-modules/logmaster/3rd-party/arm/ncurses,;t t
 s,@EGREP@,grep -E,;t t
 s,@NCURSES_MAJOR@,6,;t t
 s,@NCURSES_MINOR@,2,;t t
@@ -512,7 +512,7 @@ s,@NCURSES_OSPEED@,short,;t t
 s,@NCURSES_CCHARW_MAX@,5,;t t
 s,@NCURSES_SBOOL@,char,;t t
 s,@NCURSES_TPARM_ARG@,intptr_t,;t t
-s,@MANPAGE_RENAMES@,/home/root/ExternalLibraries/logmaster/submodules/productivity/3rd-party/arm/ncurses/man/man_db.renames,;t t
+s,@MANPAGE_RENAMES@,/home/root/firmware/fec-linux/support-modules/logmaster/3rd-party/arm/ncurses/man/man_db.renames,;t t
 s,@NCURSES_EXT_FUNCS@,1,;t t
 s,@GENERATED_EXT_FUNCS@,generated,;t t
 s,@NCURSES_SP_FUNCS@,1,;t t
