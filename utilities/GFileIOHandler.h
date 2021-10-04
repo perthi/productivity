@@ -34,52 +34,53 @@ using std::string;
 class GFileIOHandler;
 class TestGFileIOHandler_CheckFileNSR305_Test;
 
-GFileIOHandler * g_file();
+GFileIOHandler* g_file();
 
 
 /** @brief Utility class for basic file IO operations such as creating, reading, and deleting files*/
-class GFileIOHandler 
+class GFileIOHandler
 {
-friend  GFileIOHandler * g_file();
-friend  TestGFileIOHandler_CheckFileNSR305_Test;
+    friend  GFileIOHandler* g_file();
+    friend  TestGFileIOHandler_CheckFileNSR305_Test;
 
 public:
 
-//	static GFileIOHandler API * Instance();
-    string           API  ReadConfigFile(int argc, const char **argv, const string path);
-	bool             API  CheckFile ( const string fname, const char *opt = "r");    // checking if file exists
-    bool             API  DoExists(const string fname, const char *opt = "r");    // checking if file exists
-    bool             API  CheckFileEx(const string fname, const char *opt = "r");    // checking if file exists
-    bool             API  Append ( const string fname,  const char * fmt, ...);
-    bool             API  Delete ( const string fname);
-    bool             API  CreateFileLocal( const string fname );
+    //	static GFileIOHandler API * Instance();
+    string           API  ReadConfigFile(int argc, const char** argv, const string path);
+    bool             API  CheckFile(const string fname, const char* opt = "r");    // checking if file exists
+    bool             API  DoExists(const string fname, const char* opt = "r");    // checking if file exists
+    bool             API  CheckFileEx(const string fname, const char* opt = "r");    // checking if file exists
+    bool             API  Append(const string fname, const char* fmt, ...);
+    bool             API  Delete(const string fname);
+    bool             API  CreateFileLocal(const string fname);
     bool             API  CreateFolder(const string fname);
-    vector<string>   API  ReadAll( const string fname, bool *status = nullptr );
-    string           API  ReadFirstLine( const string fname);
-	string           API  ReadLastLine(const string fname, const unsigned int offset = 0);
-    string           API  GetAbsolutePath( const string fname);
-   	string           API  GetExtention( const string fname);
-    bool             API  Recreate(const string fname);    
+    vector<string>   API  ReadAll(const string fname, bool* status = nullptr);
+    string           API  ReadFirstLine(const string fname);
+    string           API  ReadLastLine(const string fname, const unsigned int offset = 0);
+    string           API  ReadEntireASCIIFile(const string fname);
+    string           API  GetAbsolutePath(const string fname);
+    string           API  GetExtention(const string fname);
+    bool             API  Recreate(const string fname);
 
-	bool             API  DeleteAll(const string fname);
-	void             API  CreateDirIfNeeded(const std::string& filename);
-    FILE             API  * OpenFile(const string fname, const string opt, const GLocation loc);
-    
-    #ifdef _WIN32
+    bool             API  DeleteAll(const string fname);
+    void             API  CreateDirIfNeeded(const std::string& filename);
+    FILE             API* OpenFile(const string fname, const string opt, const GLocation loc);
+
+#ifdef _WIN32
     string           API  Errno2String(const  errno_t code, const string fname, const string  opt);
-    #else
+#else
     string           API  Errno2String(const  error_t code, const string fname, const string  opt);
-    #endif
+#endif
 
 #ifdef _WIN32
     void	     SetAttribute(const string fname, unsigned long attr);
     void	     ClearAttribute(const string fname, unsigned long attr);
 #endif
 private:
-  
-  
+
+
     GFileIOHandler() {};
-    
+
 };
 
 

@@ -2,7 +2,7 @@
 
 PROGRAM:=utilities-unit-tests
 
-#SRCCPP += utilities-unit-tests.cpp \
+SRCCPP += utilities-unit-tests.cpp \
 	TestGMath.cpp \
 	TestGRandom.cpp \
 	TestGString.cpp \
@@ -19,8 +19,6 @@ PROGRAM:=utilities-unit-tests
 	TestGSystem.cpp \
 	TestGFormatting.cpp
 
-SRCCPP += utilities-unit-tests.cpp \
-	TestGFormatting.cpp
 
 
 include ../../../../common.mk
@@ -30,7 +28,7 @@ LIBS+=   -lutilities
 
 
 ifdef HAS_LOGGING
-LIBS+=  -lexception -llogmaster	  -lsqlite-embc -ldl -lpthread
+LIBS+=  -lexception -llogmaster	  -lsqlite-embc -ldl -lpthread  
 endif
 
 LIBS+= -lreadline -lhistory -lncurses 

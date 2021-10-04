@@ -124,36 +124,8 @@ if [ -x /usr/bin/mint-fortune ]; then
      /usr/bin/mint-fortune
 fi
 
-## export PATH=$PATH:/home/perthi/anaconda3/bin
-## export PATH=/home/perthi/Downloads/jre1.8.0_151/bin:$PATH
-export UCW_HOME=$HOME/ucw-grimstad/firmware/fec-linux/
-export PATH=$UCW_HOME/build/x86/bin
-alias s='cd $UCW_HOME'
-alias b='cd $UCW_HOME/build/x86/bin'
-#alias r='cd $UCW_HOME'
-
-
 alias h='ssh  perthi@192.168.0.2'
-alias j='ssh  ucw@192.168.0.2'
-alias u='ssh  ucw@192.168.0.1'
 
-export fec1='192.168.0.101'
-export fec2='192.168.0.102'
-export fec3='192.168.0.103'
-export fec4='192.168.0.104'
-export fec5='192.168.0.105'
-export fec6='192.168.0.106'
-export fec7='192.168.0.107'
-export fec8='192.168.0.108'
-
-alias f1='ssh imx@192.168.0.101'
-alias f2='ssh imx@192.168.0.102'
-alias f3='ssh imx@192.168.0.103'
-alias f4='ssh imx@192.168.0.104'
-alias f5='ssh imx@192.168.0.105'
-alias f6='ssh imx@192.168.0.106'
-alias f7='ssh imx@192.168.0.107'
-alias f8='ssh imx@192.168.0.108'
 
 alias r1='ssh root@192.168.0.101'
 alias r2='ssh root@192.168.0.102'
@@ -164,25 +136,7 @@ alias r6='ssh root@192.168.0.106'
 alias r7='ssh root@192.168.0.107'
 alias r8='ssh root@192.168.0.108'
 
-
-alias 1='f1'
-alias 2='f2'
-alias 3='f3'
-alias 4='f4'
-alias 5='f5'
-alias 6='f6'
-alias 7='f7'
-alias 8='f8'
-
-
-##export PS1="\u@\h \[\033[32m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\] $ "
-##source ~/.bash-git-prompt/gitprompt.sh
 export PS1="\[\033[36m\]\u\[\033[m\]@\[\033[32m\] \[\033[33;1m\]\w\[\033[m\] (\$(git branch 2>/dev/null | grep '^*' | colrm 1 2)) \$ "
 
-
-#export UCW_HOME=$HOME/ucw-grimstad/firmware/fec-linux/
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$UCW_HOME/build/x86/lib
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$UCE_HOME/build/arm/lib
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$UCW_HOME/boost_1_66_0/arm/lib
 
 

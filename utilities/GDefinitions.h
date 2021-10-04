@@ -13,8 +13,6 @@
 *** General Public License(LGPL) V3 or later.See.cpp file for details     ***
 *****************************************************************************/
 
-//#include <stdint.h>
-//#include <cstdint>
 #include <iostream>
 using std::cout;
 using std::endl;
@@ -108,7 +106,7 @@ typedef  unsigned char    DBCHAR;
 #define  SECONDS_MAX 60
 
 
-
+ // Temp fix for ESCORe-1327, argc has been hardcoded to 1
 #ifdef HAS_LOGGING
 #include <cmdline/GLogApplication.h>
 #define MAIN_UNITTEST() \
@@ -118,7 +116,7 @@ int  main(int argc, char** argv) \
 { \
  	argc_ = argc; \
     argv_ = argv; \
-	new GLogApplication( argc, (const char **)argv); \
+        new GLogApplication( 1, (const char **)argv); \
 \
 	/* The method is initializes the Google framework and must be called before RUN_ALL_TESTS */ \
 	::testing::InitGoogleTest(&argc, argv); \

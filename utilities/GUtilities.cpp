@@ -164,6 +164,7 @@ GUtilities::IsValidIPV4Address(const string ipv4_address) const
 
 
 
+/** @todo remove or use standard library */
 string     
 GUtilities::CopyToString(const char *buffer, const int length, string *in)
 {
@@ -220,6 +221,33 @@ GUtilities::TrueOrFalse( const bool val ) const
     else
     {
         return "FALSE";
+    }
+
+}
+
+
+bool 
+GUtilities::StopThread(std::thread *th, GLocation l )
+{
+    if (th->joinable() == false)
+    {
+         //GCommon().HandleError("Could not joing thread", l, IsDisabledError() );
+        GCommon().HandleError("Could not joing thread", l, true );
+         return false;
+    }
+    else
+    {
+        if (std::this_thread::get_id() == th->get_id())
+        {
+         //  GCommon().HandleError("You are attempting to joining yourself", l, IsDisabledError() );
+           GCommon().HandleError("You are attempting to joining yourself", l, true );
+           return false; 
+        }
+        else
+        {
+            th->join();
+            return true;
+        }
     }
 
 }

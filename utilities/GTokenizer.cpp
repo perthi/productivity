@@ -34,11 +34,11 @@
 #include <mutex>
 
 
-// GTokenizer* g_tokenizer()
-// {
-// 	static GTokenizer* instance = new GTokenizer();
-// 	return  instance;
-// }
+GTokenizer* g_tokenizer()
+{
+  static GTokenizer* instance = new GTokenizer();
+  return  instance;
+}
 
 
 
@@ -50,9 +50,6 @@
 vector<string>
 GTokenizer::TokenizeCommandline(string line)
 {
-//	static std::mutex mtx;
-//	std::lock_guard<std::mutex> guard( mtx );
-	//    vector<string> tmptokens;
 
 	char quote = '"';
 	int n = g_string()->CountOccurences(line, quote, true);

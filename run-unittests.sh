@@ -4,10 +4,9 @@
 # Script that runs unit tests. The script atomatically fetches all unit tests from
 # the bin directory. Test unit tests can run with 3 different targets
 # - x86  Your local PC
-# - fec  The FEC linux board from EMCRAFT (or any other Linux arm board) 
 # - qemu The arm emulator running under Linux
 #
-# Author: Per Thomas Hille, Embedded Consulting AS for Semcon Devotek
+# Author: Per Thomas Hille, Embedded Consulting AS
 # email:  pth@embc.no
 #
 

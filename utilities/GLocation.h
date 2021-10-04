@@ -31,13 +31,20 @@ public:
     int   fLineNo = -1;
     string fFunctName = "";
 
-    inline const char * c_str() const
+   inline const char * c_str() const
+   {
+       return str().c_str();
+   }
+    
+    
+    inline string str() const
     {
         typeid(this).name();
 
         static char loc[4096];
         SPRINTF(loc, 4096, "%s[line%d]: %s", fFileName.c_str() , fLineNo, fFunctName.c_str() );
-        return loc;
+       // CERR << "returning " << string(loc) << endl;
+        return  string(loc);
     }
 
 };

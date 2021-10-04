@@ -45,7 +45,7 @@ using std::vector;
 
 class GTokenizer;
 
-//GTokenizer * g_tokenizer();
+GTokenizer * g_tokenizer();
 
 
 class  TestGTokenizer_Tokenize_Test; 
@@ -54,7 +54,7 @@ class  TestGTokenizer_Tokenize_Test;
 class GTokenizer
 {
     friend TestGTokenizer_Tokenize_Test;  /* Make all functions accessible for google test **/
-  //  friend  GTokenizer * g_tokenizer();
+    friend  GTokenizer * g_tokenizer();
 public: 
     GTokenizer() {};
     virtual ~GTokenizer() {};

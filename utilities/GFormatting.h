@@ -76,9 +76,13 @@ namespace GFormatting
                  std::enable_if_t<!std::is_enum<T>::value, bool> = true,
                  std::enable_if_t<!std::is_floating_point<T>::value, bool> = true,
                  std::enable_if_t<!std::is_pointer<T>::value, bool> = true>
-        Arg(T) : type(Type::INVALID) { static_assert(always_false_v<T>, "Invalid argument type for printf style formatting."); }
+        Arg(T) : type(Type::INVALID) 
+        { 
+            static_assert(always_false_v<T>, "Invalid argument type for printf style formatting."); 
+        }
 #endif
     };
+    static bool checkStringsWithNoArgs = false;
     extern std::pair<bool, std::string> doCheckFormat(const char *filename, int lineno, const char *function,
                                                       const char *fmt, const Arg *args, const size_t numArgs);
     template<typename... Args>
@@ -90,11 +94,18 @@ namespace GFormatting
     }
 
 #if defined(__GNUC__) || defined(__clang__)
-    static std::pair<bool, std::string> checkFormat(const char *, int, const char *, const char *)
+    static std::pair<bool, std::string> // success/failure, reason
+    checkFormat(const char *filename, int lineno, const char *function, const char *fmt)
         __attribute__((unused));
 #endif
-    static std::pair<bool, std::string> checkFormat(const char *, int, const char *, const char *)
+    static std::pair<bool, std::string> // success/failure, reason
+    checkFormat(const char *filename, int lineno, const char *function, const char *fmt)
     {
+        const Arg arg(0);
+        if(checkStringsWithNoArgs)
+        {
+            return doCheckFormat(filename, lineno, function, fmt, &arg, 0);
+        }
         return {true, std::string()};
     }
 } // namespace GFormatting
