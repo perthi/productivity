@@ -44,3 +44,4 @@ configurator/logging-configurator/x86/logging-example1
 configurator/unit-tests/commit/x86/logging-unit-tests
 exception/unit-tests/commit/x86/logging-unit-tests
 !3rd-party/arm/lib/**
+utilities/version-info/x86/version-info
