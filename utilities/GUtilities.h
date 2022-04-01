@@ -57,48 +57,38 @@ class  GUtilities
 {
     friend GUtilities * g_utilities();
 public:
-    string                API     CopyToString (const char *buffer, const int length, string *in = nullptr);  
-//#ifndef ARM
-    string                API        QueryInput( const string prompt);
- //#endif   
+    string              API     CopyToString (const char *buffer, const int length, string *in = nullptr);  
+    string              API     QueryInput( const string prompt);
     string              API     AutoClause(string addendum = "", FILE *fp  = nullptr);
     bool                API     IsLittleEndian() const;
     bool                API     IsBigEndian() const;       
-    void                API        Sizes() const;
-    void                API        DisableError();
-    void                API        EnableError();
-    bool                API        IsDisabledError() const;
-    bool                 API     IsSpacesOnly(const string &in) const;
+    void                API     Sizes() const;
+    void                API     DisableError();
+    void                API     EnableError();
+    bool                API     IsDisabledError() const;
+    bool                API     IsSpacesOnly(const string &in) const;
     string              API     TrueOrFalse( const bool val ) const;
     string              API     TabAlign(const string &in,  int max_tabs = 4, int *n_tabs = nullptr ) const;
     bool                API     IsValidIPV4Address(const string ipv4_address) const;
-
     bool                API     StopThread( std::thread *th, GLocation l );    
-
-    template <typename T >   void ResetArray( T *arr, const size_t size ) const;
-    template < typename T >  void               Print(const T &array, const string file, const string func, const int line ) const;
-    template < typename T >  void               Print(vector<T> in) const;
- //   template < typename T >  vector<string>     Append(vector<T> &original, const vector<T> appendix ) const;
-   
-    template < typename T >   bool               IsInRange(const T value, const T lower, const T upper) const;
     
+    template <typename T >   void   ResetArray( T *arr, const size_t size ) const;
+    template < typename T >  void   Print(const T &array, const string file, const string func, const int line ) const;
+    template < typename T >  void   Print(vector<T> in) const;
+    template < typename T >  bool   IsInRange(const T value, const T lower, const T upper) const;
     template < typename T1, typename T2> bool    Contains( const std::map<T1, T2> * const, T1) const;
     template < typename T1, typename T2> bool    Contains( const std::map<T1, T2> * const, T2) const;
-
     template < typename T>    bool               Contains(const vector<T> vect, const T element) const;
     template < typename T >   string             Vec2String(const vector<T>, const string sep =  "\n") const;
-    
-    template < typename T>    string             Hash2String( const map< string, T>   *m, const int ncols = 8, const string sep = "") const;
-
-    template < typename T1,      typename T2> vector< T1> Hash2StringV(const map< T1, T2>  *m) const;
-    template < typename T1,   typename T2> vector< T2> Hash2SContentV(const map< T1, T2>* m) const;
-    template < typename T >   bool               HasElement(const T element, const vector<T> &in) const;
-    template < typename T >   bool               Bits2Array(const T element, vector<T> &in) const;
-    template < typename T >      bool               Array2Bits(T & element, const vector<T>& in) const;
-   
-    template < typename T1, typename T2>   bool  CheckMinMax(const T1 min, const T2 max) const;
-    template < typename T>                   void FilterOut(vector<T> &in,  const vector<T> &filter) const;
-    template < typename T >  string             CheckLimits( const T val, const T low, const T up, 
+    template < typename T>    string                  Hash2String( const map< string, T>   *m, const int ncols = 8, const string sep = "") const;
+    template < typename T1, typename T2> vector< T1>  Hash2StringV(const map< T1, T2>  *m) const;
+    template < typename T1, typename T2> vector< T2>  Hash2SContentV(const map< T1, T2>* m) const;
+    template < typename T >   bool                    HasElement(const T element, const vector<T> &in) const;
+    template < typename T >   bool                    Bits2Array(const T element, vector<T> &in) const;
+    template < typename T >   bool                    Array2Bits(T & element, const vector<T>& in) const;
+    template < typename T1, typename T2>   bool       CheckMinMax(const T1 min, const T2 max) const;
+    template < typename T>                            void FilterOut(vector<T> &in,  const vector<T> &filter) const;
+    template < typename T >  string                   CheckLimits( const T val, const T low, const T up, 
                                                                const char *varname, const char * filename, 
                                                                const  int linenumber, const char * functionname, bool *status = nullptr) const;
 
@@ -108,8 +98,6 @@ public:
     virtual ~GUtilities() {};   
 
 private:
-   // GUtilities() {};
-   // virtual ~GUtilities() {};   
     bool fIsDisabledError = false;
     char fCurDir[1024] = "";
 };
