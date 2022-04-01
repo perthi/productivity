@@ -122,5 +122,3 @@ GString::ToString(const T in, const int w, const char pad)
     buffer << std::setprecision(std::numeric_limits<T>::max_digits10 ) << in;
     return buffer.str();
 }
-
-
