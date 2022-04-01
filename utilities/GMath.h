@@ -28,14 +28,15 @@ inline GMath * g_math();
 class GMath
 {
 public:
-	GMath() {};
-	~GMath() {};
+    GMath() {};
+    ~GMath() {};
 
-	inline double               GoldenLongEdge(const double shortedge = 1); // Golden cut
+    inline double               GoldenLongEdge(const double shortedge = 1); // Golden cut
     inline double               GoldenShortEdge( const double longedge  = 1 );  // Golden cut 
-	template<typename T>  inline T     Min(T val1, T val2);
-	template<typename T>  inline T     Max(T val1, T val2);
-	template<typename T>  inline T     Abs(const T in);
+    template<typename T>  inline T     Min(T val1, T val2);
+    template<typename T>  inline T     Max(T val1, T val2);
+    template<typename T>  inline T     Abs(const T in);
+    double Sine(const double A, const double f, const double omega = 0, double *deltatime = nullptr);
 
 #ifdef _WIN32 
     template< typename T = std::enable_if< std::is_fundamental<T>::value, T >::type  >
@@ -44,17 +45,17 @@ public:
 #endif
   inline bool    IsEqual(const T val1, const T val2, const double tolerance = -1)
   {
-	  if (tolerance >= 0)
-	  {
-		  return std::fabs(val1 - val2) <= tolerance;
-	  }
-	  else
-	  {
-		  return std::fabs(val1 - val2) <= std::numeric_limits<T>::epsilon() ? true : false;
-	  }
+      if (tolerance >= 0)
+      {
+          return std::fabs(val1 - val2) <= tolerance;
+      }
+      else
+      {
+          return std::fabs(val1 - val2) <= std::numeric_limits<T>::epsilon() ? true : false;
+      }
   }
   double  fgkGoldenRatio = (1 + sqrt(5)) / 2;
-	
+    
 
 };
 
@@ -63,35 +64,32 @@ public:
 
 inline GMath * g_math()
 {
-	static GMath *instance = new GMath();
-	return instance;
+    static GMath *instance = new GMath();
+    return instance;
 }
 
 
 
 
-
-
-
-/** The golde ration. The funtion takes as input the short side of a rectangle that you want to have
-* the golde ration, an returns the length of the long edge.
+/** The golden ration. The function takes as input the short side of a rectangle that you want to have
+* the golden ration, an returns the length of the long edge.
 * @param  shortedge  The short side of the rectangle with the golden ratio
 * @return The long side of the rectangle such that it has the golden ratio */
 double
 GMath::GoldenLongEdge(const double shortedge)
 {
-	return shortedge*fgkGoldenRatio;
+    return shortedge*fgkGoldenRatio;
 }
 
 
-/** The golde ration. The funtion takes as input the long side of a rectangle that you want to have
-* the golde ration, an returns the length of the short edge.
+/** The golden ration. The function takes as input the long side of a rectangle that you want to have
+* the golden ration, an returns the length of the short edge.
 * @param  longedge  The short side of the rectangle with the golden ratio
 * @return The short side of the rectangle such that it has the golden ratio */
 double
 GMath::GoldenShortEdge(const double longedge)
 {
-	return longedge / fgkGoldenRatio;
+    return longedge / fgkGoldenRatio;
 }
 
 

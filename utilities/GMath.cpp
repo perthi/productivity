@@ -27,8 +27,23 @@
 ******************************************************************************/
 
 
+
 #include "GMath.h"
 #include <cmath>
+#include "GTime.h"
 
 
-
+double
+GMath::Sine(const double A, const double f, const double omega,  double *deltatime )
+{
+    static GTime time;
+    static double start_time = time.GetEpochTime();
+    static double _2pix = M_PI * 2;
+    // static int  f = 100;
+    double delta_time = time.GetEpochTime() - start_time;
+    if (deltatime != nullptr)
+    {
+        *deltatime = delta_time;
+    }
+    return A * sin(_2pix * f * delta_time + omega);
+}
