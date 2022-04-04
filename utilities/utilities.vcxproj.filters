@@ -31,6 +31,9 @@
     <ClInclude Include="..\sqlite\sqlite3.h" />
     <ClInclude Include="..\sqlite\sqlite3ext.h" />
     <ClInclude Include="GDataBaseIF.h" />
+    <ClInclude Include="GFormatting.h" />
+    <ClInclude Include="GTimeFormat.h" />
+    <ClInclude Include="GTimeValidate.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GCommon.cpp" />
@@ -56,5 +59,8 @@
     <ClCompile Include="GUtilities.cpp" />
     <ClCompile Include="..\sqlite\sqlite3.c" />
     <ClCompile Include="GDataBaseIF.cpp" />
+    <ClCompile Include="GFormatting.cpp" />
+    <ClCompile Include="GTimeFormat.cpp" />
+    <ClCompile Include="GTimeValidate.cpp" />
   </ItemGroup>
 </Project>
