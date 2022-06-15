@@ -33,7 +33,9 @@ public:
 
    inline const char * c_str() const
    {
-       return str().c_str();
+       static string str_local;
+       str_local = str();
+       return str_local.c_str();
    }
     
     inline string str() const

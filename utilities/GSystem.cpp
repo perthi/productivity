@@ -150,7 +150,7 @@ bool
 #ifndef _WIN32
 GSystem::mkdir(const string dirname, GLocation l, const int  opt, bool overwrite)
 #else
-GSystem::mkdir(const string dirname, GLocation l, bool overwrite)
+GSystem::mkdir(const string dirname, GLocation l, const int opt, bool overwrite)
 #endif // !_WIN32
 {
 #ifdef _WIN32

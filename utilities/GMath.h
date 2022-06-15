@@ -39,7 +39,8 @@ public:
     double Sine(const double A, const double f, const double omega = 0, double *deltatime = nullptr);
 
 #ifdef _WIN32 
-    template< typename T = std::enable_if< std::is_fundamental<T>::value, T >::type  >
+   // template< typename T = std::enable_if< std::is_fundamental<T>::value, T >::type  >
+    template< typename T  >
 #else
    template< typename T  >
 #endif

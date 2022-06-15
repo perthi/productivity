@@ -50,7 +50,7 @@ GTokenizer::TokenizeCommandline(const string line,  int *argc, const char **argv
     tokens = TokenizeCommandline(line);
     size_t n = tokens.size() < (size_t)max_size ? tokens.size() : (size_t)max_size;
     
-    *argc = n + 1;
+    *argc = (int)(n + 1);
 
      for ( size_t i = 0; i < n +1; i++)
      {    

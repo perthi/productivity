@@ -523,6 +523,7 @@ GNumbers::IsFloat(const char * num)
 }
 
 
+
 bool
 GNumbers::IsFloat(string num)
 {
@@ -556,7 +557,8 @@ GNumbers::IsFloat(string num)
     
     try
     {
-        std::stold(num);
+        auto t = std::stold(num);
+
     }
     catch ( ... )
     {

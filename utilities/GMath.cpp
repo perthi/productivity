@@ -32,6 +32,10 @@
 #include <cmath>
 #include "GTime.h"
 
+#ifdef _WIN32
+#include <corecrt_math_defines.h>
+#endif
+
 
 double
 GMath::Sine(const double A, const double f, const double omega,  double *deltatime )
